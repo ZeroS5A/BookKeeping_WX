@@ -34,7 +34,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- spring版本号 -->
-    <spring.version>4.1.4.RELEASE</spring.version>
+    <spring.version>5.2.3.RELEASE</spring.version>
     <!-- mybatis版本号 -->
     <mybatis.version>3.2.8</mybatis.version>
     <!-- log4j日志文件管理包版本 -->
@@ -191,7 +191,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>4.1.7.RELEASE</version>
+      <version>5.2.3.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
