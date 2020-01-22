@@ -42,11 +42,11 @@ public class user implements Serializable {
         this.nickName = nickName;
     }
 
-    public String getOpenid() {
+    public String getOpenId() {
         return openId;
     }
 
-    public void setOpenid(String openId) {
+    public void setOpenId(String openId) {
         this.openId = openId;
     }
 
