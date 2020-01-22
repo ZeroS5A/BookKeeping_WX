@@ -1,6 +1,6 @@
 <!DOCTYPE web-app PUBLIC
-        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://java.sun.com/xml/ns/javaee"
@@ -12,14 +12,13 @@
   <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <!--配置初始化参数，创建完DispatcherServlet对象，加载springMVC.xml配置文件-->
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:springmvc.xml</param-value>
     </init-param>
-    <!--服务器启动的时候，让DispatcherServlet对象创建-->
     <load-on-startup>1</load-on-startup>
   </servlet>
+
   <servlet-mapping>
     <servlet-name>dispatcherServlet</servlet-name>
     <url-pattern>/</url-pattern>
@@ -39,26 +38,26 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!--配置Spring的监听器(该监听器只能加载WEB-INF目录下的applicationContext.xml配置文件)-->
-  <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener>
+<!--  &lt;!&ndash;配置Spring的监听器(该监听器只能加载WEB-INF目录下的applicationContext.xml配置文件)&ndash;&gt;-->
+<!--  <listener>-->
+<!--    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+<!--  </listener>-->
 
-  <!--配置加载在类路径的配置文件-->
-  <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-  </context-param>
+<!--  &lt;!&ndash;配置加载在类路径的配置文件&ndash;&gt;-->
+<!--  <context-param>-->
+<!--    <param-name>contextConfigLocation</param-name>-->
+<!--    <param-value>classpath:applicationConfig.xml</param-value>-->
+<!--  </context-param>-->
 
-  <!--配置跨域请求过滤器
-  <filter>
-    <filter-name>cors</filter-name>
-    <filter-class>com.zhbit.common.SimpleCORSFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>cors</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>-->
+<!--  &lt;!&ndash;配置跨域请求过滤器&ndash;&gt;-->
+<!--  <filter>-->
+<!--    <filter-name>cors</filter-name>-->
+<!--    <filter-class>com.zhbit.common.SimpleCORSFilter</filter-class>-->
+<!--  </filter>-->
+<!--  <filter-mapping>-->
+<!--    <filter-name>cors</filter-name>-->
+<!--    <url-pattern>/*</url-pattern>-->
+<!--  </filter-mapping>-->
 
 </web-app>
 

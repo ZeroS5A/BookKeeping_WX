@@ -4,84 +4,20 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
-http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/mvc
-http://www.springframework.org/schema/mvc/spring-mvc.xsd
-http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--扫描controller的注解，别的不扫描-->
+    <!--注解扫描，只扫描controller-->
     <context:component-scan base-package="com.BookKeeping">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:include-filter>
+        <!--只扫描这里-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <!--开启对SpringMVC注解的支持-->
+    <!--开启springMvc注解支持-->
     <mvc:annotation-driven/>
-
-    <!--引入redis.properties配置多个以逗号或者/分割-->
-    <context:property-placeholder location="classpath:jdbc.properties"/>
-
-    <!-- jedis 连接池配置 -->
-    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxIdle" value="${redis.maxIdle}"/>
-        <property name="maxWaitMillis" value="${redis.maxWait}"/>
-        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
-    </bean>
-    <!-- redis连接工厂 -->
-    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="poolConfig" ref="poolConfig"/>
-        <property name="port" value="${redis.port}"/>
-        <property name="hostName" value="${redis.host}"/>
-
-        <property name="timeout" value="${redis.timeout}"></property>
-    </bean>
-    <!-- Jedis模板配置  -->
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <!--     如果不配置Serializer，那么存储的时候只能使用String，如果用对象类型存储，那么会提示错误 can't cast to String！！！-->
-        <property name="keySerializer">
-            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
-        </property>
-        <!-- 采用json序列化 -->
-        <property name="valueSerializer">
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
-        </property>
-        <!-- 开启REIDS事务支持 -->
-        <property name="enableTransactionSupport" value="true"/>
-    </bean>
-
-
-
-    <!-- 验证码配置（也能够做web.xml的Servlet中配置），相应CaptchaRandomCodeController管理生成 -->
-    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
-        <property name="config">
-            <bean class="com.google.code.kaptcha.util.Config">
-                <constructor-arg>
-                    <props>
-                        <prop key="kaptcha.border">no</prop>
-                        <prop key="kaptcha.border.color">105,179,90</prop>
-                        <prop key="kaptcha.image.width">135</prop>
-                        <prop key="kaptcha.image.height">33</prop>
-                        <prop key="kaptcha.session.key">code</prop>
-                        <prop key="kaptcha.textproducer.font.color">red</prop>
-                        <prop key="kaptcha.textproducer.font.size">30</prop>
-                        <prop key="kaptcha.textproducer.char.space">3</prop>
-                        <prop key="kaptcha.textproducer.char.length">4</prop>
-                        <!-- 配置中文 <prop key="kaptcha.textproducer.impl">com.google.code.kaptcha.text.impl.ChineseTextProducer</prop> -->
-                        <prop key="kaptcha.textproducer.font.names">楷体,微软雅黑</prop>
-                    </props>
-                </constructor-arg>
-            </bean>
-        </property>
-    </bean>
-
-    <!--MultipartFile文件上传解析器-->
-    <bean id="multipartResolver"
-          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="defaultEncoding" value="utf-8"></property>
-        <property name="maxUploadSize" value="10485760000"></property>
-        <property name="maxInMemorySize" value="40960"></property>
-    </bean>
 
 </beans>

@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context.xsd">
-    <!--开启注解扫描，要扫描的是service和dao层的注解，要忽略web层注解，因为web层让SpringMVC框架去管理-->
-    <context:component-scan base-package="com.BookKeeping">
-        <!--配置要忽略的注解-->
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
-    </context:component-scan>
-    <!--配置数据库连接-->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
-        <property name="jdbcUrl" value="jdbc:mysql://192.168.31.51:3306/zhbit.kch?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=GMT&amp;allowPublicKeyRetrieval=true"></property>
-        <property name="user" value="root"></property>          <!--自行修改自己数据库用户名和密码-->
-        <property name="password" value="123456"></property>
-    </bean>
-    <!--创建SqlSessionFactory工厂-->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-    </bean>
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--配置UserDao接口所在包-->
-    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.zhbit.dao"></property>
-    </bean>
-
-    <bean id="result" class="com.BookKeeping.common.Result"></bean>
+        <!--开启注解-->
+        <context:component-scan base-package="com.BookKeeping">
+        <!--不需要扫描部分-->
+            <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        </context:component-scan>
 
 </beans>
