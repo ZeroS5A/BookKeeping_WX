@@ -7,10 +7,19 @@ public class user implements Serializable {
     private int id;
     private String avatarUrl;
     private String nickName;
-    private String openid;
+    private String openId;
+    private int gender;
 
     public int getId() {
         return id;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     public void setId(int id) {
@@ -34,20 +43,22 @@ public class user implements Serializable {
     }
 
     public String getOpenid() {
-        return openid;
+        return openId;
     }
 
-    public void setOpenid(String openid) {
-        this.openid = openid;
+    public void setOpenid(String openId) {
+        this.openId = openId;
     }
 
-    public boolean isGender() {
-        return gender;
-    }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
+    @Override
+    public String toString() {
+        return "user{" +
+                "id=" + id +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", openId='" + openId + '\'' +
+                ", gender=" + gender +
+                '}';
     }
-
-    private boolean gender;
 }

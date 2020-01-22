@@ -1,4 +1,4 @@
-package com.BookKeeping.text;
+package com.BookKeeping.test;
 
 import com.BookKeeping.service.userService;
 import org.junit.Test;

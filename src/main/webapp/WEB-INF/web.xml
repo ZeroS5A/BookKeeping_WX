@@ -38,16 +38,19 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-<!--  &lt;!&ndash;配置Spring的监听器(该监听器只能加载WEB-INF目录下的applicationContext.xml配置文件)&ndash;&gt;-->
-<!--  <listener>-->
-<!--    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
-<!--  </listener>-->
+  <!--
+    配置Spring的监听器(该监听器只能加载WEB-INF目录下的applicationContext.xml配置文件)
+    整合Spring+SpringMVC
+  -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
-<!--  &lt;!&ndash;配置加载在类路径的配置文件&ndash;&gt;-->
-<!--  <context-param>-->
-<!--    <param-name>contextConfigLocation</param-name>-->
-<!--    <param-value>classpath:applicationConfig.xml</param-value>-->
-<!--  </context-param>-->
+  <!--配置加载在类路径的配置文件,不然上面的找不到-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
 
 <!--  &lt;!&ndash;配置跨域请求过滤器&ndash;&gt;-->
 <!--  <filter>-->

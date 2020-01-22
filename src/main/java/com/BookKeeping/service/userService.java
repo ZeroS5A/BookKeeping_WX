@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface userService {
     //查询
-    public List<user> selAll();
+    List<user> selAll();
+
+   //添加
+    int insertUser(user us);
 }
