@@ -1,5 +1,5 @@
 # BookKeeping_WX
-##数据库表：
+## 数据库表：
 ```mysql
 CREATE DATABASE db_antools DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
