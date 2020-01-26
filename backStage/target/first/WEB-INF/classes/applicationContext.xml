@@ -34,6 +34,7 @@
         <property name="basePackage" value="com.BookKeeping.dao"></property>
     </bean>
 
+    <!--返回数据-->
     <bean id="result" class="com.BookKeeping.common.Result"></bean>
 
 </beans>
