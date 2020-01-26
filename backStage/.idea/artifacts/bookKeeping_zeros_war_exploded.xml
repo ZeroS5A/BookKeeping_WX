@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="bookKeeping_zeros:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/bookKeeping_zeros_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
