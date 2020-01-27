@@ -7,7 +7,12 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    loginData:{
+        encryptedData: '',
+        code: 'unknow',
+        iv: '',
+    }
   },
   //事件处理函数
   bindViewTap: function() {
@@ -15,7 +20,7 @@ Page({
       url: '../logs/logs'
     })
   },
-  onLoad: function () {
+  /*onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -42,23 +47,41 @@ Page({
         }
       })
     }
-  },
+  },*/
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
-      hasUserInfo: true
+      //hasUserInfo: true
+      loginData:{
+          encryptedData: e.detail.encryptedData,
+          iv: e.detail.iv,
+      }
+
     })
   },
-  getData:function(){
-      console.log("success");
-      wx.request({
+  getData: function(){
+      console.log("success"+data.loginData);
+      wx.login({
+          
+          success(res){
+              console.log(res.code);
+              console.log(this.data)
+          }
+      })
+      /*wx.request({
           url: 'http://localhost/BookKeeping/api/selAll',
           method: 'POST',
           success (res){
               console.log(res.data)
+              
           }
-      })
+      })*/
+  },
+
+  test(){
+      console.log(this.data.loginData)
   }
+
 })
