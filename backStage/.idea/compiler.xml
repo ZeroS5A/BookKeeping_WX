@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="BookKeeping" />
+        <module name="backStage" />
         <module name="bookKeeping_zeros" />
+        <module name="BookKeeping" />
       </profile>
     </annotationProcessing>
   </component>
