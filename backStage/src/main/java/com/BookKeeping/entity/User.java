@@ -2,22 +2,21 @@ package com.BookKeeping.entity;
 
 import java.io.Serializable;
 
-public class user implements Serializable {
-    private int id;
+public class User implements Serializable {
+
+    private Integer id;
     private String avatarUrl;
     private String nickName;
     private String openId;
-    private int gender;
+    private Integer gender;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) { this.id = id; }
-
-    public int getGender() { return gender; }
-
-    public void setGender(int gender) { this.gender = gender; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -43,10 +42,17 @@ public class user implements Serializable {
         this.openId = openId;
     }
 
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
 
     @Override
     public String toString() {
-        return "user{" +
+        return "User{" +
                 "id=" + id +
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", nickName='" + nickName + '\'' +
@@ -54,4 +60,5 @@ public class user implements Serializable {
                 ", gender=" + gender +
                 '}';
     }
+
 }
