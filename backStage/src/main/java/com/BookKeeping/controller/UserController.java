@@ -1,16 +1,14 @@
 package com.BookKeeping.controller;
 
+import com.BookKeeping.common.Aes;
 import com.BookKeeping.common.Result;
-<<<<<<< HEAD:backStage/src/main/java/com/BookKeeping/controller/userCon.java
 import com.BookKeeping.entity.*;
-import com.BookKeeping.service.userService;
-=======
-import com.BookKeeping.entity.User;
 import com.BookKeeping.service.UserService;
->>>>>>> ebf6c0d621cdfe98e702fb3f0f76c5e626d3495a:backStage/src/main/java/com/BookKeeping/controller/UserController.java
+import com.BookKeeping.entity.User;
+import com.BookKeeping.common.HttpsRequest;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +20,8 @@ public class UserController {
     //自动注入
     @Autowired
     private UserService userService;
+    //private HttpsRequestService httpsRequestService;
+
 
     @RequestMapping(value = "/selAll", method = RequestMethod.POST)
     @ResponseBody
@@ -43,15 +43,28 @@ public class UserController {
         return rs;
     }
 
-<<<<<<< HEAD:backStage/src/main/java/com/BookKeeping/controller/userCon.java
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public Result login(@RequestBody login login){
+    public Result login(@RequestBody Login login){
         System.out.println("登录调用");
-        Result rs=new Result();
 
+        Result rs=new Result();
+        User us=new User();
+        HttpsRequest hrs=new HttpsRequest();
+        Aes aes=new Aes();
+
+        JSONObject session_key=hrs.domain("getSession_key",login.getCode());
+        JSONObject userData=aes.domain(login.getEncryptedData(),session_key.getString("session_key"),login.getIv());
+//        System.out.println(login.getEncryptedData());
+//        System.out.println(jo.getString("session_key"));
+//        System.out.println(login.getIv());
+        us.setAvatarUrl(userData.getString("avatarUrl"));
+        us.setGender(userData.getInteger("gender"));
+        us.setNickName(userData.getString("nickName"));
+        us.setOpenId(userData.getString("openId"));
+        System.out.println(us.toString());
+        rs.setData(us);
         return rs;
     }
-=======
->>>>>>> ebf6c0d621cdfe98e702fb3f0f76c5e626d3495a:backStage/src/main/java/com/BookKeeping/controller/UserController.java
+
 }

@@ -7,10 +7,10 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    //canIUse: wx.canIUse('button.open-type.getUserInfo'),
     loginData:{
         encryptedData: '',
-        code: 'unknow',
+        code: '',
         iv: '',
     }
   },
@@ -48,40 +48,57 @@ Page({
       })
     }
   },*/
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      //hasUserInfo: true
-      loginData:{
-          encryptedData: e.detail.encryptedData,
-          iv: e.detail.iv,
-      }
-
+  getUserInfo() {
+    var that=this;
+    return new Promise(function(resolve, reject){
+      wx.getUserInfo({
+        success: function(e) {
+          console.log(e)
+          app.globalData.userInfo = e.userInfo
+          // this.setData({
+          //   userInfo: e.userInfo,
+          //   //hasUserInfo: true
+          // })
+          that.data.loginData.iv=e.iv;
+          that.data.loginData.encryptedData=e.encryptedData;
+          resolve();
+        }
+      })  
     })
+    
+    
   },
-  getData: function(){
-      console.log("success"+data.loginData);
+  getCode(){
+    var that=this;
+    return new Promise(function(resolve, reject){
       wx.login({
-          
-          success(res){
-              console.log(res.code);
-              console.log(this.data)
+          success(res) {
+              console.log('code:'+res.code);
+              that.data.loginData.code = res.code;
+              resolve();
           }
       })
-      /*wx.request({
-          url: 'http://localhost/BookKeeping/api/selAll',
-          method: 'POST',
-          success (res){
-              console.log(res.data)
-              
-          }
-      })*/
+    })
   },
-
-  test(){
-      console.log(this.data.loginData)
-  }
-
+  userLogin(e){
+    console.log(e);
+    var that=this;
+    this.getCode()
+    .then(()=>{
+      return this.getUserInfo()
+    })
+    .then(()=>{
+      console.log(this.data.loginData);
+      wx.request({
+          url: 'http://localhost/BookKeeping/api/login',
+          method: 'POST',
+          data: this.data.loginData,
+          success:function (res){
+            console.log(res.data)
+            that.data.userInfo=res.data.data;
+            that.data.hasUserInfo=true;
+          }
+      })  
+    })  
+  },
 })

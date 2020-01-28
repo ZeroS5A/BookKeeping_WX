@@ -1,9 +1,9 @@
 package com.BookKeeping.entity;
 
-public class login {
+public class Login {
     private String encryptedData;
 
-    private String vi;
+    private String iv;
 
     private String code;
 
@@ -15,12 +15,12 @@ public class login {
         this.encryptedData = encryptedData;
     }
 
-    public String getVi() {
-        return vi;
+    public String getIv() {
+        return iv;
     }
 
-    public void setVi(String vi) {
-        this.vi = vi;
+    public void setIv(String iv) {
+        this.iv = iv;
     }
 
     public String getCode() {
@@ -33,9 +33,9 @@ public class login {
 
     @Override
     public String toString() {
-        return "login{" +
+        return "Login{" +
                 "encryptedData='" + encryptedData + '\'' +
-                ", vi='" + vi + '\'' +
+                ", iv='" + iv + '\'' +
                 ", code='" + code + '\'' +
                 '}';
     }
