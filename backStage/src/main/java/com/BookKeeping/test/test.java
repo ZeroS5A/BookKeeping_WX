@@ -2,13 +2,16 @@ package com.BookKeeping.test;
 
 import com.BookKeeping.common.Aes;
 import com.BookKeeping.service.UserService;
+import com.BookKeeping.util.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.BookKeeping.common.HttpsRequest;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class test {
     @Test
@@ -42,5 +45,32 @@ public class test {
         JSONObject jo=aes.domain(enc,session,iv);
         System.out.println(jo);
         System.out.println(jo.getString("openId"));
+    }
+
+    @Test
+    //Redis测试
+    public void RedisTest(){
+        ApplicationContext context=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+
+        RedisUtil redisUtil=(RedisUtil) context.getBean("redisUtil");
+
+        //=====================testString======================
+        redisUtil.set("name", "how2java");
+        System.out.println(redisUtil.get("name"));
+        redisUtil.del("name");
+        System.out.println(redisUtil.get("name"));
+
+        //=====================testNumber======================
+        long incr = redisUtil.incr("number", 1);
+        System.out.println(incr);
+        incr =redisUtil.incr("number", 1);
+        System.out.println(incr);
+
+        //=====================testMap======================
+        Map<String,Object> map=new HashMap<>();
+        map.put("name", "meepo");
+        map.put("pwd", "password");
+        redisUtil.hmset("user", map);
+        System.out.println(redisUtil.hget("user","name"));
     }
 }

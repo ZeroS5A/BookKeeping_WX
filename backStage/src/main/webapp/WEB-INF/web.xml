@@ -52,6 +52,7 @@
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
 
+
 <!--  &lt;!&ndash;配置跨域请求过滤器&ndash;&gt;-->
 <!--  <filter>-->
 <!--    <filter-name>cors</filter-name>-->

@@ -57,16 +57,14 @@ Page({
           app.globalData.userInfo = e.userInfo
           // this.setData({
           //   userInfo: e.userInfo,
-          //   //hasUserInfo: true
+          //   hasUserInfo: true
           // })
           that.data.loginData.iv=e.iv;
           that.data.loginData.encryptedData=e.encryptedData;
           resolve();
         }
       })  
-    })
-    
-    
+    }) 
   },
   getCode(){
     var that=this;
@@ -80,6 +78,25 @@ Page({
       })
     })
   },
+  getRequest(url,data){
+    return new Promise(function(resolve,reject){
+      wx.request({
+        url: url,
+        data: data,
+        method: 'POST',
+        // header: {}, 
+        success: function(res){
+          resolve(res)
+        },
+        fail: function() {
+          reject()
+        },
+        complete: function() {
+          // complete
+        }
+      })
+    })
+  },
   userLogin(e){
     console.log(e);
     var that=this;
@@ -89,16 +106,12 @@ Page({
     })
     .then(()=>{
       console.log(this.data.loginData);
-      wx.request({
-          url: 'http://localhost/BookKeeping/api/login',
-          method: 'POST',
-          data: this.data.loginData,
-          success:function (res){
-            console.log(res.data)
-            that.data.userInfo=res.data.data;
-            that.data.hasUserInfo=true;
-          }
-      })  
+      return this.getRequest("http://localhost/BookKeeping/api/login",this.data.loginData)           
+    })
+    .then((res)=>{
+      console.log(res)
+      that.data.userInfo=res.data.data;
+      that.data.hasUserInfo=true;
     })  
   },
 })
