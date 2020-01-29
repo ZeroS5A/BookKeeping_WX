@@ -7,6 +7,7 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
+    session_key:'',
     //canIUse: wx.canIUse('button.open-type.getUserInfo'),
     loginData:{
         encryptedData: '',
@@ -48,6 +49,8 @@ Page({
       })
     }
   },*/
+
+  //获取用户数据
   getUserInfo() {
     var that=this;
     return new Promise(function(resolve, reject){
@@ -66,6 +69,8 @@ Page({
       })  
     }) 
   },
+
+  //获取code换session
   getCode(){
     var that=this;
     return new Promise(function(resolve, reject){
@@ -78,10 +83,12 @@ Page({
       })
     })
   },
+
+  //微信请求封装
   getRequest(url,data){
     return new Promise(function(resolve,reject){
       wx.request({
-        url: url,
+        url: 'http://localhost/BookKeeping/'+url,
         data: data,
         method: 'POST',
         // header: {}, 
@@ -92,11 +99,13 @@ Page({
           reject()
         },
         complete: function() {
-          // complete
+          //complete
         }
       })
     })
   },
+
+  //用户登录操作
   userLogin(e){
     console.log(e);
     var that=this;
@@ -106,12 +115,28 @@ Page({
     })
     .then(()=>{
       console.log(this.data.loginData);
-      return this.getRequest("http://localhost/BookKeeping/api/login",this.data.loginData)           
+      return this.getRequest("api/login",this.data.loginData.code)           
     })
     .then((res)=>{
       console.log(res)
+      that.data.session_key=res.data.data;
+      that.data.loginData.code=res.data.data;
+      return this.getRequest("api/getUserData",this.data.loginData)
+      
+    }).then((res)=>{
       that.data.userInfo=res.data.data;
       that.data.hasUserInfo=true;
     })  
   },
+
+  //session测试拿数据
+  getdata(){
+    this.getRequest("api/getOpenId",this.data.session_key)
+    .then((res)=>{
+      if(res.code!=4003){
+        console.log(res)
+        this.data.motto=res.data.data
+      }
+    })
+  }
 })

@@ -6,5 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 public interface LoginService {
 
     //用户首次登录请求
-    User userFirstLogin(String EncryptedData, String code, String ivs);
+    User getUserData(String EncryptedData, String session, String ivs);
+
+    String getSession(String code);
+
+    String getOpenId(String session);
 }

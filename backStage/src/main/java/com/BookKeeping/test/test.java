@@ -1,15 +1,22 @@
 package com.BookKeeping.test;
 
 import com.BookKeeping.common.Aes;
+import com.BookKeeping.entity.Token;
 import com.BookKeeping.service.UserService;
 import com.BookKeeping.util.RedisUtil;
+import com.BookKeeping.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.BookKeeping.common.HttpsRequest;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.AsyncRestOperations;
 
+import java.net.URI;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +43,12 @@ public class test {
     }
 
     @Test
+    //测试另外一种请求
+    public void anotherHttpsTest(){
+
+    }
+
+    @Test
     //测试解密
     public void AesDecrypt(){
         Aes aes=new Aes();
@@ -54,11 +67,12 @@ public class test {
 
         RedisUtil redisUtil=(RedisUtil) context.getBean("redisUtil");
 
+
         //=====================testString======================
         redisUtil.set("name", "how2java");
         System.out.println(redisUtil.get("name"));
         redisUtil.del("name");
-        System.out.println(redisUtil.get("name"));
+        System.out.println(redisUtil.get("w22u+bhkrpjzf1ftvUoynQ=="));
 
         //=====================testNumber======================
         long incr = redisUtil.incr("number", 1);
@@ -72,5 +86,25 @@ public class test {
         map.put("pwd", "password");
         redisUtil.hmset("user", map);
         System.out.println(redisUtil.hget("user","name"));
+    }
+
+    @Test
+    //Token加解密测试
+    public void TokenTest(){
+        Token tk=new Token();
+        Date date=new Date();
+        TokenUtil tku=new TokenUtil();
+
+        tk.setOpenId("fasdfasdfsd");
+        tk.setRole("user");
+        tk.setLastLogin(date);
+
+        String result=tku.getToken(tk);
+
+        System.out.println(result);
+
+        tk=tku.getTokenData(result);
+
+        System.out.println(tk.toString());
     }
 }

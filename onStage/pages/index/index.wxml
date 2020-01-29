@@ -10,7 +10,7 @@
   <view class="login">
     <button type="default" bindtap="userLogin" open-type="getUserInfo">Login</button>
   </view>
-  <!-- <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <view class="usermotto">
+    <text class="user-motto" bindtap = "getdata">{{motto}}</text>
   </view> -->
 </view>

@@ -14,6 +14,10 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
+/**
+ * Https数据获取
+ */
+
 public class HttpsRequest{
     public String request (String url){
 
@@ -21,6 +25,7 @@ public class HttpsRequest{
         try{
             SSLContext sc = createSslContext();
             HttpsURLConnection conn = (HttpsURLConnection) new URL(url).openConnection();
+            conn.setRequestMethod("POST");
             conn.setSSLSocketFactory(sc.getSocketFactory());
             conn.setHostnameVerifier((s, sslSession) -> true);
             conn.setDoInput(true);

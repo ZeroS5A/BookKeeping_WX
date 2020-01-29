@@ -12,6 +12,10 @@ import java.security.AlgorithmParameters;
 import java.security.Key;
 import java.security.Security;
 
+/**
+ * AES加解密算法
+ */
+
 public class Aes {
     public static String KEY_ALGORITHM = "AES";
     //数据填充方式
@@ -55,6 +59,7 @@ public class Aes {
 
             return new String(result);
         } catch (Exception e) {
+            System.out.println("解密失败");
             throw new RuntimeException(e);
         }
         //return "Error";
