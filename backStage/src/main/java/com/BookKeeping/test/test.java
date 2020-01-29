@@ -95,7 +95,7 @@ public class test {
         Date date=new Date();
         TokenUtil tku=new TokenUtil();
 
-        tk.setOpenId("fasdfasdfsd");
+        tk.setOpenId("ZeroS");
         tk.setRole("user");
         tk.setLastLogin(date);
 

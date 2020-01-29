@@ -1,6 +1,7 @@
 package com.BookKeeping.common;
 
 import com.BookKeeping.entity.JwtToken;
+import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by EalenXie on 2018/11/26 10:26.
- * JWT核心过滤器配置
+ * JWT核心过滤器配置（重写shiro原生的方法）
  * 所有的请求都会先经过Filter，所以我们继承官方的BasicHttpAuthenticationFilter，并且重写鉴权的方法。
  * 执行流程 preHandle->isAccessAllowed->isLoginAttempt->executeLogin
  */
@@ -22,23 +22,35 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * 判断用户是否想要进行 需要验证的操作
      * 检测header里面是否包含Authorization字段即可
      */
-    @Override
-    protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        String auth = getAuthzHeader(request);
-        return auth != null && !auth.equals("");
-
-    }
+//    @Override
+//    protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
+//        String auth = getAuthzHeader(request);
+//        return auth != null && !auth.equals("");
+//
+//    }
     /**
      * 此方法调用登陆，验证逻辑
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        if (isLoginAttempt(request, response)) {
-            JwtToken token = new JwtToken(getAuthzHeader(request));
+        System.out.println("允许登录测试");
+        JwtToken token = new JwtToken(getAuthzHeader(request));
+        if(token.getToken()!=null){
+            //交给Realm验证
             getSubject(request, response).login(token);
+            return true;
+        }else{
+            return false;
         }
-        return true;
     }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+        System.out.println("拒绝登录测试");
+
+        return false;
+    }
+
     /**
      * 提供跨域支持
      */
