@@ -4,6 +4,7 @@ import com.BookKeeping.common.Aes;
 import com.BookKeeping.common.HttpsRequest;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.LoginService;
+import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public String getSession(String code) {
-        HttpsRequest hrs=new HttpsRequest();
+        HttpUtil hrs=new HttpUtil();
 
         //获取session_key
         JSONObject session_key=hrs.domain("getSession_key",code);

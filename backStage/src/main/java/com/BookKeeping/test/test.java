@@ -3,6 +3,7 @@ package com.BookKeeping.test;
 import com.BookKeeping.common.Aes;
 import com.BookKeeping.entity.Token;
 import com.BookKeeping.service.UserService;
+import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class test {
+
     @Test
     //测试Spring配置
     public void test(){
@@ -45,7 +47,9 @@ public class test {
     @Test
     //测试另外一种请求
     public void anotherHttpsTest(){
-
+        String code="0016GKel2ryhlC0tM4cl2WEBel26GKes";
+        String result = HttpUtil.doGet("https://api.weixin.qq.com/sns/jscode2session?appid=wx4d29257ff29de851&secret=1e17bdcea1a00407a083b74de2395e83&js_code="+code+"&grant_type=authorization_code");
+        System.out.println(result);
     }
 
     @Test
@@ -96,7 +100,7 @@ public class test {
         TokenUtil tku=new TokenUtil();
 
         tk.setOpenId("ZeroS");
-        tk.setRole("user");
+        tk.setRole("admin");
         tk.setLastLogin(date);
 
         String result=tku.getToken(tk);

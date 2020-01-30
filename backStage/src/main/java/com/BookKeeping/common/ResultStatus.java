@@ -12,6 +12,7 @@ public enum ResultStatus {
     USERERR(4104,"User does not exist or is not activated"),//用户不存在或未激活
     ROLEERR(4105,"User identity error"),//用户身份错误
     PWDERR(4106,"wrong password"),//密码错误
+    NOTOKEN(4107,"token invalid"),//Token验证失败
     SMSERR(4017,"SMS failed"),//短信失败
     REQERR(4201,"Illegal request or request is limited"),//非法请求或请求次数受限
     IPERR(4202,"IP restricted"),//IP受限

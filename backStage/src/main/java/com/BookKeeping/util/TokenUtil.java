@@ -50,4 +50,19 @@ public class TokenUtil {
 
         return tk;
     }
+
+    public String creatToken(String openid,String role){
+        Token tk=new Token();
+        Date date=new Date();
+
+        tk.setOpenId(openid);
+        tk.setRole(role);
+        tk.setLastLogin(date);
+
+        return getToken(tk);
+    }
+
+    public static String getTokenDataOpenId(String token){
+        return JWT.decode(token).getClaim("openid").asString();
+    }
 }

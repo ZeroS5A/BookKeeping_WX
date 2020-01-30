@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
 /**
- * Https数据获取
+ * Https数据获取,HTTP的在Util包下
  */
 
 public class HttpsRequest{

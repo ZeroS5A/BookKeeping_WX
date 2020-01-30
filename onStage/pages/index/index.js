@@ -7,7 +7,7 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    session_key:'',
+    token:'',
     //canIUse: wx.canIUse('button.open-type.getUserInfo'),
     loginData:{
         encryptedData: '',
@@ -86,12 +86,15 @@ Page({
 
   //微信请求封装
   getRequest(url,data){
+    var that=this;
     return new Promise(function(resolve,reject){
       wx.request({
         url: 'http://localhost/BookKeeping/'+url,
         data: data,
         method: 'POST',
-        // header: {}, 
+        header: {
+          Authorization: that.data.token
+        }, 
         success: function(res){
           resolve(res)
         },
@@ -119,8 +122,8 @@ Page({
     })
     .then((res)=>{
       console.log(res)
-      that.data.session_key=res.data.data;
-      that.data.loginData.code=res.data.data;
+      that.data.token=res.data.data.token;
+      that.data.loginData.code=res.data.data.session;
       return this.getRequest("api/getUserData",this.data.loginData)
       
     }).then((res)=>{
@@ -131,7 +134,7 @@ Page({
 
   //session测试拿数据
   getdata(){
-    this.getRequest("api/getOpenId",this.data.session_key)
+    this.getRequest("api/getOpenId",this.data.loginData.code)
     .then((res)=>{
       if(res.code!=4003){
         console.log(res)

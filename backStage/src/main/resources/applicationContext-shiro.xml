@@ -18,8 +18,8 @@
         <property name="securityManager" ref="securityManager" />
         <!-- 配置我们的登录请求地址 -->
         <property name="loginUrl" value="/api/login" />
-        <!-- 如果您请求的资源不再您的权限范围，则跳转到/403请求地址 -->
-        <property name="unauthorizedUrl" value="/api/unauthorized" />
+        <!-- 如果您请求的资源不再您的权限范围，则跳转到/403请求地址-->
+        <property name="unauthorizedUrl" value="/Error/**" />
         <!-- 自定义filter -->
         <property name="filters">
             <map>
@@ -33,11 +33,11 @@
             <value>
                 <!-- anon表示此地址不需要任何权限即可访问,authc需要验证 -->
                 /api/login=anon
+                /Error/**=anon
+                /notoken=anon
+                /unauthorized=anon
                 /api/getOpenId=authc
-                /index=anon
-                /static/**=anon
                 /doLogout=logout
-                api.weixin.qq.com/**=anon
                 <!--所有的请求(除去配置的静态资源请求或请求地址为anon的请求)都要通过登录验证,如果未登录则跳到/login -->
                 /** = authc
             </value>
@@ -68,5 +68,6 @@
     <!-- Realm实现 -->
     <bean id="shiroRealm" class="com.BookKeeping.common.ShiroRealm"/>
     <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+
 </beans>

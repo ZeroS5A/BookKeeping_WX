@@ -7,6 +7,10 @@ public class Login {
 
     private String code;
 
+    private String token;
+
+    private String session;
+
     public String getEncryptedData() {
         return encryptedData;
     }
@@ -31,12 +35,30 @@ public class Login {
         this.code = code;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
+
     @Override
     public String toString() {
         return "Login{" +
                 "encryptedData='" + encryptedData + '\'' +
                 ", iv='" + iv + '\'' +
                 ", code='" + code + '\'' +
+                ", token='" + token + '\'' +
+                ", session='" + session + '\'' +
                 '}';
     }
 }
