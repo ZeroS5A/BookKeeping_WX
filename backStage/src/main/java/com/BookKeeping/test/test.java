@@ -95,15 +95,10 @@ public class test {
     @Test
     //Token加解密测试
     public void TokenTest(){
-        Token tk=new Token();
-        Date date=new Date();
         TokenUtil tku=new TokenUtil();
+        Token tk=new Token();
 
-        tk.setOpenId("ZeroS");
-        tk.setRole("admin");
-        tk.setLastLogin(date);
-
-        String result=tku.getToken(tk);
+        String result=tku.creatToken("asdfghjkl","admin");
 
         System.out.println(result);
 

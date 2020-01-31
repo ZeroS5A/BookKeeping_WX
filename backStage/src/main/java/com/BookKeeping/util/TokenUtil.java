@@ -62,7 +62,7 @@ public class TokenUtil {
         return getToken(tk);
     }
 
-    public static String getTokenDataOpenId(String token){
-        return JWT.decode(token).getClaim("openid").asString();
+    public String getTokenDataOpenId(String token){
+        return JWT.decode(token).getClaim("openId").asString();
     }
 }

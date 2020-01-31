@@ -10,5 +10,7 @@ public interface LoginService {
 
     String getSession(String code);
 
-    String getOpenId(String session);
+    String getOpenId(String token);
+
+    boolean setTokenToRedis(String token,String openid);
 }

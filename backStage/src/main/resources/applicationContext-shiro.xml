@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop
-    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/util
-    http://www.springframework.org/schema/util/spring-util.xsd">
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd ">
 
     <!-- 配置shiro的过滤器工厂类，id- shiroFilter要和我们在web.xml中配置的过滤器一致 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -18,7 +10,7 @@
         <property name="securityManager" ref="securityManager" />
         <!-- 配置我们的登录请求地址 -->
         <property name="loginUrl" value="/api/login" />
-        <!-- 如果您请求的资源不再您的权限范围，则跳转到/403请求地址-->
+        <!-- 如果您请求的资源不再您的权限范围，则跳转请求地址-->
         <property name="unauthorizedUrl" value="/Error/**" />
         <!-- 自定义filter -->
         <property name="filters">
@@ -43,7 +35,7 @@
             </value>
         </property>
     </bean>
-    <!-- 禁用掉会话调度器 -->
+    <!-- 禁用掉会话调度器,使用自己的JWT -->
     <bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
         <property name="sessionValidationSchedulerEnabled" value="false"/>
     </bean>
@@ -65,9 +57,9 @@
         <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
         <property name="arguments" ref="securityManager"/>
     </bean>
-    <!-- Realm实现 -->
+    <!-- 自定义Realm实现 -->
     <bean id="shiroRealm" class="com.BookKeeping.common.ShiroRealm"/>
     <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
 </beans>

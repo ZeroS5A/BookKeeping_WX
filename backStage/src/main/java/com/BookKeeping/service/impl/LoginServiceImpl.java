@@ -6,7 +6,10 @@ import com.BookKeeping.entity.User;
 import com.BookKeeping.service.LoginService;
 import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.RedisUtil;
+import com.BookKeeping.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     RedisUtil redisUtil;
+    Logger logger = LoggerFactory.getLogger(LoginService.class);
 
     @Override
     public User getUserData(String EncryptedData,String session,String ivs) {
@@ -39,8 +43,6 @@ public class LoginServiceImpl implements LoginService {
         String session=session_key.getString("session_key");
         String openid=session_key.getString("openid");
         if(session!=null){
-            //登录信息写入redis，有效期30分钟
-            redisUtil.set(session, openid, 1800);
             return session;
         }else{
             System.out.println("无法获得session_key");
@@ -50,13 +52,28 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String getOpenId(String session) {
+    public boolean setTokenToRedis(String token,String openid){
+        try {
+            //登录信息写入redis，有效期30分钟
+            logger.info("开始将Token写入Redis");
+            redisUtil.set(token, openid, 1800);
+        }catch (Exception e){
+            logger.info("Redis错误！请检查");
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public String getOpenId(String token) {
         //从redis中找openid
-        if(redisUtil.get(session)!=null){
-            return redisUtil.get(session).toString();
+        if(redisUtil.get(token)!=null){
+            return redisUtil.get(token).toString();
         }else{
-            System.out.println("session失效");
-            return "NOT_OPENID";
+
+            System.out.println("Token失效");
+            return "TokenError";
         }
     }
 
