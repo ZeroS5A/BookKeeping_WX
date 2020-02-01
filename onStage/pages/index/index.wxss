@@ -21,5 +21,36 @@
 }
 
 .login{
-  margin-top: 400rpx;
+  margin-top: 40rpx;
+}
+.UCenter-bg {
+  /* background-image: url(https://image.weilanwl.com/color2.0/index.jpg); */
+  /* background-color:black; */
+  background-size: cover;
+  height: 450rpx;
+  display: flex;
+  justify-content: center;
+  padding-top: 40rpx;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-weight: 300;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+.UCenter-bg .gif-wave{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  mix-blend-mode: screen;  
+  height: 100rpx;   
+}
+.noLogin{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -5,7 +5,9 @@ const app = getApp()
 Page({
   data: {
     motto: 'Hello World',
-    userInfo: {},
+    userInfo: {
+      avatarUrl:"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI7tNjftuIGgDgWqvA8NZW70Bu1p66Gicr4wMBak3DImFA2q0as7goZ2iaXiafEwneFib1cLjALp8l57g/132",
+    },
     hasUserInfo: false,
     token:'',
     //canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -73,6 +75,7 @@ Page({
   //获取code换session
   getCode(){
     var that=this;
+    //回调函数
     return new Promise(function(resolve, reject){
       wx.login({
           success(res) {
@@ -127,8 +130,10 @@ Page({
       return this.getRequest("api/getUserData",this.data.loginData)
       
     }).then((res)=>{
-      that.data.userInfo=res.data.data;
-      that.data.hasUserInfo=true;
+      that.setData({
+        userInfo:res.data.data,
+        hasUserInfo:true
+      })
     })  
   },
 
@@ -140,6 +145,13 @@ Page({
         console.log(res)
         this.data.motto=res.data.data
       }
+    })
+  },
+
+  //测试状态转换
+  switchTest(){
+    this.setData({
+      hasUserInfo:true
     })
   }
 })

@@ -1,6 +1,71 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
+  <view class="UCenter-bg bg-black ">
+    <view wx:if="{{hasUserInfo}}" class="noLogin">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="text-xl">ZeroS</text>
+    </view>
+    <view wx:else class="noLogin">
+      <text class="cuIcon-people lg text-gray" style="font-size: xx-large;"></text>
+      <button type="default" bindtap="switchTest" open-type="getUserInfo" size="mini">请登录</button>
+    </view>
+    <image src="../../static/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
+  </view>
+  <!-- 数据统计 -->
+  <view class="padding flex text-center text-grey bg-white shadow shadow-lg">
+    <view class="flex flex-sub flex-direction solid-right">
+      <view class="text-xxl text-orange">￥20.6</view>
+      <view class="margin-top-sm">
+        <text>今日支出</text> 
+      </view>
+    </view>
+    <view class="flex flex-sub flex-direction solid-right">
+      <view class="text-xxl text-blue">￥0</view>
+      <view class="margin-top-sm">
+        <text>今日收入</text> 
+      </view>
+    </view>
+    <view class="flex flex-sub flex-direction">
+      <view class="text-xxl text-orange">￥540.6</view>
+      <view class="margin-top-sm">
+        <text class="">本月总支</text> 
+      </view>
+    </view>
+    <view class="flex flex-sub flex-direction">
+      <view class="text-xxl text-blue">￥20</view>
+      <view class="margin-top-sm">
+        <text class="">本月总收</text> 
+      </view>
+    </view>
+  </view>
+  <!-- 功能选项 -->
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/about/log/log" hover-class="none">
+        <text class="cuIcon-formfill text-green"></text>
+        <text class="text-grey">日志</text>
+      </navigator>
+    </view>
+    <view class="cu-item arrow">
+      <view class="content" bindtap="showQrcode">
+        <text class="cuIcon-appreciatefill text-red"></text>
+        <text class="text-grey">赞赏支持</text>
+      </view>
+    </view>
+    <view class="cu-item arrow">
+      <button class="cu-btn content" open-type="feedback">
+        <text class="cuIcon-writefill text-cyan"></text>
+        <text class="text-grey">意见反馈</text>
+      </button>
+    </view>
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/about/test/list" hover-class="none">
+        <text class="cuIcon-creativefill text-orange"></text>
+        <text class="text-grey">关于我们</text>
+      </navigator>
+    </view>
+  </view>
+  <!-- <view class="userinfo">
     <button wx:if="{{!hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
@@ -9,8 +74,5 @@
   </view>
   <view class="login">
     <button type="default" bindtap="userLogin" open-type="getUserInfo">Login</button>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto" bindtap = "getdata">{{motto}}</text>
   </view> -->
 </view>
