@@ -19,11 +19,10 @@ import org.springframework.stereotype.Service;
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
     RedisUtil redisUtil;
     Logger logger = LoggerFactory.getLogger(LoginService.class);
+    @Autowired
     LoginDao loginDao;
-
 
     @Override
     public User getUserData(String EncryptedData,String session,String ivs) {
