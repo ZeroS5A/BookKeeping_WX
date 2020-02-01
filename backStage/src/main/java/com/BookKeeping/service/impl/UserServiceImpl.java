@@ -1,5 +1,6 @@
 package com.BookKeeping.service.impl;
 
+import com.BookKeeping.dao.LoginDao;
 import com.BookKeeping.dao.UserDao;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.UserService;
@@ -25,6 +26,20 @@ public class UserServiceImpl implements UserService {
         System.out.println("Spring中添加用户");
         System.out.println(user);
         return userDao.insertUser(user);
+    }
+
+
+    @Override
+    public String processUserdata(String openId) {
+        User us=userDao.selFromOpenId(openId);
+
+        if(us.getOpenId()!=null){
+            System.out.println("用户存在");
+        }else {
+            System.out.println("用户不存在");
+        }
+
+        return null;
     }
 
 }

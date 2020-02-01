@@ -2,7 +2,9 @@ package com.BookKeeping.test;
 
 import com.BookKeeping.common.Aes;
 import com.BookKeeping.entity.Token;
+import com.BookKeeping.service.LoginService;
 import com.BookKeeping.service.UserService;
+import com.BookKeeping.service.impl.UserServiceImpl;
 import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.TokenUtil;
@@ -105,5 +107,15 @@ public class test {
         tk=tku.getTokenData(result);
 
         System.out.println(tk.toString());
+    }
+
+    @Test
+    //测试查询用户
+    public void openIdTest(){
+        ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        UserService us = (UserService) ac.getBean("userService");
+        //us.selFromOpenId("asdf");
+        LoginService ls=(LoginService) ac.getBean("loginService");
+        ls.processUserdata("asdf");
     }
 }

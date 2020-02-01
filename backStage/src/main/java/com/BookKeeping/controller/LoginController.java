@@ -6,6 +6,7 @@ import com.BookKeeping.entity.Login;
 import com.BookKeeping.entity.Token;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.LoginService;
+import com.BookKeeping.service.UserService;
 import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -35,22 +36,29 @@ public class LoginController extends ExceptionController {
 
         System.out.println(code);
         //获取微信session和生成自定义token
-        HttpUtil hrs=new HttpUtil();
+        HttpUtil httpUtil=new HttpUtil();
 
         //获取session_key和openid
-        JSONObject session_key=hrs.domain("getSession_key",code);
+        JSONObject session_key=httpUtil.domain("getSession_key",code);
         String session=session_key.getString("session_key");
         String openid=session_key.getString("openid");
-        //生成Token
-        String token=tku.creatToken(openid,"user");
 
-        result.setSession(session);
-        result.setToken(token);
+        //判断是否获取到信息
+        if(session!=null){
+            //生成Token
+            String token=tku.creatToken(openid,"user");
 
-        //放入redis
-        loginService.setTokenToRedis(token,openid);
+            result.setSession(session);
+            result.setToken(token);
 
-        rs.setData(result);
+            //放入redis
+            loginService.setTokenToRedis(token,openid);
+
+            rs.setData(result);
+
+        }else{
+            rs.setResult(ResultStatus.LOGINERR);
+        }
         return rs;
     }
 
@@ -63,6 +71,9 @@ public class LoginController extends ExceptionController {
 
         Result rs=new Result();
         User us=loginService.getUserData(login.getEncryptedData(),login.getCode(),login.getIv());
+
+        loginService.processUserdata("asdf");
+
         System.out.println(us.toString());
         rs.setData(us);
         return rs;

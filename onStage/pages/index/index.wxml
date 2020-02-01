@@ -3,11 +3,11 @@
   <view class="UCenter-bg bg-black ">
     <view wx:if="{{hasUserInfo}}" class="noLogin">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="text-xl">ZeroS</text>
+      <text class="text-xl">{{userInfo.nickName}}</text>
     </view>
     <view wx:else class="noLogin">
       <text class="cuIcon-people lg text-gray" style="font-size: xx-large;"></text>
-      <button type="default" bindtap="switchTest" open-type="getUserInfo" size="mini">请登录</button>
+      <button type="default" bindtap="userLogin" open-type="getUserInfo" size="mini">请登录</button>
     </view>
     <image src="../../static/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>

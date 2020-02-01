@@ -2,8 +2,11 @@ package com.BookKeeping.service.impl;
 
 import com.BookKeeping.common.Aes;
 import com.BookKeeping.common.HttpsRequest;
+import com.BookKeeping.dao.LoginDao;
+import com.BookKeeping.dao.UserDao;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.LoginService;
+import com.BookKeeping.service.UserService;
 import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.TokenUtil;
@@ -19,6 +22,8 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     RedisUtil redisUtil;
     Logger logger = LoggerFactory.getLogger(LoginService.class);
+    LoginDao loginDao;
+
 
     @Override
     public User getUserData(String EncryptedData,String session,String ivs) {
@@ -64,7 +69,6 @@ public class LoginServiceImpl implements LoginService {
         return true;
     }
 
-
     @Override
     public String getOpenId(String token) {
         //从redis中找openid
@@ -77,5 +81,16 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
+    @Override
+    public String processUserdata(String openId) {
+        User us=loginDao.selFromOpenId(openId);
 
+        if(us.getOpenId()!=null){
+            System.out.println("用户存在");
+        }else {
+            System.out.println("用户不存在");
+        }
+
+        return null;
+    }
 }

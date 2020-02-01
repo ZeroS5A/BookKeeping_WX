@@ -13,4 +13,7 @@ public interface LoginService {
     String getOpenId(String token);
 
     boolean setTokenToRedis(String token,String openid);
+
+    //按openid查询用户
+    String processUserdata(String openId);
 }
