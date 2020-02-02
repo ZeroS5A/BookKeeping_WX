@@ -9,11 +9,31 @@ import java.util.Map;
 public interface BookkeepingDao {
 
     /**带参数查找收入表*/
-    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class,method="listIncome")
+    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="listIncome")
     public List<Bookkeeping> listIncome(Map<String, Object> map);
 
     /**带参数查找支出表*/
-    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class,method="listExpend")
+    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="listExpend")
     public List<Bookkeeping> listExpend(Map<String, Object> map);
+
+    /**带参数查找收入支出表*/
+    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="listAll")
+    public List<Bookkeeping> listAll(Map<String, Object> map);
+
+    /**带参数查找收入表总条数*/
+    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="totalIncome")
+    public Integer totalIncome(Map<String, Object> map);
+
+    /**带参数查找支出表总条数*/
+    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="totalExpend")
+    public Integer totalExpend(Map<String, Object> map);
+
+    /**带参数查找收入表总收入*/
+    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="sumIncomeMoney")
+    public Float sumIncomeMoney(Map<String, Object> map);
+
+    /**带参数查找支出表总支出*/
+    @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="sumExpendMoney")
+    public Float sumExpendMoney(Map<String, Object> map);
 
 }

@@ -25,4 +25,29 @@ public class BookkeepingServiceImpl implements BookkeepingService {
         return bookkeepingDao.listExpend(map);
     }
 
+    @Override
+    public List<Bookkeeping> listAll(Map<String, Object> map) {
+        return bookkeepingDao.listAll(map);
+    }
+
+    @Override
+    public Integer totalIncome(Map<String, Object> map) {
+        return bookkeepingDao.totalIncome(map);
+    }
+
+    @Override
+    public Integer totalExpend(Map<String, Object> map) {
+        return bookkeepingDao.totalExpend(map);
+    }
+
+    @Override
+    public Float sumIncomeMoney(Map<String, Object> map) {
+        return bookkeepingDao.sumIncomeMoney(map);
+    }
+
+    @Override
+    public Float sumExpendMoney(Map<String, Object> map) {
+        return bookkeepingDao.sumExpendMoney(map);
+    }
+
 }
