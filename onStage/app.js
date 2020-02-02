@@ -59,7 +59,7 @@ App({
     // 获取用户信息
 
 
-  wx.getSystemInfo({
+    wx.getSystemInfo({
       success: e => {
         this.globalData.StatusBar = e.statusBarHeight;
         let custom = wx.getMenuButtonBoundingClientRect();
@@ -119,5 +119,6 @@ App({
       })  
     }) 
   },
+
 
 })

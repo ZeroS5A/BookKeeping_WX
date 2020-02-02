@@ -1,36 +1,36 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/bookkeeping/bookkeeping",
-    "pages/bookkeepingEdit/bookkeepingEdit",
-    
-    "pages/logs/logs"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "AnTools",
-    "navigationBarTextStyle": "black",
-    "navigationStyle": "default",
-    "backgroundColor": "black"
-  },
-  "style": "v2",
-  "sitemapLocation": "sitemap.json",
-  "tabBar": {
-    "color": "#8A8A8A",
-    "selectedColor": "1AAD16",
-    "list": [
-      {
-        "pagePath": "pages/bookkeeping/bookkeeping",
-        "text": "记账"
-      },
-      {
-        "pagePath": "pages/index/index",
-        "text": "我"
-      }
-    ]
-  },
-  "usingComponents": {
-    "cu-custom": "/colorui/components/cu-custom"
-  }
+    "pages": [
+        "pages/index/index",
+        "pages/bookkeeping/bookkeeping",
+        "pages/bookkeepingEdit/bookkeepingEdit",
+        "pages/logs/logs",
+        "pages/about/about"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "AnTools",
+        "navigationBarTextStyle": "black",
+        "navigationStyle": "default",
+        "backgroundColor": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json",
+    "tabBar": {
+        "color": "#8A8A8A",
+        "selectedColor": "1AAD16",
+        "list": [
+            {
+                "pagePath": "pages/bookkeeping/bookkeeping",
+                "text": "记账"
+            },
+            {
+                "pagePath": "pages/index/index",
+                "text": "我"
+            }
+        ]
+    },
+    "usingComponents": {
+        "cu-custom": "/colorui/components/cu-custom"
+    }
 }

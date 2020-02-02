@@ -1,4 +1,24 @@
 <!--index.wxml-->
+
+<!-- 模态窗 -->
+<view class="cu-modal {{modalName=='DialogModal1'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">意见反馈</view>
+    </view>
+    <view class="cu-form-group input-text">
+      <input style="text-align: left;" maxlength="-1" bindinput="{{textareaAInput}}" placeholder="请输入您的建议"></input>
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+        <button class="cu-btn bg-green margin-left" bindtap="hideModal">提交</button>
+
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 内容 -->
 <view class="container">
   <view class="UCenter-bg bg-black ">
     <view wx:if="{{hasUserInfo}}" class="noLogin">
@@ -7,32 +27,32 @@
     </view>
     <view wx:else class="noLogin">
       <text class="cuIcon-people lg text-gray" style="font-size: xx-large;"></text>
-      <button type="default" bindtap="userLogin" open-type="getUserInfo" size="mini">请登录</button>
+      <button type="default" bindgetuserinfo="userLogin" open-type="getUserInfo" size="mini">请登录</button>
     </view>
     <image src="../../static/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>
   <!-- 数据统计 -->
   <view class="padding flex text-center text-grey bg-white shadow shadow-lg">
     <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xxl text-orange">￥20.6</view>
+      <view class="text-xxl text-orange">￥{{bkData.todayExpendMoney==null?'--':bkData.todayExpendMoney}}</view>
       <view class="margin-top-sm">
         <text>今日支出</text> 
       </view>
     </view>
     <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xxl text-blue">￥0</view>
+      <view class="text-xxl text-blue">￥{{bkData.todayIncomeMoney==null?'--':bkData.todayIncomeMoney}}</view>
       <view class="margin-top-sm">
         <text>今日收入</text> 
       </view>
     </view>
     <view class="flex flex-sub flex-direction">
-      <view class="text-xxl text-orange">￥540.6</view>
+      <view class="text-xxl text-orange">￥{{bkData.monthExpendMoney==null?'--':bkData.monthExpendMoney}}</view>
       <view class="margin-top-sm">
         <text class="">本月总支</text> 
       </view>
     </view>
     <view class="flex flex-sub flex-direction">
-      <view class="text-xxl text-blue">￥20</view>
+      <view class="text-xxl text-blue">￥{{bkData.monthIncomeMoney==null?'--':bkData.monthIncomeMoney}}</view>
       <view class="margin-top-sm">
         <text class="">本月总收</text> 
       </view>
@@ -41,9 +61,9 @@
   <!-- 功能选项 -->
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     <view class="cu-item arrow">
-      <navigator class="content" url="/pages/about/log/log" hover-class="none" bindtap = "getdata">
+      <navigator class="content" url="/pages/logs/logs" hover-class="none" bindtap = "">
         <text class="cuIcon-formfill text-green"></text>
-        <text class="text-grey">日志</text>
+        <text class="text-grey">启动日志</text>
       </navigator>
     </view>
     <view class="cu-item arrow">
@@ -53,13 +73,13 @@
       </view>
     </view>
     <view class="cu-item arrow">
-      <button class="cu-btn content" open-type="feedback">
+      <view class="content" bindtap = "switchTest">
         <text class="cuIcon-writefill text-cyan"></text>
         <text class="text-grey">意见反馈</text>
-      </button>
+      </view>
     </view>
     <view class="cu-item arrow">
-      <navigator class="content" url="/pages/about/test/list" hover-class="none">
+      <navigator class="content" url="/pages/about/about" hover-class="none">
         <text class="cuIcon-creativefill text-orange"></text>
         <text class="text-grey">关于我们</text>
       </navigator>
