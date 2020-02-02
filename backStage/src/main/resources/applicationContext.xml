@@ -31,7 +31,7 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
 
-    <!--配置UserDao接口所在包-->
+    <!--配置Dao接口所在包-->
     <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.BookKeeping.dao"></property>
     </bean>
@@ -59,6 +59,7 @@
             <tx:method name="delete*" propagation="REQUIRED"/>
             <tx:method name="change*" propagation="REQUIRED"/>
             <tx:method name="check*" propagation="REQUIRED"/>
+            <tx:method name="process*" propagation="REQUIRED"/>
             <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
             <tx:method name="find*" propagation="REQUIRED" read-only="true"/>
             <tx:method name="load*" propagation="REQUIRED" read-only="true"/>
@@ -109,10 +110,10 @@
     </bean>
 
 
-    <!--启用shiro注解
+    <!--启用shiro注解-->
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager" />
-    </bean>-->
+    </bean>
 
     <!-- 控制器异常处理，既鉴权失败时的处理逻辑 -->
     <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">

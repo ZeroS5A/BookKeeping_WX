@@ -1,5 +1,6 @@
 package com.BookKeeping.service;
 
+import com.BookKeeping.entity.Login;
 import com.BookKeeping.entity.User;
 import com.alibaba.fastjson.JSONObject;
 
@@ -10,10 +11,10 @@ public interface LoginService {
 
     String getSession(String code);
 
-    String getOpenId(String token);
+    String getDataByRedis(String token,String method);
 
     boolean setTokenToRedis(String token,String openid);
 
     //按openid查询用户
-    String processUserdata(String openId);
+    User processUserdata(String openId, Login login);
 }

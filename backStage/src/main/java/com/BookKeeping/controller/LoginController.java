@@ -2,17 +2,17 @@ package com.BookKeeping.controller;
 
 import com.BookKeeping.common.Result;
 import com.BookKeeping.common.ResultStatus;
+import com.BookKeeping.common.ShiroRealm;
 import com.BookKeeping.entity.Login;
-import com.BookKeeping.entity.Token;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.LoginService;
-import com.BookKeeping.service.UserService;
 import com.BookKeeping.util.HttpUtil;
+import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +26,10 @@ public class LoginController extends ExceptionController {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private RedisUtil redisUtil;
+
+    Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
@@ -34,7 +38,7 @@ public class LoginController extends ExceptionController {
         Login result=new Login();
         TokenUtil tku=new TokenUtil();
 
-        System.out.println(code);
+        logger.info("前端发来的code:"+code);
         //获取微信session和生成自定义token
         HttpUtil httpUtil=new HttpUtil();
 
@@ -50,9 +54,6 @@ public class LoginController extends ExceptionController {
 
             result.setSession(session);
             result.setToken(token);
-
-            //放入redis
-            loginService.setTokenToRedis(token,openid);
 
             rs.setData(result);
 
@@ -70,12 +71,30 @@ public class LoginController extends ExceptionController {
         System.out.println("头部中的token信息"+token);
 
         Result rs=new Result();
-        User us=loginService.getUserData(login.getEncryptedData(),login.getCode(),login.getIv());
+        TokenUtil tku=new TokenUtil();
+        //获取openid
+        String openid=tku.getTokenDataOpenId(token);
+        //处理用户信息
+        User user=loginService.processUserdata(openid,login);
 
-        loginService.processUserdata("asdf");
+        //放入reids
+        logger.info("开始放入redis");
+        try {
+            Map<String,Object> map=new HashMap<>();
+            map.put("openid", openid);
+            map.put("id", user.getId());
+            redisUtil.hmset(token, map);
+        }catch (Exception e){
+            logger.info("Redis写入失败"+e);
+        }
 
-        System.out.println(us.toString());
-        rs.setData(us);
+        //System.out.println("从redis中获取的openid："+loginService.getDataByRedis(token,"openid"));
+
+        //销毁openid,id后返回前端
+        user.setOpenId("");
+        user.setId(0);
+        rs.setData(user);
+
         return rs;
     }
 
@@ -86,16 +105,21 @@ public class LoginController extends ExceptionController {
         Result rs=new Result();
         TokenUtil tku=new TokenUtil();
 
-        //从redis获取openid
-        if(loginService.getOpenId(token).equals("TokenError")){
-            rs.setResult(ResultStatus.DATAEXIST);
-        }else{
-            System.out.println("从redis中获取的openid："+loginService.getOpenId(token));
+        try {
+            String result=redisUtil.hget(token,"id").toString();
+            //从redis获取openid
+            if(result!=null){
+                logger.info("Redis中的id："+result);
+            }else {
+                logger.info("error");
+            }
+        }catch (Exception e){
+
         }
 
 
         String openid=tku.getTokenDataOpenId(token);
-        System.out.println("token中获取的openid："+openid);
+        logger.info("token中获取的openid："+openid);
         rs.setData(openid);
         return rs;
     }

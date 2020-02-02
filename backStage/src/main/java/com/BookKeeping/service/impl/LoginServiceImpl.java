@@ -1,15 +1,13 @@
 package com.BookKeeping.service.impl;
 
 import com.BookKeeping.common.Aes;
-import com.BookKeeping.common.HttpsRequest;
 import com.BookKeeping.dao.LoginDao;
 import com.BookKeeping.dao.UserDao;
+import com.BookKeeping.entity.Login;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.LoginService;
-import com.BookKeeping.service.UserService;
 import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.RedisUtil;
-import com.BookKeeping.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +17,14 @@ import org.springframework.stereotype.Service;
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
 
+    @Autowired
     RedisUtil redisUtil;
-    Logger logger = LoggerFactory.getLogger(LoginService.class);
     @Autowired
     LoginDao loginDao;
+    @Autowired
+    UserDao userDao;
+
+    Logger logger = LoggerFactory.getLogger(LoginService.class);
 
     @Override
     public User getUserData(String EncryptedData,String session,String ivs) {
@@ -69,10 +71,12 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String getOpenId(String token) {
+    public String getDataByRedis(String token,String method) {
         //从redis中找openid
-        if(redisUtil.get(token)!=null){
-            return redisUtil.get(token).toString();
+        String result = redisUtil.hget(token,method).toString();
+        System.out.println(result);
+        if(result!=null){
+            return result;
         }else{
 
             System.out.println("Token失效");
@@ -81,15 +85,22 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String processUserdata(String openId) {
-        User us=loginDao.selFromOpenId(openId);
+    public User processUserdata(String openId, Login login) {
+        User us=loginDao.getByOpenId(openId);
 
-        if(us.getOpenId()!=null){
+        if(us!=null){
             System.out.println("用户存在");
+            us=getUserData(login.getEncryptedData(),login.getCode(),login.getIv());
+            System.out.println(us.toString());
+            //更新用户信息
+            userDao.updateUser(us);
         }else {
             System.out.println("用户不存在");
+            us=getUserData(login.getEncryptedData(),login.getCode(),login.getIv());
+            System.out.println(us.toString());
+            //写入数据库
+            userDao.insertUser(us);
         }
-
-        return null;
+        return loginDao.getByOpenId(openId);
     }
 }

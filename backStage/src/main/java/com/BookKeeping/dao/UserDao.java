@@ -3,9 +3,12 @@ package com.BookKeeping.dao;
 import com.BookKeeping.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface UserDao {
 
     //查询
@@ -16,7 +19,7 @@ public interface UserDao {
     @Insert("INSERT INTO t_user (openId,nickName,gender,avatarUrl)VALUES(#{openId},#{nickName},#{gender},#{avatarUrl})")
     Integer insertUser(User user);
 
-    //根据openid查询
-    @Select("select * from t_user where openid=#{openid}")
-    User selFromOpenId (String openId);
+    //更新
+    @Update("UPDATE t_user SET nickName=#{nickName},gender=#{gender},avatarUrl=#{avatarUrl} WHERE openId=#{openId}")
+    Integer updateUser(User user);
 }

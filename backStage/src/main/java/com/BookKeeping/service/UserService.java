@@ -12,7 +12,5 @@ public interface UserService {
     //添加
     Integer insertUser(User user);
 
-    //按openid查询用户
-    String processUserdata(String openId);
 
 }

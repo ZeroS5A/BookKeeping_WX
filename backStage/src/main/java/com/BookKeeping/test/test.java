@@ -88,10 +88,10 @@ public class test {
 
         //=====================testMap======================
         Map<String,Object> map=new HashMap<>();
-        map.put("name", "meepo");
-        map.put("pwd", "password");
-        redisUtil.hmset("user", map);
-        System.out.println(redisUtil.hget("user","name"));
+        //map.put("id", "meepo");
+        //map.put("openid", "password");
+        //redisUtil.hmset("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOjE1ODA2MjI1MzMsInJvbGUiOiJ1c2VyIiwib3BlbklkIjoib0xJNGQ1TnlRVFlhazg3UU1TRXU4eDZPd1NsWSIsImV4cCI6MTU4MDYyNDMzM30.XJIHtNOgoEMuGcKXGIAhDB3m7pQ-OIOh35bGGqK-81k", map);
+        System.out.println(redisUtil.hget("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOjE1ODA2MjMzMDMsInJvbGUiOiJ1c2VyIiwib3BlbklkIjoib0xJNGQ1TnlRVFlhazg3UU1TRXU4eDZPd1NsWSIsImV4cCI6MTU4MDYyNTEwM30.3GUnBlpLpPe_vYJWEqRaKLGgE3adwkQfAyS5utA-cAo","id"));
     }
 
     @Test
@@ -116,6 +116,7 @@ public class test {
         UserService us = (UserService) ac.getBean("userService");
         //us.selFromOpenId("asdf");
         LoginService ls=(LoginService) ac.getBean("loginService");
-        ls.processUserdata("asdf");
+        //ls.processUserdata("oLI4d5NyQTYak87QMSEu8x6OwSlY");
+        ls.getDataByRedis("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOjE1ODA2MjM4NDQsInJvbGUiOiJ1c2VyIiwib3BlbklkIjoib0xJNGQ1TnlRVFlhazg3UU1TRXU4eDZPd1NsWSIsImV4cCI6MTU4MDYyNTY0NH0.Fgr81juha0uEK0FwTjJtvTz6Jazdv5zdMI7nxQzmXlM","openid");
     }
 }
