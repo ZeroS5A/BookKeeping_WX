@@ -230,6 +230,12 @@ public class BookkeepingController extends ExceptionController {
         return rs;
     }
 
+    /**
+     *
+     * @param bookkeeping id：必须输入 incomeOrExpend：必须输入，用于判断收入或支出
+     * @param token
+     * @return
+     */
     @RequiresRoles("user")
     @RequestMapping(value = "/deleteBookkeeping", method = RequestMethod.POST)
     @ResponseBody
