@@ -11,38 +11,38 @@
       </view>
     </scroll-view>
 
-    <view class="cu-form-group margin-top" style="display: flex; align-items: center;">    
-      <view class="text-price" style="font-size:80rpx;margin-left: 30rpx; padding-right: 20rpx;"></view>
-      <input style="font-size:50rpx;height:50rpx;" type="digit" bindinput="handleInputChange" data-modal='2' value="{{bkMoney}}"></input>
+    <view class="cu-form-group margin-top">    
+      <view class="text-price" style="font-size:80rpx;padding-left:30rpx;padding-right:30rpx;"></view>
+      <input style="font-size:60rpx;height:100%;" type="digit" bindinput="handleInputChange" data-modal='2' value="{{bkMoney}}"></input>
   	</view>
 
-    <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding-top padding-left padding-right margin-top solid-top solid-bottom" style="height:220rpx;">
+    <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding margin-top solid-top solid-bottom">
       <view class="cu-item" wx:for="{{bkType0}}" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
-        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-blue':'text-black'}} flex cu-avatar round" style="background-color: white;font-size:x-large;"></text>
-        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size: larger;">{{item.name}}</text>
+        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
+        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size:larger;">{{item.name}}</text>
       </view>
     </scroll-view>
-    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding-top padding-left padding-right margin-top solid-top solid-bottom" style="height:220rpx;">
+    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding margin-top solid-top solid-bottom">
       <view class="cu-item" wx:for="{{bkType1}}" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
-        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-blue':'text-black'}} flex cu-avatar round" style="background-color: white;font-size:x-large;"></text>
-        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size: larger; margin-top: 10rpx;">{{item.name}}</text>
+        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
+        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size:larger;">{{item.name}}</text>
       </view>
     </scroll-view>
 
-    <view class="cu-form-group" style=" margin: 0,20rpx;">
-		  <textarea maxlength="-1" style="background-color: honeydew;" bindinput="handleInputChange" value="{{remarkText}}" data-modal='1' placeholder="备注"></textarea>
+    <view class="cu-form-group" style="margin:0,20rpx;">
+		  <textarea maxlength="-1" bindinput="handleInputChange" value="{{remarkText}}" data-modal='1' placeholder="备注"></textarea>
   	</view>
-
     
-    <picker class="padding light text-right" mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
-      选择日期：▼ {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}} {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}
-     </picker>
-      <!-- <button style="width: 20%;margin-left: 40%" class="cu-btn bg-blue margin-left"  bindtap="hideModal">提交</button> -->
-      
-    
-    <button style="width: 100%; height: 100rpx; margin-top: 10rpx;" class="cu-btn bg-blue margin-left"  bindtap="postData">提交</button>
-   
+    <picker class="bg-grey padding light text-right" mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
+      {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}} {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}<text class="cuIcon-triangledownfill"></text>
+    </picker>
+<!-- <button style="width: 20%;margin-left: 40%" class="cu-btn bg-blue margin-left"  bindtap="hideModal">提交</button> -->
+<!-- <button style="width: 100%; height: 100rpx; margin-top: 10rpx;" class="cu-btn bg-blue margin-left"  bindtap="postData">提交</button> -->
   </view>
+</view>
+
+<view class="padding" style="position:fixed;width:100%;bottom:30rpx;">
+  <button class="cu-btn bg-blue" style="width:100%;height:80rpx" bindtap="postData">保存</button>
 </view>
