@@ -17,7 +17,7 @@ Page({
     startYear: 2000,
     endYear: 2050,
     iconType:"baby",
-    bktype:'其他',
+    bktype:'餐饮',
     remarkText:"",
     bkMoney:'',
     //支出类型

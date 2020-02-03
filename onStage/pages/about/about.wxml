@@ -1,0 +1,7 @@
+<!--pages/about/about.wxml-->
+<view class="content">
+    <view class="main ">
+        <text style="font-family:youyuan;font-size: xx-large;font-weight:bolder;">没有关于</text>
+    </view>
+</view>
+

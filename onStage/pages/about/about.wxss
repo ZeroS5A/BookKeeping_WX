@@ -1,0 +1,16 @@
+/* pages/about/about.wxss */
+.content{
+    
+}
+
+.main{
+/* height: 1300rpx; */
+    background-color: cadetblue;
+    width: 100%;
+    /* vh代表屏幕高度 */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
