@@ -13,9 +13,79 @@ Page({
     dateTime: null,
     dateTimeArray1: null,
     dateTime1: null,
+    isIncome:false,
     startYear: 2000,
-    endYear: 2050
+    endYear: 2050,
+    iconType:"baby",
+    bktype:'其他',
+    remarkText:"",
+    bkMoney:'',
+    //支出类型
+    bkType0:[
+      {
+        type:0,
+        name:"餐饮",
+        icon:"baby",
+        url:""
+      },
+      {
+        type:1,
+        name:"购物",
+        icon:"shop",
+        url:''
+      },
+      {
+        type:2,
+        icon:"pay",
+        name:"缴费",
+        url:''
+      },
+      {
+        type:3,
+        icon:"deliver",
+        name:"交通",
+        url:''
+      },
+      {
+        type:4,
+        icon:"discover",
+        name:"娱乐",
+        url:''
+      },
+      {
+        type:5,
+        icon:"more",
+        name:"其他",
+        url:''
+      },
+    ],
+    //收入类型
+    bkType1:[
+      {
+        type:0,
+        icon:"add",
+        name:"打工",
+        url:''
+      },
+      {
+        type:1,
+        icon:"redpacket",
+        name:"红包",
+        url:''
+      },
+      {
+        type:2,
+        icon:"more",
+        name:"其他",
+        url:''
+      }
+    ],
+    //
+    postData:{
+
+    }
   },
+  
 
   /**
    * 生命周期函数--监听页面加载
@@ -47,42 +117,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    
   },
 
   TimeChange(e) {
@@ -137,5 +172,117 @@ Page({
       dateTimeArray1: dateArr,
       dateTime1: arr
     });
-  }
+  },
+
+  //类型切换
+  typeSelect0(){
+    this.setData({
+      isIncome:false,
+    })
+  },
+  typeSelect1(){
+    this.setData({
+      isIncome:true,
+    })
+  },
+
+  //激活选择
+  typeActive(e){
+    //选择的type的id值
+    console.log(e.currentTarget.id)
+    console.log(e.currentTarget.dataset.modal)
+    this.setData({
+      iconType:e.currentTarget.id,
+      bktype:e.currentTarget.dataset.modal
+    })
+  },
+
+  //用于双向绑定
+  handleInputChange: function(e){
+    // 取出定义的变量名
+   var targetData = e.currentTarget.dataset.modal; 
+    console.log(targetData)
+   // 取出定义的变量名
+   var currentValue = e.detail.value; 
+    
+   // 将 input 值赋值给 定义的变量名
+   if(targetData==1){
+     this.data.remarkText=currentValue
+   }else if(targetData==2){
+     this.data.bkMoney=currentValue
+   }
+  },
+
+  //提交按钮
+  postData(){
+    var type
+    var data
+    //分页需要这样才能获取导app数据
+    var app = getApp();
+    if(this.data.isIncome){
+      type="income"
+    }else{
+      type="expend"
+    }
+
+    var momth=this.data.dateTime1[1]+1
+    var day=this.data.dateTime1[2]+1
+    var hour=this.data.dateTime1[3]
+    var min=this.data.dateTime1[4]
+
+    if (momth < 10) {
+      momth = "0" + momth;
+    }
+    if (day < 10) {
+      day = "0" + day;
+    }
+    if (hour < 10) {
+      hour = "0" + hour;
+    }
+    if (min < 10) {
+      min = "0" + min;
+    }
+    if(this.data.bkMoney==''){
+      console.log("请输入金额")
+      wx.showModal({
+        content: '请输入金额!',
+        showCancel: false,
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }else{
+      data={
+        id: null,
+        bkType: this.data.bktype,
+        bkDate: "20"+this.data.dateTime1[0]+"-"+momth+"-"+day
+                  +" "+hour+":"+min,
+        bkMoney: this.data.bkMoney,
+        remarkText: this.data.remarkText,
+        incomeOrExpend: type
+      }
+      app.getRequest("bookkeeping/editBookkeeping",data)
+      .then((res)=>{
+        if(res.data.code==200){
+          console.log("添加成功！")
+          
+          
+          wx.navigateBack({
+            delta: 2
+          })
+          wx.showToast({
+            title: '添加成功！',
+            icon: 'success',
+            duration: 2000
+          })
+        }
+      })
+    }
+
+    console.log(data)
+  },
 })

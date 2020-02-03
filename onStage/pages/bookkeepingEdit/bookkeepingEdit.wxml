@@ -3,33 +3,46 @@
   <view class="cu-item shadow">
   
     <scroll-view class="nav text-center">
-      <view class="cu-item text-blue cur" bindtap="tabSelect">
+      <view class="cu-item {{isIncome?'':'text-blue cur'}}" bindtap="typeSelect0">
         支出
       </view>
-      <view class="cu-item" bindtap="tabSelect">
+      <view class="cu-item {{isIncome?'text-blue cur':''}}" bindtap="typeSelect1">
         收入
       </view>
     </scroll-view>
 
-    <view class="cu-form-group margin-top">    
-      <view class="text-price" style="font-size:80rpx;height:80rpx;padding-right:20rpx;"></view>
-      <input style="font-size:80rpx;height:80rpx;"></input>
+    <view class="cu-form-group margin-top" style="display: flex; align-items: center;">    
+      <view class="text-price" style="font-size:80rpx;margin-left: 30rpx; padding-right: 20rpx;"></view>
+      <input style="font-size:50rpx;height:50rpx;" type="digit" bindinput="handleInputChange" data-modal='2' value="{{bkMoney}}"></input>
   	</view>
 
-    <scroll-view scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding-top padding-left padding-right margin-top solid-top solid-bottom" style="height:220rpx;">
-      <view class="cu-item" wx:for="{{8}}" wx:key>
-        <view class="flex cu-avatar round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big2100{{index+1}}.jpg);"></view>
-        <text>文字</text>
+    <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding-top padding-left padding-right margin-top solid-top solid-bottom" style="height:220rpx;">
+      <view class="cu-item" wx:for="{{bkType0}}" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
+        <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
+        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-blue':'text-black'}} flex cu-avatar round" style="background-color: white;font-size:x-large;"></text>
+        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size: larger;">{{item.name}}</text>
+      </view>
+    </scroll-view>
+    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding-top padding-left padding-right margin-top solid-top solid-bottom" style="height:220rpx;">
+      <view class="cu-item" wx:for="{{bkType1}}" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
+        <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
+        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-blue':'text-black'}} flex cu-avatar round" style="background-color: white;font-size:x-large;"></text>
+        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size: larger; margin-top: 10rpx;">{{item.name}}</text>
       </view>
     </scroll-view>
 
-    <view class="cu-form-group">
-		  <textarea maxlength="-1" bindinput="textareaAInput" placeholder="备注"></textarea>
+    <view class="cu-form-group" style=" margin: 0,20rpx;">
+		  <textarea maxlength="-1" style="background-color: honeydew;" bindinput="handleInputChange" value="{{remarkText}}" data-modal='1' placeholder="备注"></textarea>
   	</view>
 
-    <picker class="padding bg-grey light text-right" mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
-     {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}} {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}
-    </picker>
-
+    
+    <picker class="padding light text-right" mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
+      选择日期：▼ {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}} {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}
+     </picker>
+      <!-- <button style="width: 20%;margin-left: 40%" class="cu-btn bg-blue margin-left"  bindtap="hideModal">提交</button> -->
+      
+    
+    <button style="width: 100%; height: 100rpx; margin-top: 10rpx;" class="cu-btn bg-blue margin-left"  bindtap="postData">提交</button>
+   
   </view>
 </view>

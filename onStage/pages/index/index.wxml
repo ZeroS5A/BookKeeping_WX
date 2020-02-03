@@ -7,12 +7,12 @@
       <view class="content">意见反馈</view>
     </view>
     <view class="cu-form-group input-text">
-      <input style="text-align: left;" maxlength="-1" bindinput="{{textareaAInput}}" placeholder="请输入您的建议"></input>
+      <input style="text-align: left;" maxlength="-1" bindinput="textareaAInput" value="{{textareaAInput}}" placeholder="请输入您的建议"></input>
     </view>
     <view class="cu-bar bg-white justify-end">
       <view class="action">
-        <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
-        <button class="cu-btn bg-green margin-left" bindtap="hideModal">提交</button>
+        <text style="width: 50%;color: green;" bindtap="hideModal">取消</text>
+        <button style="width: 50%;" class="cu-btn bg-green margin-left" bindtap="hideModal">提交</button>
 
       </view>
     </view>

@@ -1,7 +1,8 @@
 {
     "pages": [
-        "pages/index/index",
         "pages/bookkeeping/bookkeeping",
+        "pages/index/index",
+        
         "pages/bookkeepingEdit/bookkeepingEdit",
         "pages/logs/logs",
         "pages/about/about"

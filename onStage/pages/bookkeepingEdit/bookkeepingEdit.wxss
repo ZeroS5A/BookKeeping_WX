@@ -1,1 +1,5 @@
 /* pages/bookkeepingEdit/bookkeepingEdit.wxss */
+.submit{
+    width: 50%;
+    margin-right: 10rpx;
+}
