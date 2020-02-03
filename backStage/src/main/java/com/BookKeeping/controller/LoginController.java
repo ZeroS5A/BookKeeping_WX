@@ -119,7 +119,7 @@ public class LoginController extends ExceptionController {
 
 
         String openid=tku.getTokenDataOpenId(token);
-        logger.info("token中获取的openid："+openid);
+        logger.info("token中的openid："+openid);
         rs.setData(openid);
         return rs;
     }

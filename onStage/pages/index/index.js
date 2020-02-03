@@ -8,12 +8,25 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     token:'',
-    //canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    modalName:'',
+    textareaAInput:'',
     loginData:{
         encryptedData: '',
         code: '',
         iv: '',
+    },
+    bkDateStr:{
+      bkDateStr:'',
+    },
+    bkData:{
+      monthIncomeMoney: "--",
+      monthExpendMoney: "--",
+      allIncomeMoney: "--",
+      todayExpendMoney: "--",
+      allExpendMoney: "--",
+      todayIncomeMoney: "--"
     }
+
   },
   //页面准备好的时候自动调用
   onReady: function () {
@@ -21,46 +34,58 @@ Page({
     //延迟，否则还未从后端获取到数据就已经写入
     setTimeout(function () {
       console.log(app.globalData.userInfo)
+      that.getDate()
+      app.getRequest("/bookkeeping/allIncomeExpendMoney",that.data.bkDateStr)
+      .then((res)=>{
+        that.setData({
+          bkData:{
+            monthIncomeMoney: res.data.data.monthIncomeMoney,
+            monthExpendMoney: res.data.data.monthExpendMoney,
+            allIncomeMoney: res.data.data.allIncomeMoney,
+            todayExpendMoney: res.data.data.todayExpendMoney,
+            allExpendMoney: res.data.data.allExpendMoney,
+            todayIncomeMoney: res.data.data.todayIncomeMoney
+          }
+        })
+      })
       that.setData({
         userInfo:app.globalData.userInfo,
-        hasUserInfo:app.globalData.hasUserInfo
+        hasUserInfo:app.globalData.hasUserInfo,
       })
-    }, 1000) 
+    }, 2000) 
   },
+
+  //页面显示时执行
+  onShow: function () {
+    this.getDate()
+    app.getRequest("/bookkeeping/allIncomeExpendMoney",this.data.bkDateStr)
+    .then((res)=>{
+      console.log(res)
+      if(res.data.code!=200){
+        console.log("无法获取数据")
+      }
+      else{
+        this.setData({
+          bkData:{
+            monthIncomeMoney: res.data.data.monthIncomeMoney,
+            monthExpendMoney: res.data.data.monthExpendMoney,
+            allIncomeMoney: res.data.data.allIncomeMoney,
+            todayExpendMoney: res.data.data.todayExpendMoney,
+            allExpendMoney: res.data.data.allExpendMoney,
+            todayIncomeMoney: res.data.data.todayIncomeMoney
+          }
+        })
+      }
+    })
+  },
+
+
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },
-  /*onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-  },*/
 
   //获取用户数据
   getUserInfo() {
@@ -78,47 +103,9 @@ Page({
           })
           resolve();
         }
-      })  
+      })
+        
     }) 
-  },
-
-  //获取code换session
-  getCode(){
-    var that=this;
-    //回调函数
-    return new Promise(function(resolve, reject){
-      wx.login({
-          success(res) {
-              console.log('code:'+res.code);
-              that.data.loginData.code = res.code;
-              resolve();
-          }
-      })
-    })
-  },
-
-  //微信请求封装
-  getRequest(url,data){
-    var that=this;
-    return new Promise(function(resolve,reject){
-      wx.request({
-        url: 'http://localhost/BookKeeping/'+url,
-        data: data,
-        method: 'POST',
-        header: {
-          Authorization: app.globalData.token
-        }, 
-        success: function(res){
-          resolve(res)
-        },
-        fail: function() {
-          reject()
-        },
-        complete: function() {
-          //complete
-        }
-      })
-    })
   },
 
   //用户登录操作
@@ -127,7 +114,7 @@ Page({
     var that=this;
     this.getUserInfo()
     .then(()=>{
-      return this.getRequest("api/getUserData",this.data.loginData)      
+      return app.getRequest("api/getUserData",this.data.loginData)      
     })
     .then((res)=>{
       that.setData({
@@ -139,7 +126,7 @@ Page({
 
   //session测试拿数据
   getdata(){
-    this.getRequest("api/getOpenId","test")
+    app.getRequest("api/getOpenId","test")
     .then((res)=>{
       if(res.code!=4003){
         console.log(res)
@@ -151,7 +138,45 @@ Page({
   //测试状态转换
   switchTest(){
     this.setData({
-      hasUserInfo:true
+      modalName:'DialogModal1'
     })
+  },
+  //隐藏模态窗
+  hideModal(e) {
+    this.setData({
+      modalName: null
+    })
+  },
+  //显示图片
+  showQrcode() {
+    wx.previewImage({
+      urls: ["/static/images/test.png"]
+    })
+    // wx.previewImage({
+    //   urls: ['/static/images/test.png'],
+    //   current: '/static/images/test.png' // 当前显示图片的http链接      
+    // })
+  },
+  //获取当前时间
+  getDate(){
+    
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    if (month < 10) {
+        month = "0" + month;
+    }
+    if (day < 10) {
+        day = "0" + day;
+    }
+    var nowDate = year + "-" + month + "-" + day;
+    this.setData({
+      bkDateStr:{
+        bkDateStr:nowDate
+      },
+    })
+    
   }
+
 })
