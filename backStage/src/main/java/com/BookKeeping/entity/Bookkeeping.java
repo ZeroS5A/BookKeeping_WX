@@ -1,5 +1,7 @@
 package com.BookKeeping.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,6 +10,7 @@ public class Bookkeeping implements Serializable {
     private Integer id;
     private Integer userId;
     private String bkType;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private Date bkDate;
     private Float bkMoney;
     private String remarkText;

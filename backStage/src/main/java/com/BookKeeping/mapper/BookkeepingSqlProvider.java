@@ -1,5 +1,6 @@
 package com.BookKeeping.mapper;
 
+import com.BookKeeping.entity.Bookkeeping;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -144,6 +145,70 @@ public class BookkeepingSqlProvider {
                 if (map.get("bkDateStr") != null) WHERE("bkDate like #{bkDateStr}");
 //                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
 //                if (map.get("remarkText") != null) WHERE("remarkText like #{remarkText}");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String insertIncome(Bookkeeping bookkeeping) {
+        String queryStr = new SQL() {
+            {
+                INSERT_INTO("t_bookkeeping_income");
+//                if (bookkeeping.getId() != null) VALUES("id", "#{id}");
+                if (bookkeeping.getUserId() != null) VALUES("userId", "#{userId}");
+                if (bookkeeping.getBkType() != null) VALUES("bkType", "#{bkType}");
+                if (bookkeeping.getBkDate() != null) VALUES("bkDate", "#{bkDate}");
+                if (bookkeeping.getBkMoney() != null) VALUES("bkMoney", "#{bkMoney}");
+                if (bookkeeping.getRemarkText() != null) VALUES("remarkText", "#{remarkText}");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String insertExpend(Bookkeeping bookkeeping) {
+        String queryStr = new SQL() {
+            {
+                INSERT_INTO("t_bookkeeping_expend");
+//                if (bookkeeping.getId() != null) VALUES("id", "#{id}");
+                if (bookkeeping.getUserId() != null) VALUES("userId", "#{userId}");
+                if (bookkeeping.getBkType() != null) VALUES("bkType", "#{bkType}");
+                if (bookkeeping.getBkDate() != null) VALUES("bkDate", "#{bkDate}");
+                if (bookkeeping.getBkMoney() != null) VALUES("bkMoney", "#{bkMoney}");
+                if (bookkeeping.getRemarkText() != null) VALUES("remarkText", "#{remarkText}");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String updateIncome(Bookkeeping bookkeeping) {
+        String queryStr = new SQL() {
+            {
+                UPDATE("t_bookkeeping_income");
+                if (bookkeeping.getBkType() != null) SET("bkType = #{bkType}");
+                if (bookkeeping.getBkDate() != null) SET("bkDate = #{bkDate}");
+                if (bookkeeping.getBkMoney() != null) SET("bkMoney = #{bkMoney}");
+                if (bookkeeping.getRemarkText() != null) SET("remarkText = #{remarkText}");
+                WHERE ("id = #{id}");
+                WHERE ("userId = #{userId}");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String updateExpend(Bookkeeping bookkeeping) {
+        String queryStr = new SQL() {
+            {
+                UPDATE("t_bookkeeping_expend");
+                if (bookkeeping.getBkType() != null) SET("bkType = #{bkType}");
+                if (bookkeeping.getBkDate() != null) SET("bkDate = #{bkDate}");
+                if (bookkeeping.getBkMoney() != null) SET("bkMoney = #{bkMoney}");
+                if (bookkeeping.getRemarkText() != null) SET("remarkText = #{remarkText}");
+                WHERE ("id = #{id}");
+                WHERE ("userId = #{userId}");
             }
         }.toString();
         System.out.println(queryStr);

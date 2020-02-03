@@ -28,4 +28,10 @@ public interface BookkeepingService {
     /**带参数查找支出表总支出*/
     public Float sumExpendMoney(Map<String, Object> map);
 
+    /**插入账单数据*/
+    public Integer insertBookkeeping(Bookkeeping bookkeeping);
+
+    /**更新账单数据*/
+    public Integer updateBookkeeping(Bookkeeping bookkeeping);
+
 }

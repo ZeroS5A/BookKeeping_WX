@@ -8,9 +8,13 @@ import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,6 +193,41 @@ public class BookkeepingController extends ExceptionController {
         dataMap.put("monthExpendMoney", monthExpendMoney);
         dataMap.put("allIncomeMoney", allIncomeMoney);
         dataMap.put("allExpendMoney", allExpendMoney);
+        Result rs = new Result();
+        rs.setData(dataMap);
+        rs.setMessage("success");
+        return rs;
+    }
+
+    /**
+     *
+     * @param bookkeeping id：为空时插入数据，非空时更新数据 incomeOrExpend：必须输入，用于判断收入或支出
+     * @param token
+     * @return
+     */
+    @RequiresRoles("user")
+    @RequestMapping(value = "/editBookkeeping", method = RequestMethod.POST)
+    @ResponseBody
+    public Result editBookkeeping(@RequestBody Bookkeeping bookkeeping, @RequestHeader("Authorization") String token) {
+        //获取userId
+        try {
+            bookkeeping.setUserId(Integer.parseInt(redisUtil.hget(token, "id").toString()));
+        } catch (Exception e) {
+            return null;//未获取userId（用户未登录）
+        }
+        System.out.println("---bookkeeping.toString()---" + bookkeeping.toString());
+        Integer editNumber;
+        if(bookkeeping.getId() == null) {//id为空，添加数据
+            editNumber = bookkeepingService.insertBookkeeping(bookkeeping);
+            System.out.println("---bookkeeping.getId()---" + bookkeeping.getId());
+        } else {//id非空，更新数据
+            editNumber = bookkeepingService.updateBookkeeping(bookkeeping);
+            System.out.println("---bookkeeping.getId()---" + bookkeeping.getId());
+        }
+        System.out.println("editNumber------" + editNumber);
+        //写入返回数据
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("editNumber", editNumber);
         Result rs = new Result();
         rs.setData(dataMap);
         rs.setMessage("success");

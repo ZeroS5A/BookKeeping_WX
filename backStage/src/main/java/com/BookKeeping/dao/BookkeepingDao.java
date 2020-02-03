@@ -1,6 +1,7 @@
 package com.BookKeeping.dao;
 
 import com.BookKeeping.entity.Bookkeeping;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
@@ -35,5 +36,21 @@ public interface BookkeepingDao {
     /**带参数查找支出表总支出*/
     @SelectProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="sumExpendMoney")
     public Float sumExpendMoney(Map<String, Object> map);
+
+    /**插入收入数据*/
+    @InsertProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="insertIncome")
+    public Integer insertIncome(Bookkeeping bookkeeping);
+
+    /**插入支出数据*/
+    @InsertProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="insertExpend")
+    public Integer insertExpend(Bookkeeping bookkeeping);
+
+    /**更新收入数据*/
+    @InsertProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="updateIncome")
+    public Integer updateIncome(Bookkeeping bookkeeping);
+
+    /**更新收入数据*/
+    @InsertProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="updateExpend")
+    public Integer updateExpend(Bookkeeping bookkeeping);
 
 }
