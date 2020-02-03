@@ -1,8 +1,10 @@
 package com.BookKeeping.dao;
 
 import com.BookKeeping.entity.Bookkeeping;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -46,11 +48,19 @@ public interface BookkeepingDao {
     public Integer insertExpend(Bookkeeping bookkeeping);
 
     /**更新收入数据*/
-    @InsertProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="updateIncome")
+    @UpdateProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="updateIncome")
     public Integer updateIncome(Bookkeeping bookkeeping);
 
-    /**更新收入数据*/
-    @InsertProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="updateExpend")
+    /**更新支出数据*/
+    @UpdateProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="updateExpend")
     public Integer updateExpend(Bookkeeping bookkeeping);
+
+    /**删除收入数据*/
+    @DeleteProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="deleteIncome")
+    public Integer deleteIncome(Bookkeeping bookkeeping);
+
+    /**删除支出数据*/
+    @DeleteProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="deleteExpend")
+    public Integer deleteExpend(Bookkeeping bookkeeping);
 
 }

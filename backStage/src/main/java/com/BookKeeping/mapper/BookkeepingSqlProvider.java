@@ -215,4 +215,28 @@ public class BookkeepingSqlProvider {
         return queryStr;
     }
 
+    public String deleteIncome(Bookkeeping bookkeeping) {
+        String queryStr = new SQL() {
+            {
+                DELETE_FROM("t_bookkeeping_income");
+                WHERE ("id = #{id}");
+                WHERE ("userId = #{userId}");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String deleteExpend(Bookkeeping bookkeeping) {
+        String queryStr = new SQL() {
+            {
+                DELETE_FROM("t_bookkeeping_expend");
+                WHERE ("id = #{id}");
+                WHERE ("userId = #{userId}");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
 }

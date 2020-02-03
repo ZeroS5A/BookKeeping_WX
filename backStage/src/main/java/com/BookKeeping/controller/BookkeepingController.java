@@ -215,19 +215,36 @@ public class BookkeepingController extends ExceptionController {
         } catch (Exception e) {
             return null;//未获取userId（用户未登录）
         }
-        System.out.println("---bookkeeping.toString()---" + bookkeeping.toString());
         Integer editNumber;
         if(bookkeeping.getId() == null) {//id为空，添加数据
             editNumber = bookkeepingService.insertBookkeeping(bookkeeping);
-            System.out.println("---bookkeeping.getId()---" + bookkeeping.getId());
         } else {//id非空，更新数据
             editNumber = bookkeepingService.updateBookkeeping(bookkeeping);
-            System.out.println("---bookkeeping.getId()---" + bookkeeping.getId());
         }
-        System.out.println("editNumber------" + editNumber);
         //写入返回数据
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("editNumber", editNumber);
+        Result rs = new Result();
+        rs.setData(dataMap);
+        rs.setMessage("success");
+        return rs;
+    }
+
+    @RequiresRoles("user")
+    @RequestMapping(value = "/deleteBookkeeping", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteBookkeeping(@RequestBody Bookkeeping bookkeeping, @RequestHeader("Authorization") String token) {
+        //获取userId
+        try {
+            bookkeeping.setUserId(Integer.parseInt(redisUtil.hget(token, "id").toString()));
+        } catch (Exception e) {
+            return null;//未获取userId（用户未登录）
+        }
+        //删除数据
+        Integer deleteNumber = bookkeepingService.deleteBookkeeping(bookkeeping);
+        //写入返回数据
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("deleteNumber", deleteNumber);
         Result rs = new Result();
         rs.setData(dataMap);
         rs.setMessage("success");

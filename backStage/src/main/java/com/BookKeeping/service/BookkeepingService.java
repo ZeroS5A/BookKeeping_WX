@@ -34,4 +34,7 @@ public interface BookkeepingService {
     /**更新账单数据*/
     public Integer updateBookkeeping(Bookkeeping bookkeeping);
 
+    /**删除账单数据*/
+    public Integer deleteBookkeeping(Bookkeeping bookkeeping);
+
 }

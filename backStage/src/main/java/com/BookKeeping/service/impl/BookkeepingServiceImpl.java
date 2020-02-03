@@ -52,28 +52,33 @@ public class BookkeepingServiceImpl implements BookkeepingService {
 
     @Override
     public Integer insertBookkeeping(Bookkeeping bookkeeping) {
-        if (bookkeeping.getIncomeOrExpend().equals("income")) {//插入收入表
-            System.out.println("income");
+        if (bookkeeping.getIncomeOrExpend().equals("income")) {//插入收入数据
             return bookkeepingDao.insertIncome(bookkeeping);
-        } else if (bookkeeping.getIncomeOrExpend().equals("expend")) {//插入支出表
-            System.out.println("expend");
+        } else if (bookkeeping.getIncomeOrExpend().equals("expend")) {//插入支出数据
             return bookkeepingDao.insertExpend(bookkeeping);
         } else {//异常
-            System.out.println("xxx0xxx");
             return 0;
         }
     }
 
     @Override
     public Integer updateBookkeeping(Bookkeeping bookkeeping) {
-        if (bookkeeping.getIncomeOrExpend().equals("income")) {//更新收入表
-            System.out.println("income");
+        if (bookkeeping.getIncomeOrExpend().equals("income")) {//更新收入数据
             return bookkeepingDao.updateIncome(bookkeeping);
-        } else if (bookkeeping.getIncomeOrExpend().equals("expend")) {//更新支出表
-            System.out.println("expend");
+        } else if (bookkeeping.getIncomeOrExpend().equals("expend")) {//更新支出数据
             return bookkeepingDao.updateExpend(bookkeeping);
         } else {//异常
-            System.out.println("xxx0xxx");
+            return 0;
+        }
+    }
+
+    @Override
+    public Integer deleteBookkeeping(Bookkeeping bookkeeping) {
+        if (bookkeeping.getIncomeOrExpend().equals("income")) {//删除收入数据
+            return bookkeepingDao.deleteIncome(bookkeeping);
+        } else if (bookkeeping.getIncomeOrExpend().equals("expend")) {//删除支出数据
+            return bookkeepingDao.deleteExpend(bookkeeping);
+        } else {//异常
             return 0;
         }
     }
