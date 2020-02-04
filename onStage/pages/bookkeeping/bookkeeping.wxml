@@ -1,7 +1,7 @@
 <!--pages/bookkeeping/bookkeeping.wxml-->
 <view class="container bg-black">
-  <text class="text-xl">今日支出<text class="text-sl">0.00</text>元</text>
-  <text class="text-l">本月支出<text class="text-l">0.00</text>元</text>
+  <text class="text-xl">全部支出<text class="text-sl">{{bkData.sumExpendMoney}}</text>元</text>
+  <text class="text-l">全部收入<text class="text-l">{{bkData.sumIncomeMoney}}</text>元</text>
 </view>
 
 <view class="cu-bar search bg-white">
@@ -20,31 +20,30 @@
         {{date}}
       </view>
     </picker>
-    
   </view>
 </view>
 
 <view class="cu-list menu-avatar">
-  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{8}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{bkData.bookkeepingList}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
     <view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big2100{{index+1}}.jpg);"></view><!--账单类型图标-->
     <view class="content flex-sub">
       <view class="flex justify-between text-l">
         <view>
-          <text>餐饮</text><!--账单类型-->
+          <text>{{bkData.bookkeepingList[index].bkType}}</text><!--账单类型-->
           -
-          <text class="text-cut">备注{{index}}</text><!--账单备注-->
+          <text class="text-cut">{{bkData.bookkeepingList[index].remarkText}}</text><!--账单备注-->
         </view>
         <view>
-          <text>6666.66</text><!--账单金额-->
+          <text>{{bkData.bookkeepingList[index].bkMoney}}</text><!--账单金额-->
           元
         </view>
       </view>
       <view class="flex justify-between text-sm">
-        <text>支出</text><!--收入/支出-->
-        <text>1月26日 22:20</text><!--账单日期-->
+        <text>{{bkData.bookkeepingList[index].incomeOrExpend=='income'?'收入':'支出'}}</text><!--收入/支出-->
+        <text>{{bkData.bookkeepingList[index].bkDate}}</text><!--账单日期-->
       </view>
     </view>
-    <view class="move">
+    <view class="move" bind:tap="deleteBookkeeping" data-value="{{index}}">
       <view class="bg-red">删除</view>
     </view>
   </view>
