@@ -1,7 +1,7 @@
 <!--pages/bookkeeping/bookkeeping.wxml-->
 <view class="container bg-black">
-  <text class="text-xl">今日支出<text class="text-sl">{{bkData.todayExpendMoney}}</text>元</text>
-  <text class="text-l">今日收入<text class="text-l">{{bkData.todayIncomeMoney}}</text>元</text>
+  <text class="text-xl">XX支出<text class="text-sl">{{bkData.sumExpendMoney}}</text>元</text>
+  <text class="text-l">XX收入<text class="text-l">{{bkData.sumIncomeMoney}}</text>元</text>
 </view>
 
 <view class="cu-bar search bg-white">
@@ -14,33 +14,34 @@
   <view class="action" >
     <!-- <text>收入：500</text>今日/今月/全部
     <text>支出：200</text> -->
-    <text class="cuIcon-triangledownfill" style="padding-left: 10rpx;"></text>
     <picker mode="date" value="{{date}}" start="2019-01" end="2035-01" bindchange="DateChange" fields="month">
       <view class="picker">
         {{dateShow}}
       </view>
     </picker>
+    <text class="cuIcon-triangledownfill"></text>
   </view>
 </view>
 
-<view class="cu-list menu-avatar">
-  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{bkData.bookkeepingList}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
-    <view class="cu-avatar round lg"></view>
+
+<view class="cu-list menu-avatar" wx:for="{{bkData.bookkeepingAllList}}" wx:for-index="allListIndex" wx:for-item="allListItem">
+  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{allListItem.bookkeepingDayList}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+    <view class="cu-avatar round lg"></view><!--账单图标-->
     <view class="content flex-sub" bindtap = "openBookkeepingEditWithData" data-value="{{item}}">
       <view class="flex justify-between text-l">
         <view>
-          <text>{{bkData.bookkeepingList[index].bkType}}</text><!--账单类型-->
+          <text>{{item.bkType}}</text><!--账单类型-->
           -
-          <text class="text-cut">{{bkData.bookkeepingList[index].remarkText}}</text><!--账单备注-->
+          <text class="text-cut">{{item.remarkText}}</text><!--账单备注-->
         </view>
         <view>
-          <text>{{bkData.bookkeepingList[index].bkMoney}}</text><!--账单金额-->
+          <text>{{item.bkMoney}}</text><!--账单金额-->
           元
         </view>
       </view>
       <view class="flex justify-between text-sm">
-        <text>{{bkData.bookkeepingList[index].incomeOrExpend=='income'?'收入':'支出'}}</text><!--收入/支出-->
-        <text>{{bkData.bookkeepingList[index].bkDate}}</text><!--账单日期-->
+        <text>{{item.incomeOrExpend=='income'?'收入':'支出'}}</text><!--收入/支出-->
+        <text>{{item.bkDate}}</text><!--账单日期-->
       </view>
     </view>
     <view class="move" bind:tap="deleteBookkeeping" data-value="{{index}}">
@@ -48,6 +49,7 @@
     </view>
   </view>
 </view>
+
 
 <view class="bg-blue round shadow text-center" style="display:flex;flex-direction:column;justify-content:center;position:fixed;width:100rpx;height:100rpx;bottom:50rpx;right:50rpx;" bind:tap="openBookkeepingEdit">
   <text class="text-xxl">+</text>

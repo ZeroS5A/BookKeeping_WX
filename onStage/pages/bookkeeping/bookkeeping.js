@@ -10,7 +10,7 @@ Page({
     dateShow:'今日',
     date:'',
     bkData:{
-      bookkeepingList: [],
+      bookkeepingAllList: [],
       totalIncome: 0,
       totalExpend: 0,
       sumIncomeMoney: 0.00,
@@ -38,7 +38,7 @@ Page({
             else {
               that.setData({
                 bkData: {
-                  bookkeepingList: res.data.data.bookkeepingList,
+                  bookkeepingAllList: res.data.data.bookkeepingAllList,
                   totalIncome: res.data.data.totalIncome,
                   totalExpend: res.data.data.totalExpend,
                   sumIncomeMoney: res.data.data.sumIncomeMoney,
