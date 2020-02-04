@@ -5,13 +5,22 @@
 </view>
 
 <view class="cu-bar search bg-white">
+  
+  
   <view class="search-form round">
     <text class="cuIcon-search"></text>
     <input type="text" placeholder="搜索" confirm-type="search"></input>
   </view>
-  <view class="action">
-    <text>今日</text><!--今日/今月/全部-->
-    <text class="cuIcon-triangledownfill"></text>
+  <view class="action" >
+    <!-- <text>收入：500</text>今日/今月/全部
+    <text>支出：200</text> -->
+    <text class="cuIcon-triangledownfill" style="padding-left: 10rpx;"></text>
+    <picker mode="date" value="{{date}}" start="2019-01" end="2035-01" bindchange="DateChange" fields="month">
+      <view class="picker">
+        {{date}}
+      </view>
+    </picker>
+    
   </view>
 </view>
 

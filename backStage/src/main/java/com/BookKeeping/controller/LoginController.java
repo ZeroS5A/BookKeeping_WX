@@ -44,6 +44,7 @@ public class LoginController extends ExceptionController {
 
         //获取session_key和openid
         JSONObject session_key=httpUtil.domain("getSession_key",code);
+        System.out.println(session_key);
         String session=session_key.getString("session_key");
         String openid=session_key.getString("openid");
 
