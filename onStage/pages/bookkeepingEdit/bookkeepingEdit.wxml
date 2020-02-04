@@ -6,7 +6,7 @@
       <view class="cu-item {{isIncome?'':'text-blue cur'}}" bindtap="typeSelect0">
         支出
       </view>
-      <view class="cu-item {{isIncome?'text-blue cur':''}}" bindtap="typeSelect1">
+      <view class="cu-item {{isIncome?'text-green cur':''}}" bindtap="typeSelect1">
         收入
       </view>
     </scroll-view>
@@ -17,17 +17,17 @@
   	</view>
 
     <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="nav text-center text-s padding margin-top solid-top solid-bottom">
-      <view class="cu-item" wx:for="{{bkType0}}" wx:key="key" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
+      <view class="cu-item" wx:for="{{bkType0}}" wx:key="key" bindtap = "typeActive" data-modal="{{item.bktype}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
-        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
-        <text class="{{iconType==item.icon?'text-blue':'text-black'}}">{{item.name}}</text>
+        <text class="cuIcon-{{item.bktype}} lg {{bktype==item.bktype?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
+        <text class="{{bktype==item.bktype?'text-blue':'text-black'}}">{{appData.globalData.iconList[item.bktype]}}</text>
       </view>
     </scroll-view>
-    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-s padding margin-top solid-top solid-bottom" style="height: 245rpx">
-      <view class="cu-item" wx:for="{{bkType1}}" wx:key="key" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
+    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-s padding margin-top solid-top solid-bottom">
+      <view class="cu-item" wx:for="{{bkType1}}" wx:key="key" bindtap = "typeActive" data-modal="{{item.bktype}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
-        <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
-        <text class="{{iconType==item.icon?'text-blue':'text-black'}}">{{item.name}}</text>
+        <text class="cuIcon-{{item.bktype}} lg {{bktype==item.bktype?'text-white bg-green':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
+        <text class="{{bktype==item.bktype?'text-green':'text-black'}}">{{appData.globalData.iconList[item.bktype]}}</text>
       </view>
     </scroll-view>
 

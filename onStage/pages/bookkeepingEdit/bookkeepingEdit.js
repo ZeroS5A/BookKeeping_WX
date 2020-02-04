@@ -1,5 +1,7 @@
 // pages/bookkeepingEdit/bookkeepingEdit.js
 var dateTimePicker = require('../../utils/dateTimePicker.js');
+//分页需要这样才能获取导app数据
+var app = getApp();
 
 Page({
 
@@ -7,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    appData:app,
     dateTimeArray: null,
     dateTime: null,
     dateTimeArray1: null,
@@ -15,7 +18,7 @@ Page({
     endYear: 2050,
     iconType:"baby",
     id:null,
-    bktype:'餐饮',
+    bktype:'more',
     isIncome:false,
     byDate:'',
     remarkText:"",
@@ -23,61 +26,38 @@ Page({
     //支出类型
     bkType0:[
       {
-        type:0,
-        name:"餐饮",
-        icon:"baby",
-        url:""
+        bktype:"baby",
       },
       {
-        type:1,
-        name:"购物",
-        icon:"shop",
-        url:''
+        bktype:"cart",
       },
       {
-        type:2,
-        icon:"pay",
-        name:"缴费",
-        url:''
+        bktype:"shop",
       },
       {
-        type:3,
-        icon:"deliver",
-        name:"交通",
-        url:''
+        bktype:"more",
       },
       {
-        type:4,
-        icon:"discover",
-        name:"娱乐",
-        url:''
+        bktype:"pay",
       },
       {
-        type:5,
-        icon:"more",
-        name:"其他",
-        url:''
+        bktype:"deliver",
       },
+      {
+        bktype:"discover",
+      },
+      
     ],
     //收入类型
     bkType1:[
       {
-        type:0,
-        icon:"add",
-        name:"打工",
-        url:''
+        bktype:"add",
       },
       {
-        type:1,
-        icon:"redpacket",
-        name:"红包",
-        url:''
+        bktype:"redpacket",
       },
       {
-        type:2,
-        icon:"more",
-        name:"其他",
-        url:''
+        bktype:"more",
       }
     ],
   },
@@ -212,10 +192,7 @@ Page({
   //激活选择
   typeActive(e){
     //选择的type的id值
-    console.log(e.currentTarget.id)
-    console.log(e.currentTarget.dataset.modal)
     this.setData({
-      iconType:e.currentTarget.id,
       bktype:e.currentTarget.dataset.modal
     })
   },
@@ -240,8 +217,7 @@ Page({
   postData(){
     var type
     var data
-    //分页需要这样才能获取导app数据
-    var app = getApp();
+    
     if(this.data.isIncome){
       type="income"
     }else{

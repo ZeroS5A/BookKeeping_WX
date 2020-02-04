@@ -10,6 +10,22 @@ App({
         iv: '',
     },
     hasUserInfo: false,
+    //图标库对应
+    iconList:{
+      baby:'餐饮',
+      shop:'消费',
+      cart:'购物',
+      pay:'缴费',
+      deliver:'交通',
+      discover:'娱乐',
+      taxi:'交通',
+      evaluate:'医疗',
+      edit:'学习',
+      more:'其他',
+
+      add:'打工',
+      redpacket:'红包',
+    }
   },
 
   //开启时执行
