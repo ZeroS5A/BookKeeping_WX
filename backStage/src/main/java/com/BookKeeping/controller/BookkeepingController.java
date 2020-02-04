@@ -8,16 +8,11 @@ import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/bookkeeping")
@@ -133,9 +128,55 @@ public class BookkeepingController extends ExceptionController {
         Integer totalExpend = bookkeepingService.totalExpend(map);//支出账单的总条数
         Float sumIncomeMoney = bookkeepingService.sumIncomeMoney(map);//收入账单的总收入
         Float sumExpendMoney = bookkeepingService.sumExpendMoney(map);//支出账单的总支出
+        //分组，bookkeepingList必须按日期逆序存储
+        Bookkeeping bkTemp = null;//循环用临时存储
+        Bookkeeping bkTemp0 = null;//嵌套循环用临时存储
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//定义日期格式
+        List<Object> bookkeepingAllList = new ArrayList<>();//用于存储分组后的所有数据
+        Iterator<Bookkeeping> bookkeepingIterator = bookkeepingList.iterator();//迭代器，防止循环出错
+        while (bookkeepingIterator.hasNext() || bkTemp0 != null) {
+            Map<String, Object> dayData = new HashMap<String, Object>();//用于存储此组的所有数据
+            List<Bookkeeping> bookkeepingDayList = new ArrayList<>();//用于存储某一天的账单数据
+            Float dayIncomeMoney = 0.00F;//用于存储某一天的总收入
+            Float dayExpendMoney = 0.00F;//用于存储某一天的总支出
+
+            if(bkTemp0 == null) {
+                bkTemp = bookkeepingIterator.next();//如果bkTemp0没有数据，则从查询的数据中获取一个数据
+            } else {
+                bkTemp = bkTemp0;//如果bkTemp0存在数据，则取其值
+                bkTemp0 = null;//重要！否则数据将出现问题
+            }
+
+            if(bkTemp.getIncomeOrExpend().equals("income")) dayIncomeMoney += bkTemp.getBkMoney();
+            else if(bkTemp.getIncomeOrExpend().equals("expend")) dayExpendMoney += bkTemp.getBkMoney();
+            else return null;//数据异常
+            bookkeepingDayList.add(bkTemp);//添加
+            bookkeepingIterator.remove();//删除
+//------------------------------------------------------------------------------------------------------------
+            while (bookkeepingIterator.hasNext()) {
+                bkTemp0 = bookkeepingIterator.next();//从查询的数据中获取一个数据
+
+                if(!sdf.format(bkTemp.getBkDate()).equals(sdf.format(bkTemp0.getBkDate()))) break;//如果日期不相等则结束嵌套循环
+
+                bkTemp = bkTemp0;//取其值
+                bkTemp0 = null;//重要！否则数据将出现问题
+
+                if(bkTemp.getIncomeOrExpend().equals("income")) dayIncomeMoney += bkTemp.getBkMoney();
+                else if(bkTemp.getIncomeOrExpend().equals("expend")) dayExpendMoney += bkTemp.getBkMoney();
+                else return null;//数据异常
+                bookkeepingDayList.add(bkTemp);//添加
+                bookkeepingIterator.remove();//删除
+            }
+//------------------------------------------------------------------------------------------------------------
+            dayData.put("bookkeepingDayList", bookkeepingDayList);
+            dayData.put("dayDate", sdf.format(bkTemp.getBkDate()));
+            dayData.put("dayIncomeMoney", dayIncomeMoney);
+            dayData.put("dayExpendMoney", dayExpendMoney);
+            bookkeepingAllList.add(dayData);
+        }
         //写入返回数据
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("bookkeepingList", bookkeepingList);
+        dataMap.put("bookkeepingAllList", bookkeepingAllList);
         dataMap.put("totalIncome", totalIncome);
         dataMap.put("totalExpend", totalExpend);
         dataMap.put("sumIncomeMoney", sumIncomeMoney);

@@ -10,7 +10,7 @@ public class Bookkeeping implements Serializable {
     private Integer id;
     private Integer userId;
     private String bkType;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="Asia/Shanghai")
     private Date bkDate;
     private Float bkMoney;
     private String remarkText;

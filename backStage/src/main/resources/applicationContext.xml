@@ -22,7 +22,7 @@
     <!--配置数据库连接-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
-        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/db_antools?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=GMT&amp;allowPublicKeyRetrieval=true"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/db_antools?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"></property>
         <property name="user" value="test"></property>          <!--自行修改自己数据库用户名和密码-->
         <property name="password" value="123456"></property>
     </bean>
