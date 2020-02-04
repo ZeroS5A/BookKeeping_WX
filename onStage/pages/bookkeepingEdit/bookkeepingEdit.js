@@ -7,17 +7,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    date: '2018-10-01',
-    time: '12:00',
     dateTimeArray: null,
     dateTime: null,
     dateTimeArray1: null,
     dateTime1: null,
-    isIncome:false,
     startYear: 2000,
     endYear: 2050,
     iconType:"baby",
+    id:null,
     bktype:'餐饮',
+    isIncome:false,
+    byDate:'',
     remarkText:"",
     bkMoney:'',
     //支出类型
@@ -80,10 +80,6 @@ Page({
         url:''
       }
     ],
-    //
-    postData:{
-
-    }
   },
   
 
@@ -91,6 +87,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
     // 获取完整的年月日 时分秒，以及默认显示的数组
     var obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
     var obj1 = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
@@ -104,13 +101,38 @@ Page({
       dateTimeArray1: obj1.dateTimeArray,
       dateTime1: obj1.dateTime
     });
+    this.transDate()
+
+    var that=this
+    //处理跳转的数据
+    setTimeout(function () {
+      const eventChannel = that.getOpenerEventChannel()
+      eventChannel.on('acceptDataFromOpenerPage', function(data) {
+        var isIncome
+        if(data.data.incomeOrExpend=="income"){
+          isIncome=true
+        }
+        else{
+          isIncome=false
+        }
+        that.setData({
+          id:data.data.id,
+          bktype:data.data.bkType,
+          bkDate:data.data.bkDate,
+          isIncome:isIncome,
+          remarkText:data.data.remarkText,
+          bkMoney:data.data.bkMoney,
+        })
+        
+      })
+
+    },50)
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**
@@ -150,6 +172,7 @@ Page({
   },
   changeDateTime1(e) {
     this.setData({ dateTime1: e.detail.value });
+    this.transDate()
   },
   changeDateTimeColumn(e) {
     var arr = this.data.dateTime, dateArr = this.data.dateTimeArray;
@@ -225,23 +248,6 @@ Page({
       type="expend"
     }
 
-    var momth=this.data.dateTime1[1]+1
-    var day=this.data.dateTime1[2]+1
-    var hour=this.data.dateTime1[3]
-    var min=this.data.dateTime1[4]
-
-    if (momth < 10) {
-      momth = "0" + momth;
-    }
-    if (day < 10) {
-      day = "0" + day;
-    }
-    if (hour < 10) {
-      hour = "0" + hour;
-    }
-    if (min < 10) {
-      min = "0" + min;
-    }
     if(this.data.bkMoney==''){
       console.log("请输入金额")
       wx.showModal({
@@ -257,10 +263,9 @@ Page({
       })
     }else{
       data={
-        id: null,
+        id: this.data.id,
         bkType: this.data.bktype,
-        bkDate: "20"+this.data.dateTime1[0]+"-"+momth+"-"+day
-                  +" "+hour+":"+min,
+        bkDate: this.data.bkDate,
         bkMoney: this.data.bkMoney,
         remarkText: this.data.remarkText,
         incomeOrExpend: type
@@ -285,4 +290,29 @@ Page({
 
     console.log(data)
   },
+
+  //时间转换
+  transDate(){
+    var momth=this.data.dateTime1[1]+1
+    var day=this.data.dateTime1[2]+1
+    var hour=this.data.dateTime1[3]
+    var min=this.data.dateTime1[4]
+
+    if (momth < 10) {
+      momth = "0" + momth;
+    }
+    if (day < 10) {
+      day = "0" + day;
+    }
+    if (hour < 10) {
+      hour = "0" + hour;
+    }
+    if (min < 10) {
+      min = "0" + min;
+    }
+    this.setData({
+      bkDate: "20"+this.data.dateTime1[0]+"-"+momth+"-"+day
+                  +" "+hour+":"+min,
+    })
+  }
 })

@@ -7,6 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    dateShow:'今日',
+    date:'',
     bkData:{
       bookkeepingList: [],
       totalIncome: 0,
@@ -48,7 +50,7 @@ Page({
       } else {
         console.log("用户未登录！")
       }
-    }, 2000) 
+    }, 1000) 
   },
 
   /**
@@ -79,41 +81,6 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-  
   //跳转到账单编辑页面
   openBookkeepingEdit: function () {
     wx.navigateTo({
@@ -121,11 +88,21 @@ Page({
     })
   },
 
+  //跳转到账单编辑页面(带数据)
+  openBookkeepingEditWithData: function (e) {
+    wx.navigateTo({
+      url: '../bookkeepingEdit/bookkeepingEdit',
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', { data: e.currentTarget.dataset.value })
+      }
+    })
+  },
+
   deleteBookkeeping(event) {
     if (app.globalData) {
       app.getRequest("bookkeeping/deleteBookkeeping", this.data.bkData.bookkeepingList[event.currentTarget.dataset.value])
         .then((res) => {
-          console.log(res)
           if (res.data.code != 200) {
             console.log("删除失败")
           }
@@ -151,7 +128,7 @@ Page({
   // ListTouch计算方向
   ListTouchMove(e) {
     this.setData({
-      ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > 10 ? 'right' : 'left'
+      ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > -70 ? 'right' : 'left'
     })
   },
 
@@ -190,7 +167,8 @@ Page({
   },
   DateChange(e) {
     this.setData({
-      date: e.detail.value
+      date: e.detail.value,
+      dateShow:e.detail.value
     })
   },
 })

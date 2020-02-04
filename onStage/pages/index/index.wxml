@@ -33,30 +33,32 @@
   </view>
   <!-- 数据统计 -->
   <view class="padding flex text-center text-grey bg-white shadow shadow-lg">
+    
     <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xxl text-orange">￥{{bkData.todayExpendMoney==null?'--':bkData.todayExpendMoney}}</view>
-      <view class="margin-top-sm">
-        <text>今日支出</text> 
-      </view>
-    </view>
-    <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xxl text-blue">￥{{bkData.todayIncomeMoney==null?'--':bkData.todayIncomeMoney}}</view>
-      <view class="margin-top-sm">
-        <text>今日收入</text> 
-      </view>
-    </view>
-    <view class="flex flex-sub flex-direction">
       <view class="text-xxl text-orange">￥{{bkData.monthExpendMoney==null?'--':bkData.monthExpendMoney}}</view>
       <view class="margin-top-sm">
-        <text class="">本月总支</text> 
+        <text class="">本月支出</text> 
+      </view>
+    </view>
+    <view class="flex flex-sub flex-direction solid-right">
+      <view class="text-xxl text-blue">￥{{bkData.monthIncomeMoney==null?'--':bkData.monthIncomeMoney}}</view>
+      <view class="margin-top-sm">
+        <text class="">本月收入</text> 
+      </view>
+    </view>
+    <view class="flex flex-sub flex-direction solid-right">
+      <view class="text-xxl text-orange">￥{{bkData.allExpendMoney==null?'--':bkData.allExpendMoney}}</view>
+      <view class="margin-top-sm">
+        <text>全部支出</text> 
       </view>
     </view>
     <view class="flex flex-sub flex-direction">
-      <view class="text-xxl text-blue">￥{{bkData.monthIncomeMoney==null?'--':bkData.monthIncomeMoney}}</view>
+      <view class="text-xxl text-blue">￥{{bkData.allIncomeMoney==null?'--':bkData.allIncomeMoney}}</view>
       <view class="margin-top-sm">
-        <text class="">本月总收</text> 
+        <text>全部收入</text> 
       </view>
     </view>
+
   </view>
   <!-- 功能选项 -->
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">

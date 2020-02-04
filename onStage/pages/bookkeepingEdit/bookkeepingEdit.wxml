@@ -16,18 +16,18 @@
       <input style="font-size:60rpx;height:100%;" type="digit" bindinput="handleInputChange" data-modal='2' value="{{bkMoney}}"></input>
   	</view>
 
-    <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding margin-top solid-top solid-bottom">
-      <view class="cu-item" wx:for="{{bkType0}}" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
+    <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="nav text-center text-s padding margin-top solid-top solid-bottom">
+      <view class="cu-item" wx:for="{{bkType0}}" wx:key="key" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
         <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
-        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size:larger;">{{item.name}}</text>
+        <text class="{{iconType==item.icon?'text-blue':'text-black'}}">{{item.name}}</text>
       </view>
     </scroll-view>
-    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-xs padding margin-top solid-top solid-bottom">
-      <view class="cu-item" wx:for="{{bkType1}}" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
+    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-s padding margin-top solid-top solid-bottom" style="height: 245rpx">
+      <view class="cu-item" wx:for="{{bkType1}}" wx:key="key" bindtap = "typeActive" id="{{item.icon}}" data-modal="{{item.name}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
         <text class="cuIcon-{{item.icon}} lg {{iconType==item.icon?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
-        <text class="{{iconType==item.icon?'text-blue':'text-black'}}" style="font-size:larger;">{{item.name}}</text>
+        <text class="{{iconType==item.icon?'text-blue':'text-black'}}">{{item.name}}</text>
       </view>
     </scroll-view>
 
@@ -36,7 +36,7 @@
   	</view>
     
     <picker class="bg-grey padding light text-right" mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
-      {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}} {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}<text class="cuIcon-triangledownfill"></text>
+      {{bkDate}}<text class="cuIcon-triangledownfill"></text>
     </picker>
 <!-- <button style="width: 20%;margin-left: 40%" class="cu-btn bg-blue margin-left"  bindtap="hideModal">提交</button> -->
 <!-- <button style="width: 100%; height: 100rpx; margin-top: 10rpx;" class="cu-btn bg-blue margin-left"  bindtap="postData">提交</button> -->

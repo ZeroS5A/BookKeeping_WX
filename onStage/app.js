@@ -13,7 +13,7 @@ App({
   },
 
   //开启时执行
-  onLaunchc: function () {
+  onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -45,10 +45,8 @@ App({
               this.globalData.hasUserInfo=true
             })
             console.log("获取用户数据成功")
-            console.log(this.globalData)
           }else{
             console.log("没授权")
-            console.log(this.globalData)
           }
         }
       })
