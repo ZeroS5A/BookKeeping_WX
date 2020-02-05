@@ -29,26 +29,13 @@ Page({
 
   },
   //页面准备好的时候自动调用
-  onReady: function () {
+  onLoad: function () {
     var that=this;
     //延迟，否则还未从后端获取到数据就已经写入
     setTimeout(function () {
       console.log(app.globalData.userInfo)
       if(app.globalData.hasUserInfo){
-        that.getDate()
-        app.getRequest("/bookkeeping/allIncomeExpendMoney",that.data.bkDateStr)
-        .then((res)=>{
-          that.setData({
-            bkData:{
-              monthIncomeMoney: res.data.data.monthIncomeMoney,
-              monthExpendMoney: res.data.data.monthExpendMoney,
-              allIncomeMoney: res.data.data.allIncomeMoney,
-              todayExpendMoney: res.data.data.todayExpendMoney,
-              allExpendMoney: res.data.data.allExpendMoney,
-              todayIncomeMoney: res.data.data.todayIncomeMoney
-            }
-          })
-        })
+        that.getBkDate()
         that.setData({
           userInfo:app.globalData.userInfo,
           hasUserInfo:app.globalData.hasUserInfo,
@@ -62,31 +49,7 @@ Page({
 
   //页面显示时执行
   onShow: function () {
-    if(this.data.hasUserInfo){
-      this.getDate()
-      app.getRequest("/bookkeeping/allIncomeExpendMoney",this.data.bkDateStr)
-      .then((res)=>{
-        console.log(res)
-        if(res.data.code!=200){
-          console.log("无法获取统计数据")
-        }
-        else{
-          this.setData({
-            bkData:{
-              monthIncomeMoney: res.data.data.monthIncomeMoney,
-              monthExpendMoney: res.data.data.monthExpendMoney,
-              allIncomeMoney: res.data.data.allIncomeMoney,
-              todayExpendMoney: res.data.data.todayExpendMoney,
-              allExpendMoney: res.data.data.allExpendMoney,
-              todayIncomeMoney: res.data.data.todayIncomeMoney
-            }
-          })
-        }
-      })
-    }else{
-      console.log("用户未登录！")
-    }
-
+    this.getBkDate()
   },
 
 
@@ -120,7 +83,6 @@ Page({
 
   //用户登录操作
   userLogin(e){
-    console.log(e);
     var that=this;
     this.getUserInfo()
     .then(()=>{
@@ -131,6 +93,9 @@ Page({
         userInfo:res.data.data,
         hasUserInfo:true
       })
+      app.globalData.userInfo=res.data.data,
+      app.globalData.hasUserInfo=true
+      this.getBkDate()
     })  
   },
 
@@ -160,7 +125,7 @@ Page({
   //显示图片
   showQrcode() {
     wx.previewImage({
-      urls: ["/static/images/test.png"]
+      urls: ["/static/images/QRcode.png"]
     })
     // wx.previewImage({
     //   urls: ['/static/images/test.png'],
@@ -187,6 +152,32 @@ Page({
       },
     })
     
+  },
+  //
+  getBkDate(){
+    if(this.data.hasUserInfo){
+      this.getDate()
+      app.getRequest("/bookkeeping/allIncomeExpendMoney",this.data.bkDateStr)
+      .then((res)=>{
+        console.log(res)
+        if(res.data.code!=200){
+          console.log("无法获取统计数据")
+        }
+        else{
+          this.setData({
+            bkData:{
+              monthIncomeMoney: res.data.data.monthIncomeMoney,
+              monthExpendMoney: res.data.data.monthExpendMoney,
+              allIncomeMoney: res.data.data.allIncomeMoney,
+              todayExpendMoney: res.data.data.todayExpendMoney,
+              allExpendMoney: res.data.data.allExpendMoney,
+              todayIncomeMoney: res.data.data.todayIncomeMoney
+            }
+          })
+        }
+      })
+    }else{
+      console.log("用户未登录！")
+    }
   }
-
 })

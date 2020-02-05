@@ -65,29 +65,15 @@ public class test {
     public void AesDecrypt(){
         Aes aes=new Aes();
         User us=new User();
-        Login login=new Login();
         String enc=
                 "nwsBCa9NaD5vHIDj/F9jDeirSAmqw4iza6m0r+Tir25if1awmEifwP4VoNpxjVGHkdpwYldOyVsQKAIyqNqhNqMTk6kGr8EVgycbQOb/0cZcShUe/3ZbF38kk6YPsx5XqfoJDpFG9Y/sQmbJntL9IDN7+ZoKuiNGKlPd8jjR4M9cQ9bCb+ljpchnDTno+h/uE9lJ7PD+yr48LeC6RBGqBB7XLAlF0fZ+oQE9CH7HF9CySv3+ZPNDEpCA5gotYOz1wRyNu9ltHnkMF5j1lqRLskTT10r6UxqV4bizkodQIdb/SuPL1xD2c5Se6x1D+TPpnrqYrt41/pgSSvehY8LcVW5wc+mZbQUos3MeWOPNv4GQHgy41EBz4ilUhUTj9y17lJN7+Hf8YUOyQTEY8owFIAL9zoiWx/9MRmK0JQGtN9LPg/eXJojn5c9aSrAFPfrh6bNBAVCIHTnCQic5dtTddQ=="
         ;
         String session="vV/C0TnQPfQX5Dul0sbJ1A==";
         String iv="VjdzmfgaJsnB+Xsyo8+42A==";
-//        =aes.domain(enc,session,iv);
-//        us.setNickName(jo.getString("nickName"));
-//        System.out.println(jo);
+        JSONObject jo=aes.domain(enc,session,iv);
+        us.setNickName(jo.getString("nickName"));
+        System.out.println(jo);
 
-        ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-        LoginService ls=(LoginService) ac.getBean("loginService");
-        try{
-            enc = new String(enc.getBytes("UTF-8"), "GBK");
-        }catch (Exception e){
-
-        }
-        //us=ls.getUserData(enc,session,iv);
-        login.setEncryptedData(enc);
-        login.setCode(session);
-        login.setIv(iv);
-
-        System.out.println(ls.processUserdata("oLI4d5O1YqSf-qmiTkSryrgBLeeQ",login));
     }
 
     @Test

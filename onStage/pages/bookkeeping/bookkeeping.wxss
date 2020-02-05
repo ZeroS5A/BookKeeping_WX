@@ -1,10 +1,36 @@
 /* pages/bookkeeping/bookkeeping.wxss */
 .container {
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
+
+  background: #7F7FD5;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */   
+
+}
+.UCenter-bg {
+  background-size: cover;
+  height: 290rpx;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-weight: 300;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+.UCenter-bg .gif-wave{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  mix-blend-mode: screen;  
+  height: 100rpx;   
 }

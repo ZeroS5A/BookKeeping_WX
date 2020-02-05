@@ -62,14 +62,28 @@ Page({
    */
   onShow: function () {
     console.log("首页显示")
+    this.getDate()
     this.getBkData()
   },
 
   //跳转到账单编辑页面
   openBookkeepingEdit: function () {
-    wx.navigateTo({
-      url: '../bookkeepingEdit/bookkeepingEdit',
-    })
+    if(!app.globalData.hasUserInfo){
+      wx.showModal({
+        title: '你还未登录',
+        showCancel: false,
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          }
+        }
+      })
+    }else{
+      wx.navigateTo({
+        url: '../bookkeepingEdit/bookkeepingEdit',
+      })      
+    }
+
   },
 
   //跳转到账单编辑页面(带数据)
@@ -124,7 +138,7 @@ Page({
   // ListTouch计算方向
   ListTouchMove(e) {
     this.setData({
-      ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > -70 ? 'right' : 'left'
+      ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > -50 ? 'right' : 'left'
     })
   },
 
@@ -234,8 +248,4 @@ Page({
     }
   },
 
-  //日期转换
-  transDate(date){
-    console.log(date)
-  }
 })

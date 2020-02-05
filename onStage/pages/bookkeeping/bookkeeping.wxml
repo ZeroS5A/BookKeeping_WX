@@ -1,9 +1,10 @@
 <!--pages/bookkeeping/bookkeeping.wxml-->
 
-<view class="container bg-black">
+<view class="UCenter-bg container bg-black">
   <text class="text-xl">{{month}}支出<text
       class="text-sl">{{bkData.sumExpendMoney==null?'0':bkData.sumExpendMoney}}</text>元</text>
   <text class="text-l">收入<text class="text-l">{{bkData.sumIncomeMoney==null?'0':bkData.sumIncomeMoney}}</text>元</text>
+  <image src="../../static/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
 </view>
 
 <view class="cu-bar search bg-white">
@@ -21,6 +22,13 @@
     </picker>
     <text class="cuIcon-triangledownfill"></text>
   </view>
+</view>
+
+<view wx:if="{{bkData.totalExpend==0&&bkData.totalIncome==0}}" style="display: flex; justify-content: center;">
+    <text 
+    class="text-gray"
+    style="padding-top: 100rpx;font-size: x-large;"
+    >暂无数据</text>
 </view>
 
 <view class="cu-list menu-avatar bg-white" style="margin:0rpx" wx:for="{{bkData.bookkeepingAllList}}" wx:key="key" wx:for-index="allListIndex" wx:for-item="allListItem">
@@ -55,7 +63,7 @@
         <text>{{item.showTime}}</text>
       </view>
     </view>
-    <view class="move" bind:tap="deleteBookkeeping" data-value="{{item}}">
+    <view class="move solids-bottom" bind:tap="deleteBookkeeping" data-value="{{item}}">
       <view class="bg-red">删除</view>
     </view>
   </view>

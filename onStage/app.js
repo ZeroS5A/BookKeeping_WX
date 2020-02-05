@@ -88,7 +88,7 @@ App({
     var that=this;
     return new Promise(function(resolve,reject){
       wx.request({
-        url: 'http://localhost/BookKeeping/'+url,
+        url: 'http://192.168.31.181/BookKeeping/'+url,
         data: data,
         method: 'POST',
         header: {
@@ -134,7 +134,4 @@ App({
     }) 
   },
 
-  transDate(date){
-    console.log(date)
-  }
 })

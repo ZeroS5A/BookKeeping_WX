@@ -10,7 +10,7 @@
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "AnTools",
+        "navigationBarTitleText": "记账助手",
         "navigationBarTextStyle": "black",
         "navigationStyle": "default",
         "backgroundColor": "black"
@@ -19,15 +19,19 @@
     "sitemapLocation": "sitemap.json",
     "tabBar": {
         "color": "#8A8A8A",
-        "selectedColor": "1AAD16",
+        "selectedColor": "1296db",
         "list": [
             {
+                "iconPath": "static/images/bkType/icon_order (1).png",
+                "selectedIconPath" :"static/images/bkType/icon_order.png",
                 "pagePath": "pages/bookkeeping/bookkeeping",
-                "text": "记账"
+                "text": ""
             },
             {
+                "iconPath": "static/images/bkType/icon-setting.png",
+                "selectedIconPath" :"static/images/bkType/icon-setting (1).png",
                 "pagePath": "pages/index/index",
-                "text": "我"
+                "text": ""
             }
         ]
     },
