@@ -132,6 +132,8 @@ public class BookkeepingController extends ExceptionController {
         Bookkeeping bkTemp = null;//循环用临时存储
         Bookkeeping bkTemp0 = null;//嵌套循环用临时存储
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//定义日期格式
+        SimpleDateFormat sdf1 = new SimpleDateFormat("MM月dd日 E");//返回日期头的格式
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
         List<Object> bookkeepingAllList = new ArrayList<>();//用于存储分组后的所有数据
         Iterator<Bookkeeping> bookkeepingIterator = bookkeepingList.iterator();//迭代器，防止循环出错
         while (bookkeepingIterator.hasNext() || bkTemp0 != null) {
@@ -150,6 +152,8 @@ public class BookkeepingController extends ExceptionController {
             if(bkTemp.getIncomeOrExpend().equals("income")) dayIncomeMoney += bkTemp.getBkMoney();
             else if(bkTemp.getIncomeOrExpend().equals("expend")) dayExpendMoney += bkTemp.getBkMoney();
             else return null;//数据异常
+
+            bkTemp.setShowTime(sdf2.format(bkTemp.getBkDate())); //重写日期格式为时分
             bookkeepingDayList.add(bkTemp);//添加
             bookkeepingIterator.remove();//删除
 //------------------------------------------------------------------------------------------------------------
@@ -164,12 +168,14 @@ public class BookkeepingController extends ExceptionController {
                 if(bkTemp.getIncomeOrExpend().equals("income")) dayIncomeMoney += bkTemp.getBkMoney();
                 else if(bkTemp.getIncomeOrExpend().equals("expend")) dayExpendMoney += bkTemp.getBkMoney();
                 else return null;//数据异常
+
+                bkTemp.setShowTime(sdf2.format(bkTemp.getBkDate())); //重写日期格式为时分
                 bookkeepingDayList.add(bkTemp);//添加
                 bookkeepingIterator.remove();//删除
             }
 //------------------------------------------------------------------------------------------------------------
             dayData.put("bookkeepingDayList", bookkeepingDayList);
-            dayData.put("dayDate", sdf.format(bkTemp.getBkDate()));
+            dayData.put("dayDate", sdf1.format(bkTemp.getBkDate()));
             dayData.put("dayIncomeMoney", dayIncomeMoney);
             dayData.put("dayExpendMoney", dayExpendMoney);
             bookkeepingAllList.add(dayData);

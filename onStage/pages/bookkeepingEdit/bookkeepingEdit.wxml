@@ -3,10 +3,10 @@
   <view class="cu-item shadow">
   
     <scroll-view class="nav text-center">
-      <view class="cu-item {{isIncome?'':'text-blue cur'}}" bindtap="typeSelect0">
+      <view wx:if="{{type=='expend'||type==null}}" class="cu-item {{isIncome?'':'text-blue cur'}}" bindtap="typeSelect0">
         支出
       </view>
-      <view class="cu-item {{isIncome?'text-green cur':''}}" bindtap="typeSelect1">
+      <view wx:if="{{type=='income'||type==null}}" class="cu-item {{isIncome?'text-green cur':''}}" bindtap="typeSelect1">
         收入
       </view>
     </scroll-view>

@@ -16,6 +16,8 @@ public class Bookkeeping implements Serializable {
     private String remarkText;
     private String incomeOrExpend;
 
+    private String showTime;
+
     public Integer getId() {
         return id;
     }
@@ -72,6 +74,15 @@ public class Bookkeeping implements Serializable {
         this.incomeOrExpend = incomeOrExpend;
     }
 
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
+    }
+
+
     @Override
     public String toString() {
         return "Bookkeeping{" +
@@ -82,6 +93,7 @@ public class Bookkeeping implements Serializable {
                 ", bkMoney=" + bkMoney +
                 ", remarkText='" + remarkText + '\'' +
                 ", incomeOrExpend='" + incomeOrExpend + '\'' +
+                ", showTime='" + showTime + '\'' +
                 '}';
     }
 

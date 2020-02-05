@@ -1,5 +1,6 @@
 // pages/bookkeeping/bookkeeping.js
 var  app  =  getApp();
+var feedbackApi = require('../../utils/util.js');
 
 Page({
 
@@ -8,6 +9,7 @@ Page({
    */
   data: {
     month:'',
+    day:'',
     date:'',
     bkData:{
       bookkeepingAllList: [],
@@ -19,8 +21,11 @@ Page({
     bkDateStr:{
       bkDateStr:''
     },
-    appData:app
+    appData:app,
+    feedback:feedbackApi
   },
+  
+  
 
   onLoad: function (options) {
     this.getDate()
@@ -79,23 +84,36 @@ Page({
 
   //删除
   deleteBookkeeping(event) {
-    if (app.globalData.hasUserInfo) {
-      app.getRequest("bookkeeping/deleteBookkeeping", event.currentTarget.dataset.value)
-        .then((res) => {
-          if (res.data.code != 200) {
-            console.log("删除失败")
-          }
-          else {
-            this.getBkData(this.data.bkDateStr)
-            // console.log(this.data.bkData.bookkeepingList)
-            // this.data.bkData.bookkeepingList.splice([event.currentTarget.dataset.value], 1);//删是删了数组里的数据，但是不会刷新列表，没鬼用
-            // console.log(this.data.bkData.bookkeepingList)
-            console.log("删除成功")
-          }
-        })
-    } else {
-      console.log("用户未登录！")
-    }
+    var that=this
+    wx.showModal({
+      title: '确认删除？',
+      confirmColor:'#FF0000',
+      success (res) {
+        if (res.confirm) {
+          console.log('确定删除')
+          if (app.globalData.hasUserInfo) {
+            app.getRequest("bookkeeping/deleteBookkeeping", event.currentTarget.dataset.value)
+              .then((res) => {
+                if (res.data.code != 200) {
+                  console.log("删除失败")
+                }
+                else {
+                  that.getBkData(this.data.bkDateStr)
+                  // console.log(this.data.bkData.bookkeepingList)
+                  // this.data.bkData.bookkeepingList.splice([event.currentTarget.dataset.value], 1);//删是删了数组里的数据，但是不会刷新列表，没鬼用
+                  // console.log(this.data.bkData.bookkeepingList)
+                  console.log("删除成功")
+                }
+              })
+          } else {
+            console.log("用户未登录！")
+          }          
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
   },
 
   // ListTouch触摸开始
@@ -191,5 +209,10 @@ Page({
     } else {
       console.log("用户未登录！")
     }
+  },
+
+  //日期转换
+  transDate(date){
+    console.log(date)
   }
 })

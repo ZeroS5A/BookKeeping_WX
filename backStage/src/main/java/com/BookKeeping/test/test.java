@@ -19,6 +19,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.AsyncRestOperations;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -118,5 +121,21 @@ public class test {
         LoginService ls=(LoginService) ac.getBean("loginService");
         //ls.processUserdata("oLI4d5NyQTYak87QMSEu8x6OwSlY");
         ls.getDataByRedis("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOjE1ODA2MjM4NDQsInJvbGUiOiJ1c2VyIiwib3BlbklkIjoib0xJNGQ1TnlRVFlhazg3UU1TRXU4eDZPd1NsWSIsImV4cCI6MTU4MDYyNTY0NH0.Fgr81juha0uEK0FwTjJtvTz6Jazdv5zdMI7nxQzmXlM","openid");
+    }
+
+    @Test
+    //时间测试
+    public void timeTest() throws ParseException {
+        //Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("MM月dd日");
+        Date date = sdf.parse("2019-09-10");
+
+        String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        Calendar cal = Calendar.getInstance();
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (w < 0)
+            w = 0;
+        System.out.println(sdf1.format(date)+weekDays[w]);
     }
 }

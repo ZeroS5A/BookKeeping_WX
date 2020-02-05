@@ -134,5 +134,7 @@ App({
     }) 
   },
 
-
+  transDate(date){
+    console.log(date)
+  }
 })

@@ -16,10 +16,10 @@ Page({
     dateTime1: null,
     startYear: 2000,
     endYear: 2050,
-    iconType:"baby",
     id:null,
-    bktype:'more',
+    bktype:'baby',
     isIncome:false,
+    type:null,
     byDate:'',
     remarkText:"",
     bkMoney:'',
@@ -89,17 +89,21 @@ Page({
       const eventChannel = that.getOpenerEventChannel()
       eventChannel.on('acceptDataFromOpenerPage', function(data) {
         var isIncome
+        var type
         if(data.data.incomeOrExpend=="income"){
           isIncome=true
+          type='income'
         }
         else{
           isIncome=false
+          type='expend'
         }
         that.setData({
           id:data.data.id,
           bktype:data.data.bkType,
           bkDate:data.data.bkDate,
           isIncome:isIncome,
+          type:type,
           remarkText:data.data.remarkText,
           bkMoney:data.data.bkMoney,
         })
@@ -181,11 +185,13 @@ Page({
   typeSelect0(){
     this.setData({
       isIncome:false,
+      bktype:'baby'
     })
   },
   typeSelect1(){
     this.setData({
       isIncome:true,
+      bktype:'more'
     })
   },
 
