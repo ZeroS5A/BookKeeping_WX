@@ -18,8 +18,9 @@ Page({
       sumIncomeMoney: 0.00,
       sumExpendMoney: 0.00
     },
-    bkDateStr:{
-      bkDateStr:''
+    bkDataPost:{
+      bkDateStr:'',
+      remarkText:''
     },
     appData:app,
     feedback:feedbackApi
@@ -32,7 +33,7 @@ Page({
     var that = this;
     setTimeout(function () {
       if (app.globalData.hasUserInfo) {
-        app.getRequest("bookkeeping/listAll", that.data.bkDateStr)
+        app.getRequest("bookkeeping/listAll", that.data.bkDataPost)
           .then((res) => {
             console.log(res)
             if (res.data.code != 200) {
@@ -61,7 +62,7 @@ Page({
    */
   onShow: function () {
     console.log("首页显示")
-    this.getBkData(this.data.bkDateStr)
+    this.getBkData()
   },
 
   //跳转到账单编辑页面
@@ -98,10 +99,7 @@ Page({
                   console.log("删除失败")
                 }
                 else {
-                  that.getBkData(this.data.bkDateStr)
-                  // console.log(this.data.bkData.bookkeepingList)
-                  // this.data.bkData.bookkeepingList.splice([event.currentTarget.dataset.value], 1);//删是删了数组里的数据，但是不会刷新列表，没鬼用
-                  // console.log(this.data.bkData.bookkeepingList)
+                  that.getBkData()
                   console.log("删除成功")
                 }
               })
@@ -160,14 +158,15 @@ Page({
         day = "0" + day;
     }
     var nowDate = year + "-" + month;
-    this.setData({
-      month:date.getMonth() + 1,
-      date:nowDate,
-      bkDateStr: {
-        bkDateStr:nowDate,
-      }      
-    })
     
+    this.setData({
+      month:date.getMonth() + 1 + "月",
+      date:nowDate,
+      bkDataPost: {
+        bkDateStr:nowDate,
+        remarkText:''
+      }
+    })
   },
   //选择月份触发
   DateChange(e) {
@@ -177,19 +176,43 @@ Page({
     }else{
       month=e.detail.value.slice(6)
     }
+
     this.setData({
-      month:month,
-      bkDateStr: {
+      month: month + "月",
+      bkDataPost: {
         bkDateStr:e.detail.value,
+        remarkText: ''
       }
     })
-    this.getBkData(this.data.bkDateStr)
-  },
 
+    this.getBkData()
+  },
+  searchInput: function(e) {
+    var value = e.detail.value;
+    if(value.split(" ").join("").length == 0) {
+      this.getDate();
+      this.getBkData();
+      return;
+    };
+    this.setData({
+      bkDataPost: {
+        bkDateStr: null,
+        remarkText: e.detail.value
+      }
+    });
+    this.getBkData();
+    this.setData({
+      month: "全部",
+      bkDataPost: {
+        bkDateStr: "全部",
+        remarkText: e.detail.value
+      }
+    });
+  },
   //获取数据封装
-  getBkData(postData){
+  getBkData() {
     if (app.globalData.hasUserInfo) {
-      app.getRequest("bookkeeping/listAll", postData)
+      app.getRequest("bookkeeping/listAll", this.data.bkDataPost)
       .then((res) => {
         if (res.data.code != 200) {
           console.log("无法获取数据")
