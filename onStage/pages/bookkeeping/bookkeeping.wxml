@@ -1,7 +1,7 @@
 <!--pages/bookkeeping/bookkeeping.wxml-->
 
 <view class="container bg-black">
-  <text class="text-xl">{{month}}月支出<text
+  <text class="text-xl">{{month}}支出<text
       class="text-sl">{{bkData.sumExpendMoney==null?'0':bkData.sumExpendMoney}}</text>元</text>
   <text class="text-l">收入<text class="text-l">{{bkData.sumIncomeMoney==null?'0':bkData.sumIncomeMoney}}</text>元</text>
 </view>
@@ -9,14 +9,14 @@
 <view class="cu-bar search bg-white">
   <view class="search-form round">
     <text class="cuIcon-search"></text>
-    <input type="text" placeholder="搜索" confirm-type="search"></input>
+    <input type="text" placeholder="搜索" confirm-type="search" bindinput="searchInput" value="{{bkDataPost.remarkText}}"></input>
   </view>
   <view class="action">
     <!-- <text>收入：500</text>今日/今月/全部
     <text>支出：200</text> -->
     <picker mode="date" value="{{date}}" start="2019-01" end="{{date}}" bindchange="DateChange" fields="month">
       <view class="picker">
-        {{bkDateStr.bkDateStr}}
+        {{bkDataPost.bkDateStr}}
       </view>
     </picker>
     <text class="cuIcon-triangledownfill"></text>
