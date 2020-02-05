@@ -28,6 +28,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public User getUserData(String EncryptedData,String session,String ivs) {
+
         Aes aes=new Aes();
         User us=new User();
 
@@ -35,7 +36,13 @@ public class LoginServiceImpl implements LoginService {
         JSONObject userData=aes.domain(EncryptedData,session,ivs);
         us.setAvatarUrl(userData.getString("avatarUrl"));
         us.setGender(userData.getInteger("gender"));
-        us.setNickName(userData.getString("nickName"));
+        String str = userData.getString("nickName");
+        try{
+            str = new String(str.getBytes("GBK"), "UTF-8");
+        }catch (Exception e){
+
+        }
+        us.setNickName(str);
         us.setOpenId(userData.getString("openId"));
         return us;
     }

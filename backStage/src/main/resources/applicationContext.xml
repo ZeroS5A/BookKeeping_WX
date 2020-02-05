@@ -39,6 +39,8 @@
     <!--返回数据-->
     <bean id="result" class="com.BookKeeping.common.Result"></bean>
 
+    <bean id="aes" class="com.BookKeeping.common.Aes"/>
+
     <!--事务管理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
@@ -110,10 +112,10 @@
     </bean>
 
 
-    <!--启用shiro注解-->
+    <!--启用shiro注解
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager" />
-    </bean>
+    </bean>-->
 
     <!-- 控制器异常处理，既鉴权失败时的处理逻辑 -->
     <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">

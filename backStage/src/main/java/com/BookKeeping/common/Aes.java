@@ -81,7 +81,8 @@ public class Aes {
     }
 
     public JSONObject domain(String encryptedData, String sessionKey, String ivs){
-        JSONObject jo = JSONObject.parseObject(decrypt(encryptedData, sessionKey, ivs));
+        String result=decrypt(encryptedData, sessionKey, ivs);
+        JSONObject jo = JSONObject.parseObject(result);
         return jo;
     }
 }

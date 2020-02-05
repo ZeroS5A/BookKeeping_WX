@@ -1,7 +1,9 @@
 package com.BookKeeping.test;
 
 import com.BookKeeping.common.Aes;
+import com.BookKeeping.entity.Login;
 import com.BookKeeping.entity.Token;
+import com.BookKeeping.entity.User;
 import com.BookKeeping.service.LoginService;
 import com.BookKeeping.service.UserService;
 import com.BookKeeping.service.impl.UserServiceImpl;
@@ -18,6 +20,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.AsyncRestOperations;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,12 +64,30 @@ public class test {
     //测试解密
     public void AesDecrypt(){
         Aes aes=new Aes();
-        String enc="wIjbrp8sW/x1FVeldU+Nb9IuqPQdlktgztNvqnSM1WrN8YFC1ZYHDt4MgR08p0LvlfJYA3Vk3pthe3z6NZIlbryfsbesGACt3As1JGimQO7jLbwCUhGavrsvARq2UOVntfg0jX/5ynuvwMSsHVmSSyXQtHc5bygJhldGm4CFtMFx7VDztu8Wy/otT7QuBOryqJa+JItxuALBJiIy4Bf5uOM0RZ9vmSrE+919nrJb9tPE/brLGb3tlaf3m4jvLhALH7Ls/osjJ99OwXFNYZ+z+qmMil6Kc+biQWugUppbWuswlZiXr8zJimkZBufVM/jKZWhFE7CyYdIovCqW0ha04qpkosEFx/S2ahgY7GDJlZ20aV/kcysT3STxBFq5jVUhPsijRlbh9CQFloj/S76Zzph5gfnv+OQUbNqZ/nn0SWkkaajd+iMez03QWAZ0c/p3pPVUg5D7IQNeew8z7qVPXK1U4EbS8NSFaT0E0IH5w+U=";
-        String session="D11fa//1ULbQazQDt3ryXw==";
-        String iv="5xcJVrXNyQDIxK1l2RS9nw==";
-        JSONObject jo=aes.domain(enc,session,iv);
-        System.out.println(jo);
-        System.out.println(jo.getString("openId"));
+        User us=new User();
+        Login login=new Login();
+        String enc=
+                "nwsBCa9NaD5vHIDj/F9jDeirSAmqw4iza6m0r+Tir25if1awmEifwP4VoNpxjVGHkdpwYldOyVsQKAIyqNqhNqMTk6kGr8EVgycbQOb/0cZcShUe/3ZbF38kk6YPsx5XqfoJDpFG9Y/sQmbJntL9IDN7+ZoKuiNGKlPd8jjR4M9cQ9bCb+ljpchnDTno+h/uE9lJ7PD+yr48LeC6RBGqBB7XLAlF0fZ+oQE9CH7HF9CySv3+ZPNDEpCA5gotYOz1wRyNu9ltHnkMF5j1lqRLskTT10r6UxqV4bizkodQIdb/SuPL1xD2c5Se6x1D+TPpnrqYrt41/pgSSvehY8LcVW5wc+mZbQUos3MeWOPNv4GQHgy41EBz4ilUhUTj9y17lJN7+Hf8YUOyQTEY8owFIAL9zoiWx/9MRmK0JQGtN9LPg/eXJojn5c9aSrAFPfrh6bNBAVCIHTnCQic5dtTddQ=="
+        ;
+        String session="vV/C0TnQPfQX5Dul0sbJ1A==";
+        String iv="VjdzmfgaJsnB+Xsyo8+42A==";
+//        =aes.domain(enc,session,iv);
+//        us.setNickName(jo.getString("nickName"));
+//        System.out.println(jo);
+
+        ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        LoginService ls=(LoginService) ac.getBean("loginService");
+        try{
+            enc = new String(enc.getBytes("UTF-8"), "GBK");
+        }catch (Exception e){
+
+        }
+        //us=ls.getUserData(enc,session,iv);
+        login.setEncryptedData(enc);
+        login.setCode(session);
+        login.setIv(iv);
+
+        System.out.println(ls.processUserdata("oLI4d5O1YqSf-qmiTkSryrgBLeeQ",login));
     }
 
     @Test
@@ -103,7 +124,7 @@ public class test {
         TokenUtil tku=new TokenUtil();
         Token tk=new Token();
 
-        String result=tku.creatToken("asdfghjkl","admin");
+        String result=tku.creatToken("oLI4d5O1YqSf-qmiTkSryrgBLeeQ","user");
 
         System.out.println(result);
 
@@ -120,7 +141,8 @@ public class test {
         //us.selFromOpenId("asdf");
         LoginService ls=(LoginService) ac.getBean("loginService");
         //ls.processUserdata("oLI4d5NyQTYak87QMSEu8x6OwSlY");
-        ls.getDataByRedis("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOjE1ODA2MjM4NDQsInJvbGUiOiJ1c2VyIiwib3BlbklkIjoib0xJNGQ1TnlRVFlhazg3UU1TRXU4eDZPd1NsWSIsImV4cCI6MTU4MDYyNTY0NH0.Fgr81juha0uEK0FwTjJtvTz6Jazdv5zdMI7nxQzmXlM","openid");
+        //ls.getDataByRedis("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOjE1ODA2MjM4NDQsInJvbGUiOiJ1c2VyIiwib3BlbklkIjoib0xJNGQ1TnlRVFlhazg3UU1TRXU4eDZPd1NsWSIsImV4cCI6MTU4MDYyNTY0NH0.Fgr81juha0uEK0FwTjJtvTz6Jazdv5zdMI7nxQzmXlM","openid");
+
     }
 
     @Test
@@ -137,5 +159,17 @@ public class test {
         if (w < 0)
             w = 0;
         System.out.println(sdf1.format(date)+weekDays[w]);
+    }
+
+    @Test
+    //字符串转码测试
+    public void utf8Test() {
+        String str = "鍗冭景路瀹�";
+        try{
+        str = new String(str.getBytes("UTF-16"), "UTF-8");
+        }catch (Exception e){
+
+        }
+        System.out.println(str);
     }
 }

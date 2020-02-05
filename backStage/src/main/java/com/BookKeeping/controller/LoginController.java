@@ -77,7 +77,7 @@ public class LoginController extends ExceptionController {
         String openid=tku.getTokenDataOpenId(token);
         //处理用户信息
         User user=loginService.processUserdata(openid,login);
-
+        
         //放入reids
         logger.info("开始放入redis");
         try {
