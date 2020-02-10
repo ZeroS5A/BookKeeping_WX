@@ -4,6 +4,7 @@ import com.BookKeeping.common.Aes;
 import com.BookKeeping.entity.Login;
 import com.BookKeeping.entity.Token;
 import com.BookKeeping.entity.User;
+import com.BookKeeping.service.BookkeepingService;
 import com.BookKeeping.service.LoginService;
 import com.BookKeeping.service.UserService;
 import com.BookKeeping.service.impl.UserServiceImpl;
@@ -124,11 +125,14 @@ public class test {
     public void openIdTest(){
         ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         UserService us = (UserService) ac.getBean("userService");
-        //us.selFromOpenId("asdf");
-        LoginService ls=(LoginService) ac.getBean("loginService");
+        //us.inserFeedback("nihao","wjdbc");
+
+        //LoginService ls=(LoginService) ac.getBean("loginService");
         //ls.processUserdata("oLI4d5NyQTYak87QMSEu8x6OwSlY");
         //ls.getDataByRedis("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOjE1ODA2MjM4NDQsInJvbGUiOiJ1c2VyIiwib3BlbklkIjoib0xJNGQ1TnlRVFlhazg3UU1TRXU4eDZPd1NsWSIsImV4cCI6MTU4MDYyNTY0NH0.Fgr81juha0uEK0FwTjJtvTz6Jazdv5zdMI7nxQzmXlM","openid");
 
+        //BookkeepingService bs =(BookkeepingService) ac.getBean("bookkeepingService");
+        //bs.listExpendByType("otGE75JlF4-J14NvvI9E1B4_B7vw","2020-01%");
     }
 
     @Test
@@ -150,9 +154,10 @@ public class test {
     @Test
     //字符串转码测试
     public void utf8Test() {
-        String str = "鍗冭景路瀹�";
+        String str = "寮�濮婽oken楠岃瘉";
+
         try{
-        str = new String(str.getBytes("UTF-16"), "UTF-8");
+        str = new String(str.getBytes("gbk"), "UTF-8");
         }catch (Exception e){
 
         }

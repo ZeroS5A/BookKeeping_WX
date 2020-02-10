@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface UserDao {
@@ -22,4 +23,7 @@ public interface UserDao {
     //更新
     @Update("UPDATE t_user SET nickName=#{nickName},gender=#{gender},avatarUrl=#{avatarUrl} WHERE openId=#{openId}")
     Integer updateUser(User user);
+
+    @Insert("INSERT INTO t_feedback (openId,date,model,feedbackData)VALUES(#{openId},#{date},#{model},#{feedbackData})")
+    Integer insertFeedback(Map<String,String> map);
 }

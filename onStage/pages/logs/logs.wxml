@@ -1,6 +1,89 @@
 <!--logs.wxml-->
-<view class="container log-list">
+<!-- <view class="">
+  <scroll-view class="chart" scroll-x="ture" scroll-y="false">
+    
+  </scroll-view>
+</view> -->
+<!-- 标题 -->
+<view class="cu-card bg-white title-text solids-bottom" style="height: 100rpx; position: relative;">
+  <text style="position: absolute; bottom: 20rpx;font-size: large;margin-left: 30rpx;">月度统计</text>
+</view>
+<!-- 条形统计图 -->
+<view class="cu-card bg-white" style="height: auto">
+  <view class="nav text-center text-s padding margin-top">
+
+    <scroll-view scroll-x="ture" style="white-space: nowrap; display: inline;">
+      <view wx:for="{{monthsData}}" wx:key="key" data-year="{{item.year}}" data-month="{{item.month}}" bindtap = "selectMomth" class="chart" style="display: inline-block; margin-left: 30rpx;" >
+        <!-- 收入支出条 -->
+        <view class="chart-text" style="display: inline-block;">
+          <view class="margin-xs radius chart-cell" style="height: {{item.totExpend*0.15>300?'300':item.totExpend*0.15+35}}rpx;background-color: {{item.totExpend*0.15>300?'red':'#f7a35c'}};">
+            <view class="chart-cell-text">{{item.totExpend}}</view>
+          </view>
+          <!-- 解析：计算金额对应的高度，如果超过300px就截断定为300，为了解决过低向下溢出的问题，在最后的结果加上35px(金额字体的高度)，让它看起来有一点点 -->
+          <view class="margin-xs radius chart-cell" style="height: {{item.totIncome*0.15>300?'300':item.totIncome*0.15+35}}rpx;background-color: {{item.totIncome*0.15>300?'red':'#408ad2'}};">
+            <view class="chart-cell-text">{{item.totIncome}}</view>
+          </view>
+        </view>
+
+        <view class="chart-text round {{item.year==year&&item.month==month?'bg-grey':''}}" >{{item.year}}年{{item.month}}月</view>
+      </view>
+    </scroll-view>
+
+    <view style="display: block;margin-top: 30rpx;">
+      <text class="cuIcon-ellipse" style="color: #f7a35c;"> 支出</text>
+      <text class="cuIcon-ellipse" style="margin-left: 20rpx;color: #408ad2;"> 收入</text> 
+      <text class="cuIcon-ellipse" style="margin-left: 20rpx;color: red;"> 超出</text>
+    </view>
+  </view> 
+</view>
+
+<view class="cu-card bg-white title-text solids-bottom" style="height: 70rpx; position: relative;">
+  <text style="position: absolute; bottom: 20rpx;font-size: large;margin-left: 30rpx;">支出分布</text>
+</view>
+
+<view class="cu-card bg-white" style="height: auto">
+  <canvas canvas-id="lineCanvas" disable-scroll="true" class="" style="margin: 0,auto; width: 100%;height: {{systemData.windowWidth/1.2}}px;"></canvas>
+  <view class="text-center" style="height: 80rpx;margin-top: 30rpx;">
+    <text>{{year}}年{{month}}月</text>
+  </view>
+</view>
+
+<view class="cu-card bg-white title-text solids-bottom" style="height: 70rpx; position: relative;">
+  <text style="position: absolute; bottom: 20rpx;font-size: large;margin-left: 30rpx;">支出排行</text>
+</view>
+
+<view class="cu-list menu-avatar">
+  <view class="cu-item" wx:for="{{ringData}}" wx:key="key">
+
+    <view class="cu-avatar lg bg-white">
+      <text class="cuIcon-{{item.name}} lg text-white flex cu-avatar round" style="font-size:x-large; background-color: {{colors[index%colors.length]}};"></text>
+    </view>
+
+    <view class="content" style="width: 75%;">
+      <view style="position: relative;">
+        <view class="text-bold" style="position: absolute;left: 0;">{{appData.globalData.iconList[item.name]}}</view>
+        <view class="text-bold" style="position: absolute;right: 0; font-size: larger;margin-right: 20rpx;">{{item.data}}元</view>        
+      </view>
+
+      <view class="text-gray text-sm flex">
+        <view class="cu-progress round margin-top sm">
+          <view style="width:{{item.data/momthsSum*100}}%;background-color: {{colors[index%colors.length]}};"></view>
+        </view>
+      </view>
+      
+    </view>
+    <!-- <view class="">
+      <view class="text-bold" style="font-size: larger;margin-right: 20rpx;">{{item.data}}元</view>
+    </view> -->
+  </view>
+</view>
+
+<view class="text-center" style="height: 60rpx;margin-top: 30rpx;">
+  <text style="color: gray;">已经到底啦</text>
+</view>
+<!-- <view class="container log-list">
   <block wx:for="{{logs}}" wx:for-item="log">
     <text class="log-item">{{index + 1}}. {{log}}</text>
   </block>
-</view>
+</view> -->
+

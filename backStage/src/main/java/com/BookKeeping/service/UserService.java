@@ -3,6 +3,7 @@ package com.BookKeeping.service;
 import com.BookKeeping.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -12,5 +13,7 @@ public interface UserService {
     //添加
     Integer insertUser(User user);
 
+    //意见反馈
+    Integer insertFeedback(String openId, Map<String,String> feedbackData);
 
 }

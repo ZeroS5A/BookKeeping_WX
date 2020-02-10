@@ -6,3 +6,34 @@
 .log-item {
   margin: 10rpx;
 }
+.title-text{
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.chart{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chart-cell{
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  width: 80rpx;
+}
+.chart-cell-text{
+  width: 100%; 
+  background-color: white; 
+  position: absolute;
+  top: 0;
+  margin-bottom: 100rpx;
+}
+.chart-text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

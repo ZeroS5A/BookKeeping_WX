@@ -1,15 +1,18 @@
 package com.BookKeeping.controller;
 
 import com.BookKeeping.common.Result;
+import com.BookKeeping.common.ResultStatus;
 import com.BookKeeping.entity.*;
 import com.BookKeeping.service.LoginService;
 import com.BookKeeping.service.UserService;
 import com.BookKeeping.entity.User;
+import com.BookKeeping.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -19,6 +22,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping(value = "/selAll", method = RequestMethod.POST)
     @ResponseBody
@@ -40,4 +45,16 @@ public class UserController {
         return rs;
     }
 
+    @RequestMapping(value = "/feedback", method = RequestMethod.POST)
+    @ResponseBody
+    public Result feedback(@RequestBody Map<String,String> feeBackData, @RequestHeader("Authorization") String token){
+        Result rs = new Result();
+        try {
+            rs.setData(userService.insertFeedback(redisUtil.hget(token, "id").toString(),feeBackData));
+        } catch (Exception e) {
+            rs.setResult(ResultStatus.SERVERERR);
+            return rs;//未获取openid（用户未登录）
+        }
+        return rs;
+    }
 }

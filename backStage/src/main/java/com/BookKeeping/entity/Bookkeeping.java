@@ -8,7 +8,7 @@ import java.util.Date;
 public class Bookkeeping implements Serializable {
 
     private Integer id;
-    private Integer userId;
+    private String userId;
     private String bkType;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="Asia/Shanghai")
     private Date bkDate;
@@ -26,11 +26,11 @@ public class Bookkeeping implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

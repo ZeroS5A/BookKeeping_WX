@@ -1,6 +1,8 @@
 package com.BookKeeping.service;
 
 import com.BookKeeping.entity.Bookkeeping;
+import com.BookKeeping.entity.MonthsExpendTypeStatisticData;
+import com.BookKeeping.entity.MonthsStatisticData;
 
 import java.util.List;
 import java.util.Map;
@@ -37,4 +39,9 @@ public interface BookkeepingService {
     /**删除账单数据*/
     public Integer deleteBookkeeping(Bookkeeping bookkeeping);
 
+    /**每个月的支出和收入统计*/
+    public List<MonthsStatisticData> listMonthsIncomeExpend(String openId);
+
+    /**每月按类型统计支出*/
+    public List<MonthsExpendTypeStatisticData> listExpendByType(String openId, String dateStr);
 }

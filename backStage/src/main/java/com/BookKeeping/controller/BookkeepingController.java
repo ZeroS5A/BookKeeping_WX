@@ -1,12 +1,16 @@
 package com.BookKeeping.controller;
 
 import com.BookKeeping.common.Result;
+import com.BookKeeping.common.ResultStatus;
+import com.BookKeeping.common.ShiroRealm;
 import com.BookKeeping.entity.Bookkeeping;
 import com.BookKeeping.entity.PageBean;
 import com.BookKeeping.service.BookkeepingService;
 import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,8 @@ public class BookkeepingController extends ExceptionController {
     private BookkeepingService bookkeepingService;
     @Autowired
     private RedisUtil redisUtil;
+
+    Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 
     @RequiresRoles("user")
     @RequestMapping(value = "/listIncome", method = RequestMethod.POST)
@@ -258,8 +264,9 @@ public class BookkeepingController extends ExceptionController {
     public Result editBookkeeping(@RequestBody Bookkeeping bookkeeping, @RequestHeader("Authorization") String token) {
         //获取userId
         try {
-            bookkeeping.setUserId(Integer.parseInt(redisUtil.hget(token, "id").toString()));
+            bookkeeping.setUserId(redisUtil.hget(token, "id").toString());
         } catch (Exception e) {
+            logger.info("设置openid错误");
             return null;//未获取userId（用户未登录）
         }
         Integer editNumber;
@@ -289,7 +296,7 @@ public class BookkeepingController extends ExceptionController {
     public Result deleteBookkeeping(@RequestBody Bookkeeping bookkeeping, @RequestHeader("Authorization") String token) {
         //获取userId
         try {
-            bookkeeping.setUserId(Integer.parseInt(redisUtil.hget(token, "id").toString()));
+            bookkeeping.setUserId(redisUtil.hget(token, "id").toString());
         } catch (Exception e) {
             return null;//未获取userId（用户未登录）
         }
@@ -304,4 +311,33 @@ public class BookkeepingController extends ExceptionController {
         return rs;
     }
 
+
+    @RequiresRoles("user")
+    @RequestMapping(value = "/listMonthsIncomeExpend", method = RequestMethod.POST)
+    @ResponseBody
+    public Result listMonthsIncomeExpend(@RequestHeader("Authorization") String token){
+        Result rs=new Result();
+        try {
+            rs.setData(bookkeepingService.listMonthsIncomeExpend(redisUtil.hget(token, "id").toString()));
+        } catch (Exception e) {
+            rs.setResult(ResultStatus.SERVERERR);
+            return rs;//未获取openid（用户未登录）
+        }
+        return rs;
+    }
+
+    @RequiresRoles("user")
+    @RequestMapping(value = "/MonthsExpendTypeStatisticData", method = RequestMethod.POST)
+    @ResponseBody
+    public Result MonthsExpendTypeStatisticData(@RequestBody String dateStr, @RequestHeader("Authorization") String token){
+        Result rs=new Result();
+        dateStr+='%';
+        try {
+            rs.setData(bookkeepingService.listExpendByType(redisUtil.hget(token, "id").toString(),dateStr));
+        } catch (Exception e) {
+            rs.setResult(ResultStatus.SERVERERR);
+            return rs;//未获取openid（用户未登录）
+        }
+        return rs;
+    }
 }

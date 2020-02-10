@@ -7,7 +7,11 @@ import com.BookKeeping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -26,6 +30,16 @@ public class UserServiceImpl implements UserService {
         System.out.println("Spring中添加用户");
         System.out.println(user);
         return userDao.insertUser(user);
+    }
+
+    @Override
+    public Integer insertFeedback(String openId, Map<String,String> feedbackData) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        feedbackData.put("openId",openId);
+        feedbackData.put("date",sdf.format(new Date()));
+        System.out.println(feedbackData);
+        return userDao.insertFeedback(feedbackData);
     }
 
 

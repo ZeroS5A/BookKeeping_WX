@@ -2,10 +2,13 @@ package com.BookKeeping.service.impl;
 
 import com.BookKeeping.dao.BookkeepingDao;
 import com.BookKeeping.entity.Bookkeeping;
+import com.BookKeeping.entity.MonthsExpendTypeStatisticData;
+import com.BookKeeping.entity.MonthsStatisticData;
 import com.BookKeeping.service.BookkeepingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,6 +84,22 @@ public class BookkeepingServiceImpl implements BookkeepingService {
         } else {//异常
             return 0;
         }
+    }
+
+    @Override
+    public List<MonthsStatisticData> listMonthsIncomeExpend(String openId) {
+        //System.out.println();
+        return bookkeepingDao.listMonthsIncomeExpend(openId);
+    }
+
+    @Override
+    public List<MonthsExpendTypeStatisticData> listExpendByType(String openId, String dateStr) {
+        System.out.println(openId+dateStr);
+        Map<String,String> map=new HashMap<String, String>();
+        map.put("openId",openId);
+        map.put("dateStr",dateStr);
+        //System.out.println();
+        return bookkeepingDao.listExpendByType(map);
     }
 
 }

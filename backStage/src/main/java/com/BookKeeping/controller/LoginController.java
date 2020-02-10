@@ -56,6 +56,16 @@ public class LoginController extends ExceptionController {
             result.setSession(session);
             result.setToken(token);
 
+            //直接采用openid与token对应
+            logger.info("开始放入redis");
+            try {
+                Map<String,Object> map=new HashMap<>();
+                map.put("id", openid);
+                redisUtil.hmset(token, map, 1800);
+            }catch (Exception e){
+                logger.info("Redis写入失败"+e);
+            }
+
             rs.setData(result);
 
         }else{
@@ -78,16 +88,16 @@ public class LoginController extends ExceptionController {
         //处理用户信息
         User user=loginService.processUserdata(openid,login);
 
-        //放入reids
-        logger.info("开始放入redis");
-        try {
-            Map<String,Object> map=new HashMap<>();
-            map.put("openid", openid);
-            map.put("id", user.getId());
-            redisUtil.hmset(token, map);
-        }catch (Exception e){
-            logger.info("Redis写入失败"+e);
-        }
+        //放入reids（这里是开始时，使用id作为账单用户识别）
+//        logger.info("开始放入redis");
+//        try {
+//            Map<String,Object> map=new HashMap<>();
+//            map.put("openid", openid);
+//            map.put("id", user.getId());
+//            redisUtil.hmset(token, map);
+//        }catch (Exception e){
+//            logger.info("Redis写入失败"+e);
+//        }
 
         //System.out.println("从redis中获取的openid："+loginService.getDataByRedis(token,"openid"));
 

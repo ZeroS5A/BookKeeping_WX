@@ -1,6 +1,8 @@
 package com.BookKeeping.mapper;
 
 import com.BookKeeping.entity.Bookkeeping;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.javassist.runtime.Desc;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -239,4 +241,56 @@ public class BookkeepingSqlProvider {
         return queryStr;
     }
 
+    public String listMonthsIncomeExpend () {
+
+        String queryStr =(
+                "SELECT\n" +
+                        "	YEAR(a.Date) AS 'Year',MONTH(a.Date) AS 'Month',\n" +
+                        "	sum(a.totExpend) AS 'totExpend',\n" +
+                        "	sum(a.totIncome) AS 'totIncome'\n" +
+                        "FROM(\n" +
+                        "	SELECT\n" +
+                        "		bkDate AS 'Date',\n" +
+                        "		bkMoney AS 'totExpend',\n" +
+                        "		0 AS 'totIncome'\n" +
+                        "	FROM\n" +
+                        "		t_bookkeeping_expend\n" +
+                        "	WHERE\n" +
+                        "		userId=#{openId}	\n" +
+                        "UNION ALL\n" +
+                        "	SELECT\n" +
+                        "		bkDate AS 'Date',\n" +
+                        "		0 AS 'totExpend',\n" +
+                        "		bkMoney AS 'totIncome'\n" +
+                        "	FROM\n" +
+                        "		t_bookkeeping_income\n" +
+                        "	WHERE\n" +
+                        "		userId=#{openId}\n" +
+                        ") a\n" +
+                        "GROUP BY\n" +
+                        "	YEAR(a.Date),MONTH(a.Date)\n" +
+                        "ORDER BY a.Date DESC"
+                );
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String listExpendByType(){
+        String queryStr=(
+                "SELECT\n" +
+                        "	bkType AS 'name',\n" +
+                        "	sum(bkMoney) AS 'data'\n" +
+                        "FROM\n" +
+                        "	t_bookkeeping_expend\n" +
+                        "WHERE	userId=#{openId} \n" +
+                        "	AND\n" +
+                        "	bkDate like #{dateStr}\n" +
+                        "GROUP BY\n" +
+                        "	bkType\n" +
+                        "ORDER BY	data\n" +
+                        "DESC"
+                );
+        System.out.println(queryStr);
+        return queryStr;
+    }
 }

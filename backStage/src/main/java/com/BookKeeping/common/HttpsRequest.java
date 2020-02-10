@@ -79,7 +79,9 @@ public class HttpsRequest{
         JSONObject jo = JSONObject.parseObject("{'message':'Error',}");
         if(type.equals("getSession_key")){
             System.out.println("获取session和openid");
-            String result=request("https://api.weixin.qq.com/sns/jscode2session?appid=wx4d29257ff29de851&secret=1e17bdcea1a00407a083b74de2395e83&js_code="+code+"&grant_type=authorization_code");
+            String url="https://api.weixin.qq.com/sns/jscode2session?appid=wxb1d57fbbd3827d6b&secret=0b667fa798fb3239607d7fb9eee70f22&js_code="+code+"&grant_type=authorization_code";
+            System.out.println(url);
+            String result=request(url);
             jo = JSONObject.parseObject(result);
             return jo;
         }else if(type.equals("getUserData")){

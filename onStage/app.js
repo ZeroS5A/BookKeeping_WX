@@ -25,6 +25,7 @@ App({
 
       add:'打工',
       redpacket:'红包',
+      recharge:'收款',
     }
   },
 
@@ -35,8 +36,9 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    console.log("页面打开");
+    console.log("程序打开");
 
+    this.refreshToken()
     //登录
     this.getCode()
     .then((res)=>{
@@ -57,10 +59,12 @@ App({
               return this.getRequest("api/getUserData",this.globalData.loginData)
             })
             .then((res)=>{
-              this.globalData.userInfo=res.data.data,
-              this.globalData.hasUserInfo=true
+              this.globalData.userInfo=res.data.data
+              if(this.globalData.userInfo!=null){
+                this.globalData.hasUserInfo=true
+                console.log("获取用户数据成功")
+              }
             })
-            console.log("获取用户数据成功")
           }else{
             console.log("没授权")
           }
@@ -71,8 +75,6 @@ App({
     
     
     // 获取用户信息
-
-
     wx.getSystemInfo({
       success: e => {
         this.globalData.StatusBar = e.statusBarHeight;
@@ -82,7 +84,18 @@ App({
       }
     })   
   },
-
+  //后台回切时执行(防止Token失效)
+  onShow (options) {
+    this.getCode()
+      .then((res)=>{
+        //拿token
+        return this.getRequest("api/login",res) 
+      })
+      .then((res)=>{
+        console.log("已经刷新token")
+        this.globalData.token=res.data.data.token;
+      })
+  },
   //微信请求封装
   getRequest(url,data){
     var that=this;
@@ -134,4 +147,21 @@ App({
     }) 
   },
 
+  //刷新登录(30分钟)
+  refreshToken(){
+    var that=this
+    setTimeout(function(){
+      that.getCode()
+      .then((res)=>{
+        //拿token
+        return that.getRequest("api/login",res) 
+      })
+      .then((res)=>{
+        console.log("已经刷新token")
+        that.globalData.token=res.data.data.token;
+      })
+
+      that.refreshToken()
+    },1000*60*29)
+  }
 })

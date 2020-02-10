@@ -5,12 +5,15 @@
 
 .main{
 /* height: 1300rpx; */
-    background-color: cadetblue;
     width: 100%;
     /* vh代表屏幕高度 */
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: #7F7FD5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5);
 }
 

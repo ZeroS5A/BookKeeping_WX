@@ -16,14 +16,14 @@
       <input style="font-size:60rpx;height:100%;" type="digit" bindinput="handleInputChange" data-modal='2' value="{{bkMoney}}"></input>
   	</view>
 
-    <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="nav text-center text-s padding margin-top solid-top solid-bottom">
+    <scroll-view wx:if="{{!isIncome}}" scroll-x="ture" scroll-y="false" class="solids-bottom nav text-center text-s padding margin-top solid-top solid-bottom">
       <view class="cu-item" wx:for="{{bkType0}}" wx:key="key" bindtap = "typeActive" data-modal="{{item.bktype}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
         <text class="cuIcon-{{item.bktype}} lg {{bktype==item.bktype?'text-white bg-blue':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
         <text class="{{bktype==item.bktype?'text-blue':'text-black'}}">{{appData.globalData.iconList[item.bktype]}}</text>
       </view>
     </scroll-view>
-    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="nav text-center text-s padding margin-top solid-top solid-bottom">
+    <scroll-view wx:else scroll-x="ture" scroll-y="false" class="solids-bottom nav text-center text-s padding margin-top solid-top solid-bottom">
       <view class="cu-item" wx:for="{{bkType1}}" wx:key="key" bindtap = "typeActive" data-modal="{{item.bktype}}">
         <!-- <view class="flex cu-avatar round" style="background-image:url({{item.url}});"></view> -->
         <text class="cuIcon-{{item.bktype}} lg {{bktype==item.bktype?'text-white bg-green':'text-black bg-grey light'}} flex cu-avatar round" style="font-size:x-large;"></text>
@@ -31,10 +31,17 @@
       </view>
     </scroll-view>
 
-    <view class="cu-form-group" style="margin:0,20rpx;">
-		  <textarea maxlength="-1" bindinput="handleInputChange" value="{{remarkText}}" data-modal='1' placeholder="备注"></textarea>
-  	</view>
+    <view class="cu-form-group solids-bottom" style="margin:0,20rpx;">
+      <textarea maxlength="-1" bindinput="handleInputChange" value="{{remarkText}}" data-modal='1' placeholder="备注"></textarea>
+    </view>
     
+    <view class="padding bg-white solid-bottom">
+      <view class="cu-tag radius" bindtap = "quickChoose" data-type="早餐">早餐</view>
+      <view class="cu-tag radius" bindtap = "quickChoose" data-type="午餐">午餐</view>
+      <view class="cu-tag radius" bindtap = "quickChoose" data-type="晚餐">晚餐</view>
+      <view class="cu-tag radius" bindtap = "quickChoose" data-type="零食">零食</view>
+    </view>
+
     <picker class="bg-grey padding light text-right" mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
       {{bkDate}}<text class="cuIcon-triangledownfill"></text>
     </picker>

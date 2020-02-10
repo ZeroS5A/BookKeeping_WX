@@ -4,12 +4,14 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    token:'',
     modalName:'',
     textareaAInput:'',
+    feedbackData:{
+      model:"",
+      feedbackData:""
+    },
     loginData:{
         encryptedData: '',
         code: '',
@@ -35,16 +37,17 @@ Page({
     setTimeout(function () {
       console.log(app.globalData.userInfo)
       if(app.globalData.hasUserInfo){
-        that.getBkDate()
         that.setData({
           userInfo:app.globalData.userInfo,
           hasUserInfo:app.globalData.hasUserInfo,
         })
+        that.getBkDate()
+        wx.hideLoading()
       }else{
         console.log("用户未登录！")
       }
 
-    }, 1000) 
+    }, 100) 
   },
 
   //页面显示时执行
@@ -75,6 +78,10 @@ Page({
             } 
           })
           resolve();
+        },
+        fail: function() {
+          wx.hideLoading()
+          reject()
         }
       })
         
@@ -84,6 +91,9 @@ Page({
   //用户登录操作
   userLogin(e){
     var that=this;
+    wx.showLoading({
+      title: '登录中',
+    })
     this.getUserInfo()
     .then(()=>{
       return app.getRequest("api/getUserData",this.data.loginData)      
@@ -96,6 +106,7 @@ Page({
       app.globalData.userInfo=res.data.data,
       app.globalData.hasUserInfo=true
       this.getBkDate()
+      wx.hideLoading()
     })  
   },
 
@@ -153,13 +164,12 @@ Page({
     })
     
   },
-  //
+  //获取数据
   getBkDate(){
     if(this.data.hasUserInfo){
       this.getDate()
       app.getRequest("/bookkeeping/allIncomeExpendMoney",this.data.bkDateStr)
       .then((res)=>{
-        console.log(res)
         if(res.data.code!=200){
           console.log("无法获取统计数据")
         }
@@ -179,5 +189,55 @@ Page({
     }else{
       console.log("用户未登录！")
     }
-  }
+  },
+  //复制链接
+  CopyLink(e) {
+    wx.setClipboardData({
+      data: e.currentTarget.dataset.link,
+      success: res => {
+        wx.showToast({
+          title: '已复制',
+          duration: 1000,
+        })
+      }
+    })
+  },
+  //反馈提交
+  postFeedback(){
+    var that=this
+    wx.getSystemInfo({
+      success (res) {
+        that.setData({
+          feedbackData:{
+            model:res.model,
+            feedbackData:that.data.textareaAInput
+          },
+        })
+      }
+    })
+
+    console.log(this.data.feedbackData)
+
+    app.getRequest("api/feedback",this.data.feedbackData)
+    .then((res)=>{
+      if(res.data.data==1){
+        wx.showToast({
+          title: '反馈成功',
+          icon: 'success',
+          duration: 1500
+        })
+      }
+    })
+    this.setData({
+      modalName: null
+    })
+  },
+  //用于双向绑定
+  handleInputChange: function(e){
+   // 取出定义的变量名
+  var currentValue = e.detail.value; 
+    
+   // 将 input 值赋值给 定义的变量名
+  this.data.textareaAInput=currentValue
+  },
 })

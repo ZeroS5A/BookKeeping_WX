@@ -46,7 +46,12 @@ Page({
       {
         bktype:"discover",
       },
-      
+      {
+        bktype:"evaluate",
+      },
+      {
+        bktype:"edit"
+      }
     ],
     //收入类型
     bkType1:[
@@ -58,6 +63,9 @@ Page({
       },
       {
         bktype:"more",
+      },
+      {
+        bktype:"recharge"
       }
     ],
   },
@@ -207,7 +215,6 @@ Page({
   handleInputChange: function(e){
     // 取出定义的变量名
    var targetData = e.currentTarget.dataset.modal; 
-    console.log(targetData)
    // 取出定义的变量名
    var currentValue = e.detail.value; 
     
@@ -295,6 +302,14 @@ Page({
     this.setData({
       bkDate: "20"+this.data.dateTime1[0]+"-"+momth+"-"+day
                   +" "+hour+":"+min,
+    })
+  },
+
+  //快捷选择
+  quickChoose(e){
+    //console.log(e.currentTarget.dataset.type)
+    this.setData({
+      remarkText:e.currentTarget.dataset.type
     })
   }
 })

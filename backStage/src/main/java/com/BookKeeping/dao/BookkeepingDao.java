@@ -1,6 +1,8 @@
 package com.BookKeeping.dao;
 
 import com.BookKeeping.entity.Bookkeeping;
+import com.BookKeeping.entity.MonthsExpendTypeStatisticData;
+import com.BookKeeping.entity.MonthsStatisticData;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -63,4 +65,11 @@ public interface BookkeepingDao {
     @DeleteProvider(type=com.BookKeeping.mapper.BookkeepingSqlProvider.class, method="deleteExpend")
     public Integer deleteExpend(Bookkeeping bookkeeping);
 
+    /**查找所有的月度统计*/
+    @SelectProvider(type = com.BookKeeping.mapper.BookkeepingSqlProvider.class,method = "listMonthsIncomeExpend")
+    public List<MonthsStatisticData> listMonthsIncomeExpend(String openId);
+
+    /**按支出类型查找月度统计*/
+    @SelectProvider(type = com.BookKeeping.mapper.BookkeepingSqlProvider.class,method = "listExpendByType")
+    public List<MonthsExpendTypeStatisticData> listExpendByType(Map<String,String> map);
 }

@@ -31,13 +31,25 @@ Page({
   onLoad: function (options) {
     this.getDate()
     var that = this;
+    wx.showLoading({
+      title: '正在获取数据',
+    })
     setTimeout(function () {
       if (app.globalData.hasUserInfo) {
         app.getRequest("bookkeeping/listAll", that.data.bkDataPost)
           .then((res) => {
-            console.log(res)
             if (res.data.code != 200) {
               console.log("无法获取数据")
+              wx.hideLoading()
+              wx.showModal({
+                title: '无法获取数据',
+                showCancel: false,
+                success (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                  }
+                }
+              })
             }
             else {
               that.setData({
@@ -49,10 +61,21 @@ Page({
                   sumExpendMoney: res.data.data.sumExpendMoney
                 }
               })
+              wx.hideLoading()
             }
           })
       } else {
         console.log("用户未登录！")
+        wx.hideLoading()
+        wx.showModal({
+          title: '请先登录~',
+          showCancel: false,
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            }
+          }
+        })
       }
     }, 2000)     
   },
@@ -62,7 +85,7 @@ Page({
    */
   onShow: function () {
     console.log("首页显示")
-    this.getDate()
+    //this.getDate()
     this.getBkData()
   },
 

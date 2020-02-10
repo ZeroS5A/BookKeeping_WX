@@ -1,7 +1,12 @@
 <!--pages/about/about.wxml-->
 <view class="content">
-    <view class="main ">
-        <text style="font-family:youyuan;font-size: xx-large;font-weight:bolder;">没有关于</text>
+    <view class="main">
+        <text style="font-family:youyuan;font-size: xx-large;font-weight:bolder;margin-bottom: 50rpx;">没有关于</text>
+        <text>使用组件</text>
+        <text class="padding">ColorUI、wx-charts</text>
+        <text>开发者</text>
+        <text class="padding">ZeroS、Asukin</text>
     </view>
+    <view style="width: 100%; position: absolute; bottom: 0;margin-left: 20rpx;">2020年寒假</view>
 </view>
 

@@ -1,10 +1,10 @@
 {
     "pages": [
         "pages/bookkeeping/bookkeeping",
+        "pages/logs/logs",
         "pages/index/index",
         
         "pages/bookkeepingEdit/bookkeepingEdit",
-        "pages/logs/logs",
         "pages/about/about"
     ],
     "window": {
