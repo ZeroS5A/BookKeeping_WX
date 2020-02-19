@@ -34,15 +34,15 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //这里PrincipalCollection对象存放的是SimpleAuthenticationInfo(jwtToken, role, getName())里的验证信息
 
-        logger.info("Realm处理授权");
+        //System.out.println("Realm处理授权");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         TokenUtil tku=new TokenUtil();
 
         String token = (String) principals.getPrimaryPrincipal();
 
         //logger.info("realm授权获取token:"+token);
-        logger.info("realm获取的token解密后："+tku.getTokenData(token));
-        logger.info("角色:"+tku.getTokenData(token).getRole());
+        System.out.println("Realm获取的token解密后：\n"+tku.getTokenData(token));
+        //System.out.println("角色:"+tku.getTokenData(token).getRole());
 
         authorizationInfo.addRole(tku.getTokenData(token).getRole());
         return authorizationInfo;
@@ -54,7 +54,7 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
 
-        logger.info("开始Token验证");
+        System.out.println("Realm-开始Token验证");
         String jwtToken = (String) token.getCredentials();
         System.out.println(jwtToken);
         try {
@@ -62,7 +62,7 @@ public class ShiroRealm extends AuthorizingRealm {
             Token tk=tku.getTokenData(jwtToken);
             String role=tk.getRole();
             if(role!=null){
-                logger.info("用户有效");
+                //logger.info("用户有效");
             }else{
                 //token解密失败时，返回filter
                 throw new AuthenticationException("token is invalid , please check your token");

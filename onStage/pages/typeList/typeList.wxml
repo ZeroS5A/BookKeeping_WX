@@ -1,0 +1,39 @@
+<!--pages/typeList/typeList.wxml-->
+<view class="flex bg-white">
+    <view class="flex-sub text-center padding solid" data-value="bkDate" bindtap = "changType"><text class="{{postData.type=='bkDate'?'text-blue':''}}">时间<text class="cuIcon-{{isDateDESC?'top':'down'}}"></text></text></view>
+    <view class="flex-sub text-center padding solid" data-value="bkMoney" bindtap = "changType"><text class="{{postData.type=='bkMoney'?'text-blue':''}}">金额<text class="cuIcon-{{isMoneyDESC?'top':'down'}}"></text></text></view>
+</view>
+
+<view class="cu-list menu-avatar bg-white">   
+    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{bookkeepingList}}" wx:key="key" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{allListIndex}}{{index}}">
+        <!--账单图标-->
+        <view class="cu-avatar lg padding-bottom bg-white">
+        <text class="cuIcon-{{item.bkType}} lg {{[item.incomeOrExpend]=='income'?'bg-green':'bg-blue'}} text-white flex cu-avatar round" style="font-size:x-large;"></text>
+        </view>
+        <view class="content flex-sub padding-bottom {{allListIndex==bkData.bookkeepingAllList.length-1&&index==allListItem.bookkeepingDayList.length-1?'':'solids-bottom'}}" bindtap="openBookkeepingEditWithData" data-value="{{item}}">
+        <view class="flex justify-between text-l">
+            <view>
+            <!--账单类型-->
+            <text>{{appData.globalData.iconList[item.bkType]}}</text>
+            -
+            <!--账单备注-->
+            <text class="text-cut">{{item.remarkText}}</text>
+            </view>
+            <view>
+            <!--账单金额-->
+            <text>{{item.bkMoney}}</text>
+            元
+            </view>
+        </view>
+        <view class="flex justify-between text-sm text-gray">
+            <!--收入/支出-->
+            <text>-</text>
+            <!--账单日期-->
+            <text>{{item.bkDate}}</text>
+        </view>
+        </view>
+        <view class="move solids-bottom" bind:tap="deleteBookkeeping" data-value="{{item}}">
+        <view class="bg-red">删除</view>
+        </view>
+    </view>
+</view>

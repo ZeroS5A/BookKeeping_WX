@@ -94,12 +94,23 @@ public class BookkeepingServiceImpl implements BookkeepingService {
 
     @Override
     public List<MonthsExpendTypeStatisticData> listExpendByType(String openId, String dateStr) {
-        System.out.println(openId+dateStr);
         Map<String,String> map=new HashMap<String, String>();
         map.put("openId",openId);
         map.put("dateStr",dateStr);
         //System.out.println();
         return bookkeepingDao.listExpendByType(map);
+    }
+
+    @Override
+    public List<Bookkeeping> listExpendTypeList(String openId, String dateStr,String bkType, String type ,String orderType) {
+        Map<String,String> map=new HashMap<>();
+        map.put("openId",openId);
+        map.put("dateStr",dateStr);
+        map.put("bkType",bkType);
+        map.put("type",type);
+        map.put("orderType",orderType);
+        //System.out.println();
+        return bookkeepingDao.listExpendTypeList(map);
     }
 
 }

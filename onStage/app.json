@@ -1,41 +1,43 @@
 {
-    "pages": [
-        "pages/bookkeeping/bookkeeping",
-        "pages/logs/logs",
-        "pages/index/index",
-        
-        "pages/bookkeepingEdit/bookkeepingEdit",
-        "pages/about/about"
-    ],
-    "window": {
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "记账助手",
-        "navigationBarTextStyle": "black",
-        "navigationStyle": "default",
-        "backgroundColor": "black"
-    },
-    "style": "v2",
-    "sitemapLocation": "sitemap.json",
-    "tabBar": {
-        "color": "#8A8A8A",
-        "selectedColor": "1296db",
-        "list": [
-            {
-                "iconPath": "static/images/bkType/icon_order (1).png",
-                "selectedIconPath" :"static/images/bkType/icon_order.png",
-                "pagePath": "pages/bookkeeping/bookkeeping",
-                "text": ""
-            },
-            {
-                "iconPath": "static/images/bkType/icon-setting.png",
-                "selectedIconPath" :"static/images/bkType/icon-setting (1).png",
-                "pagePath": "pages/index/index",
-                "text": ""
-            }
-        ]
-    },
-    "usingComponents": {
-        "cu-custom": "/colorui/components/cu-custom"
-    }
+  "pages": [
+    
+    "pages/bookkeeping/bookkeeping",
+    "pages/typeList/typeList",
+    "pages/logs/logs",
+    "pages/index/index",
+    "pages/bookkeepingEdit/bookkeepingEdit",
+    "pages/about/about"
+    
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "记账助手",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "default",
+    "backgroundColor": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#8A8A8A",
+    "selectedColor": "1296db",
+    "list": [
+      {
+        "iconPath": "static/images/bkType/icon_order (1).png",
+        "selectedIconPath": "static/images/bkType/icon_order.png",
+        "pagePath": "pages/bookkeeping/bookkeeping",
+        "text": ""
+      },
+      {
+        "iconPath": "static/images/bkType/icon-setting.png",
+        "selectedIconPath": "static/images/bkType/icon-setting (1).png",
+        "pagePath": "pages/index/index",
+        "text": ""
+      }
+    ]
+  },
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom"
+  }
 }
