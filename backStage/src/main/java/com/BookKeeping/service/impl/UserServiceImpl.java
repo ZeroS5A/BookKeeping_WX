@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
 
         feedbackData.put("openId",openId);
         feedbackData.put("date",sdf.format(new Date()));
-        System.out.println(feedbackData);
         return userDao.insertFeedback(feedbackData);
     }
 

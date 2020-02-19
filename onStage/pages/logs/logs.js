@@ -12,6 +12,9 @@ Page({
     systemData:{},
     monthsData:[],
     ringData:[],
+    lineDatax:[],
+    lineDatay:[],
+    isline:false,
     momthsSum:0
   },
   onLoad: function () {
@@ -46,6 +49,14 @@ Page({
           this.setData({
             ringData:res.data.data
           })
+          //名称转换
+          for(var i in this.data.ringData){
+            var item = this.data.ringData[i];
+            item.name=app.globalData.iconList[item.name];
+            this.setData({
+              momthsSum:this.data.momthsSum+=item.data
+            })
+          }          
           this.columnShow()
         })
       })      
@@ -54,15 +65,9 @@ Page({
   },
   //画图函数
   columnShow: function() {
-    //名称转换
-    for(var i in this.data.ringData){
-      var item = this.data.ringData[i];
-      item.name=app.globalData.iconList[item.name];
-      this.setData({
-        momthsSum:this.data.momthsSum+=item.data
-      })
-    }
-
+    this.setData({
+      isline:false
+    })
 
     var column = {
       canvasId: 'lineCanvas',
@@ -75,6 +80,52 @@ Page({
     new CHARTS(column);
 
   },
+  //画图函数2
+  lineShow(){
+    this.setData({
+      isline:true
+    })
+    app.getRequest("bookkeeping/listAll", {bkDateStr:this.data.bkDateStr})
+    .then((res)=>{
+      var lineDatax=new Array();
+      var lineDatay=new Array();
+      for(var i in res.data.data.bookkeepingAllList){
+        lineDatax.push(res.data.data.bookkeepingAllList[i].dayDate.substring(3,5))
+        lineDatay.push(res.data.data.bookkeepingAllList[i].dayExpendMoney)
+      }
+      this.setData({
+        lineDatax:lineDatax.reverse(),
+        lineDatay:lineDatay.reverse()
+      })
+    })
+    .then(()=>{
+      var line ={
+        canvasId: 'lineCanvas',
+        type: 'line',
+        categories: this.data.lineDatax,
+        series: [{
+            name: '支出',
+            data: this.data.lineDatay,
+            format: function (val) {
+                return val.toFixed(2) + '元';
+            }
+        }],
+        yAxis: {
+            format: function (val) {
+                return val.toFixed(2);
+            },
+            min: 0
+        },
+        extra: {
+          lineStyle: 'curve'
+        },
+        width: this.data.systemData.windowWidth,
+        height: this.data.systemData.windowWidth/1.2,
+      }
+      new CHARTS(line);      
+    })
+
+  },
   //条形图选择
   selectMomth(e){
     var year =e.currentTarget.dataset.year
@@ -83,7 +134,7 @@ Page({
       month = "0" + month;
     }
     this.setData({
-      bkDateStr:year+'-'+month+'%',
+      bkDateStr:year+'-'+month + "%",
       momthsSum:0,
       year:year,
       month:month
@@ -93,7 +144,25 @@ Page({
       this.setData({
         ringData:res.data.data
       })
+      //名称转换
+      for(var i in this.data.ringData){
+        var item = this.data.ringData[i];
+        item.name=app.globalData.iconList[item.name];
+        this.setData({
+          momthsSum:this.data.momthsSum+=item.data
+        })
+      }   
       this.columnShow()
+    })
+  },
+  openTypeList: function (e) {
+    var that=this
+    wx.navigateTo({
+      url: '../typeList/typeList',
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', { type: e.currentTarget.dataset.value,date: that.data.bkDateStr})
+      }
     })
   },
   //时间获取
@@ -105,7 +174,7 @@ Page({
     if (month < 10) {
         month = "0" + month;
     }
-    var nowDate = year + "-" + month +'%';
+    var nowDate = year + "-" + month + "%";
     this.setData({
       bkDateStr:nowDate,
       year:year,

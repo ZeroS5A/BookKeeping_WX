@@ -101,7 +101,7 @@ App({
     var that=this;
     return new Promise(function(resolve,reject){
       wx.request({
-        url: 'http://192.168.31.181/BookKeeping/'+url,
+        url: 'http://106.52.255.103:8080/Bookkeeping/'+url,
         data: data,
         method: 'POST',
         header: {

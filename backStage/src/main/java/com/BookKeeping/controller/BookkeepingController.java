@@ -110,6 +110,7 @@ public class BookkeepingController extends ExceptionController {
     @ResponseBody
     public Result listAll(@RequestBody Map<String, Object> map, @RequestHeader("Authorization") String token) {
         //获取userId
+        System.out.println("listAll_Run:"+redisUtil.hget(token, "id").toString());
         try {
             map.put("userId", redisUtil.hget(token, "id").toString());
         } catch (Exception e) {
@@ -209,6 +210,7 @@ public class BookkeepingController extends ExceptionController {
     @RequestMapping(value = "/allIncomeExpendMoney", method = RequestMethod.POST)
     @ResponseBody
     public Result allIncomeExpendMoney(@RequestBody Map<String, Object> map, @RequestHeader("Authorization") String token) {
+        System.out.println("allIncomeExpendMoney_Run:"+redisUtil.hget(token, "id").toString());
         //获取userId
         try {
             map.put("userId", redisUtil.hget(token, "id").toString());
@@ -316,6 +318,7 @@ public class BookkeepingController extends ExceptionController {
     @RequestMapping(value = "/listMonthsIncomeExpend", method = RequestMethod.POST)
     @ResponseBody
     public Result listMonthsIncomeExpend(@RequestHeader("Authorization") String token){
+        System.out.println("listMonthsIncomeExpend_Run:"+redisUtil.hget(token, "id").toString());
         Result rs=new Result();
         try {
             rs.setData(bookkeepingService.listMonthsIncomeExpend(redisUtil.hget(token, "id").toString()));
@@ -330,10 +333,25 @@ public class BookkeepingController extends ExceptionController {
     @RequestMapping(value = "/MonthsExpendTypeStatisticData", method = RequestMethod.POST)
     @ResponseBody
     public Result MonthsExpendTypeStatisticData(@RequestBody String dateStr, @RequestHeader("Authorization") String token){
+        System.out.println("MonthsExpendTypeStatisticData_Run:"+redisUtil.hget(token, "id").toString());
         Result rs=new Result();
-        dateStr+='%';
         try {
             rs.setData(bookkeepingService.listExpendByType(redisUtil.hget(token, "id").toString(),dateStr));
+        } catch (Exception e) {
+            rs.setResult(ResultStatus.SERVERERR);
+            return rs;//未获取openid（用户未登录）
+        }
+        return rs;
+    }
+
+    @RequiresRoles("user")
+    @RequestMapping(value = "/listExpendTypeList", method = RequestMethod.POST)
+    @ResponseBody
+    public Result listExpendTypeList(@RequestBody Map<String,String> map, @RequestHeader("Authorization") String token){
+        System.out.println("listExpendTypeList_Run:"+redisUtil.hget(token, "id").toString());
+        Result rs=new Result();
+        try {
+            rs.setData(bookkeepingService.listExpendTypeList(redisUtil.hget(token, "id").toString(),map.get("dateStr"),map.get("bkType"),map.get("type"),map.get("orderType")));
         } catch (Exception e) {
             rs.setResult(ResultStatus.SERVERERR);
             return rs;//未获取openid（用户未登录）

@@ -36,20 +36,19 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        System.out.println("允许登录测试");
+        //System.out.println("允许登录测试");
         //获取头部携带的token信息
         JwtToken token = new JwtToken(getAuthzHeader(request));
         if(token.getToken()!=null){
-
-        try {
-            //交给Realm验证
-            getSubject(request, response).login(token);
-        }catch (AuthenticationException e){
-            //返回的是false
-            System.out.println("Token验证失败");
-            return false;
-        }
-            return true;
+            try {
+                //交给Realm验证
+                getSubject(request, response).login(token);
+            }catch (AuthenticationException e){
+                //返回的是false
+                System.out.println("Token验证失败");
+                return false;
+            }
+        return true;
         }
         else{
             return false;

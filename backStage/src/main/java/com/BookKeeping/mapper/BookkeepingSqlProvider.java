@@ -26,7 +26,7 @@ public class BookkeepingSqlProvider {
                 if (map.get("remarkText") != null) WHERE("remarkText like #{remarkText}");
             }
         }.toString() + endStr;
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -47,7 +47,7 @@ public class BookkeepingSqlProvider {
                 if (map.get("remarkText") != null) WHERE("remarkText like #{remarkText}");
             }
         }.toString() + endStr;
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -81,7 +81,7 @@ public class BookkeepingSqlProvider {
             }
         }.toString();
         String queryStr = queryIncomeStr + " union all " + queryExpendStr + endStr;
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -98,7 +98,7 @@ public class BookkeepingSqlProvider {
                 if (map.get("remarkText") != null) WHERE("remarkText like #{remarkText}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -115,7 +115,7 @@ public class BookkeepingSqlProvider {
                 if (map.get("remarkText") != null) WHERE("remarkText like #{remarkText}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -132,7 +132,7 @@ public class BookkeepingSqlProvider {
 //                if (map.get("remarkText") != null) WHERE("remarkText like #{remarkText}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -149,7 +149,7 @@ public class BookkeepingSqlProvider {
 //                if (map.get("remarkText") != null) WHERE("remarkText like #{remarkText}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -165,7 +165,7 @@ public class BookkeepingSqlProvider {
                 if (bookkeeping.getRemarkText() != null) VALUES("remarkText", "#{remarkText}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -181,7 +181,7 @@ public class BookkeepingSqlProvider {
                 if (bookkeeping.getRemarkText() != null) VALUES("remarkText", "#{remarkText}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -197,7 +197,7 @@ public class BookkeepingSqlProvider {
                 WHERE ("userId = #{userId}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -213,11 +213,11 @@ public class BookkeepingSqlProvider {
                 WHERE ("userId = #{userId}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
-    public String deleteIncome(Bookkeeping bookkeeping) {
+    public String deleteIncome() {
         String queryStr = new SQL() {
             {
                 DELETE_FROM("t_bookkeeping_income");
@@ -225,11 +225,11 @@ public class BookkeepingSqlProvider {
                 WHERE ("userId = #{userId}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
-    public String deleteExpend(Bookkeeping bookkeeping) {
+    public String deleteExpend() {
         String queryStr = new SQL() {
             {
                 DELETE_FROM("t_bookkeeping_expend");
@@ -237,7 +237,7 @@ public class BookkeepingSqlProvider {
                 WHERE ("userId = #{userId}");
             }
         }.toString();
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -271,7 +271,7 @@ public class BookkeepingSqlProvider {
                         "	YEAR(a.Date),MONTH(a.Date)\n" +
                         "ORDER BY a.Date DESC"
                 );
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
         return queryStr;
     }
 
@@ -290,7 +290,25 @@ public class BookkeepingSqlProvider {
                         "ORDER BY	data\n" +
                         "DESC"
                 );
-        System.out.println(queryStr);
+        //System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String listExpendTypeList(Map<String,String> map){
+        String queryStr=(
+                "SELECT\n" +
+                        "	id,userId,bkType,bkDate,bkMoney,remarkText,'expend' AS incomeOrExpend\n" +
+                        "FROM \n" +
+                        "	`t_bookkeeping_expend`\n" +
+                        "WHERE\n" +
+                        "	userId=#{openId}\n" +
+                        "	AND\n" +
+                        "	bkDate LIKE #{dateStr}\n" +
+                        "	AND\n" +
+                        "	bkType= #{bkType}\n" +
+                        "ORDER BY "+map.get("type")+" "+map.get("orderType")
+        );
+        //System.out.println(queryStr);
         return queryStr;
     }
 }

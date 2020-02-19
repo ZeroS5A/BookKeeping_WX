@@ -44,4 +44,7 @@ public interface BookkeepingService {
 
     /**每月按类型统计支出*/
     public List<MonthsExpendTypeStatisticData> listExpendByType(String openId, String dateStr);
+
+    /**每月按类型排序*/
+    public List<Bookkeeping> listExpendTypeList(String openId,String dateStr,String bkType, String type, String orderType);
 }

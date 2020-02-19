@@ -79,7 +79,6 @@ public class LoginController extends ExceptionController {
     @ResponseBody                                       //从头部字段中获取信息
     public Result getUserData(@RequestBody Login login, @RequestHeader("Authorization") String token){
         System.out.println("获取用户数据");
-        System.out.println("头部中的token信息"+token);
 
         Result rs=new Result();
         TokenUtil tku=new TokenUtil();

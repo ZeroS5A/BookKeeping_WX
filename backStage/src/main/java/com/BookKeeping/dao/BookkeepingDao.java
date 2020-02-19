@@ -72,4 +72,9 @@ public interface BookkeepingDao {
     /**按支出类型查找月度统计*/
     @SelectProvider(type = com.BookKeeping.mapper.BookkeepingSqlProvider.class,method = "listExpendByType")
     public List<MonthsExpendTypeStatisticData> listExpendByType(Map<String,String> map);
+
+    /**按支出类型排序*/
+    @SelectProvider(type = com.BookKeeping.mapper.BookkeepingSqlProvider.class,method = "listExpendTypeList")
+    public List<Bookkeeping> listExpendTypeList(Map<String,String> map);
+
 }

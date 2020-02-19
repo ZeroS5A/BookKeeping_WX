@@ -3,3 +3,16 @@
     width: 50%;
     margin-right: 10rpx;
 }
+.typeList{
+  display: flex;
+  overflow-y: scroll;
+  white-space: nowrap;
+  width: 100%;
+}
+.typeList.typeListItem{
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  width: 120rpx;
+  margin: 20rpx;
+}

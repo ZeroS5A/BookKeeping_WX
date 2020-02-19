@@ -123,8 +123,8 @@ public class test {
     @Test
     //测试查询用户
     public void openIdTest(){
-        ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-        UserService us = (UserService) ac.getBean("userService");
+        //ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        //UserService us = (UserService) ac.getBean("userService");
         //us.inserFeedback("nihao","wjdbc");
 
         //LoginService ls=(LoginService) ac.getBean("loginService");
@@ -133,6 +133,7 @@ public class test {
 
         //BookkeepingService bs =(BookkeepingService) ac.getBean("bookkeepingService");
         //bs.listExpendByType("otGE75JlF4-J14NvvI9E1B4_B7vw","2020-01%");
+        //System.out.println(bs.listExpendTypeList("otGE75JlF4-J14NvvI9E1B4_B7vw","2020-02%","cart","bkMoney"));
     }
 
     @Test

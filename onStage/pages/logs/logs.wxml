@@ -37,12 +37,13 @@
   </view> 
 </view>
 
-<view class="cu-card bg-white title-text solids-bottom" style="height: 70rpx; position: relative;">
-  <text style="position: absolute; bottom: 20rpx;font-size: large;margin-left: 30rpx;">支出分布</text>
+<view class="nav cu-card bg-white title-text solids-bottom" style="height: 70rpx; position: relative;">
+  <text style="color: {{isline?'':'#408ad2'}}; position: absolute; bottom: 20rpx;font-size: large;margin-left: 30rpx;" bindtap = "columnShow">支出分布</text>
+  <text style="color: {{isline?'#408ad2':''}}; position: absolute; bottom: 20rpx; right: 30rpx; font-size: large;" bindtap = "lineShow">支出趋势</text>
 </view>
 
-<view class="cu-card bg-white" style="height: auto">
-  <canvas canvas-id="lineCanvas" disable-scroll="true" class="" style="margin: 0,auto; width: 100%;height: {{systemData.windowWidth/1.2}}px;"></canvas>
+<view class="cu-card bg-white" style="height: auto;">
+  <canvas canvas-id="lineCanvas" disable-scroll="true" style="margin-top: 20rpx;width: 100%;height: {{systemData.windowWidth/1.2}}px;"></canvas>
   <view class="text-center" style="height: 80rpx;margin-top: 30rpx;">
     <text>{{year}}年{{month}}月</text>
   </view>
@@ -53,7 +54,7 @@
 </view>
 
 <view class="cu-list menu-avatar">
-  <view class="cu-item" wx:for="{{ringData}}" wx:key="key">
+  <view class="cu-item" wx:for="{{ringData}}" wx:key="key" bindtap = "openTypeList" data-value="{{item.name}}">
 
     <view class="cu-avatar lg bg-white">
       <text class="cuIcon-{{item.name}} lg text-white flex cu-avatar round" style="font-size:x-large; background-color: {{colors[index%colors.length]}};"></text>
@@ -72,9 +73,6 @@
       </view>
       
     </view>
-    <!-- <view class="">
-      <view class="text-bold" style="font-size: larger;margin-right: 20rpx;">{{item.data}}元</view>
-    </view> -->
   </view>
 </view>
 
