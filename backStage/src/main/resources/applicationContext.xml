@@ -20,15 +20,33 @@
     </context:component-scan>
 
     <!--配置数据库连接-->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <bean id="dataSource1" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/db_antools?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"></property>
         <property name="user" value="test"></property>          <!--自行修改自己数据库用户名和密码-->
         <property name="password" value="123456"></property>
     </bean>
+    <bean id="dataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/db_django?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"></property>
+        <property name="user" value="root"></property>          <!--自行修改自己数据库用户名和密码-->
+        <property name="password" value="123456"></property>
+    </bean>
     <!--创建SqlSessionFactory工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
+        <property name="dataSource" ref="dynamicDataSource"></property>
+    </bean>
+
+    <!-- 配置多数源映射关系 -->
+    <bean id="dynamicDataSource" class="com.BookKeeping.common.DynamicDataSource">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry value-ref="dataSource1" key="dataSource1"></entry>
+                <entry value-ref="dataSource2" key="dataSource2"></entry>
+            </map>
+        </property>
+        <!-- 默认数据源1 -->
+        <property name="defaultTargetDataSource" ref="dataSource1"></property>
     </bean>
 
     <!--配置Dao接口所在包-->
@@ -43,7 +61,7 @@
 
     <!--事务管理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="dynamicDataSource"/>
     </bean>
 
     <!--配置事务通知属性-->
@@ -112,10 +130,10 @@
     </bean>
 
 
-    <!--启用shiro注解-->
+    <!--启用shiro注解
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager" />
-    </bean>
+    </bean>-->
 
     <!-- 控制器异常处理，既鉴权失败时的处理逻辑 -->
     <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">

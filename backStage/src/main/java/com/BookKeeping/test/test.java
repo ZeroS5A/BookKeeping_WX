@@ -1,18 +1,23 @@
 package com.BookKeeping.test;
 
 import com.BookKeeping.common.Aes;
+import com.BookKeeping.common.DBContextHolder;
+import com.BookKeeping.dao.UserDao;
+import com.BookKeeping.dao.UserDao_db2;
 import com.BookKeeping.entity.Login;
 import com.BookKeeping.entity.Token;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.BookkeepingService;
 import com.BookKeeping.service.LoginService;
 import com.BookKeeping.service.UserService;
+import com.BookKeeping.service.UserService_db2;
 import com.BookKeeping.service.impl.UserServiceImpl;
 import com.BookKeeping.util.HttpUtil;
 import com.BookKeeping.util.RedisUtil;
 import com.BookKeeping.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -25,10 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class test {
 
@@ -36,7 +38,7 @@ public class test {
     //测试Spring配置
     public void test(){
         ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-        UserService us = (UserService) ac.getBean("user");
+        UserService us = (UserService) ac.getBean("userService");
         us.selAll();
     }
     @Test
@@ -163,5 +165,15 @@ public class test {
 
         }
         System.out.println(str);
+    }
+
+    @Test
+    //双数据源测试(失败)
+    public void doubleDb(){
+        ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        UserService_db2 us = (UserService_db2) ac.getBean("userService_db2");
+        us.selAll();
+        //设置数据源
+//        //UserDao_db2.selAll();
     }
 }
