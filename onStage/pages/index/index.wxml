@@ -7,12 +7,72 @@
       <view class="content">意见反馈</view>
     </view>
     <view class="cu-form-group input-text">
-      <input style="text-align: left;" maxlength="-1" bindinput="handleInputChange" value="{{textareaAInput}}" placeholder="请输入您的建议"></input>
+      <input style="text-align: left;" maxlength="-1" data-name="textareaAInput" bindinput="handleInputChange" placeholder="请输入您的建议"></input>
     </view>
     <view class="cu-bar bg-white justify-end">
       <view class="action">
         <text style="width: 50%;color: green;" bindtap="hideModal">取消</text>
         <button style="width: 50%;" class="cu-btn bg-green margin-left" bindtap="postFeedback">提交</button>
+
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-modal {{modalName=='DialogModal2'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">绑定学号</view>
+    </view>
+    <view class="bg-white">
+      <view class="cu-form-group">
+        <view class="title">学号</view>
+        <input placeholder="输入学号" data-name="stuId" bindinput="handleInputChange" value="{{postStuData.stuId}}"></input>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">密码</view>
+        <input placeholder="默认身份证后6位" data-name="stuPw" bindinput="handleInputChange" value="{{postStuData.stuPw}}"></input>
+      </view>
+    </view>
+
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <text style="width: 50%;color: green;" bindtap="hideModal">取消</text>
+        <button style="width: 50%;" class="cu-btn bg-green margin-left" bindtap="bindCard">提交</button>
+
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-modal {{modalName=='DialogModal3'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">更新</view>
+    </view>
+    <view class="bg-white">
+      <!-- <view class="cu-form-group" style="border-color: '';">
+        <view class="title">开始时间</view>
+        <input placeholder="区间不能大于30天" data-name="startDate" bindinput="handleInputChange" value="{{postStuData.startDate}}"></input>
+      </view>
+      <view class="cu-form-group" style="border-color: '';">
+        <view class="title">结束时间</view>
+        <input placeholder="样例：20200202" data-name="endDate" bindinput="handleInputChange" value="{{postStuData.endDate}}"></input>
+      </view> -->
+      <view class="cu-form-group">
+        <view class="title">验证码</view>
+        <input data-name="rand" bindinput="handleInputChange"></input>
+        <button wx:if="{{codeTempPath == 1}}" class="cu-btn bg-green shadow" bindtap = "getCode" style="width: 20%;">获取</button>
+        <image wx:else class="shadow" src="{{codeTempPath}}" style="width: 66px;height: 22px;" lazy-load="false" bindtap = "getCode">
+          
+        </image>
+      </view>
+      
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <text style="width: 50%;color: green;" bindtap="hideModal">取消</text>
+        <button style="width: 50%;" class="cu-btn bg-green margin-left" bindtap="bindCard">更新</button>
 
       </view>
     </view>
@@ -82,9 +142,21 @@
       </view>
     </view>
     <view class="cu-item arrow">
-      <view class="content" bindtap = "switchTest">
+      <view class="content" bindtap = "feedbackDialog">
         <text class="cuIcon-writefill text-cyan"></text>
         <text class="text-grey">意见反馈</text>
+      </view>
+    </view>
+    <view class="cu-item arrow">
+      <view class="content" bindtap = "bindCardDialog">
+        <text class="cuIcon-pay text-blue"></text>
+        <text class="text-grey">{{userInfo.hasStuAccount == 1?'重新绑定':'卡号绑定'}}</text>
+      </view>
+    </view>
+    <view wx:if="{{userInfo.hasStuAccount == 1}}" class="cu-item arrow">
+      <view class="content" bindtap = "crawCardData">
+        <text class="cuIcon-search text-olive"></text>
+        <text class="text-grey">获取数据</text>
       </view>
     </view>
     <view class="cu-item arrow">

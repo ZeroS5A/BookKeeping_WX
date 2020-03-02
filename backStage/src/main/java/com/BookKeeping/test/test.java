@@ -5,6 +5,7 @@ import com.BookKeeping.entity.Login;
 import com.BookKeeping.entity.Token;
 import com.BookKeeping.entity.User;
 import com.BookKeeping.service.BookkeepingService;
+import com.BookKeeping.service.CardDataService;
 import com.BookKeeping.service.LoginService;
 import com.BookKeeping.service.UserService;
 import com.BookKeeping.service.impl.UserServiceImpl;
@@ -123,7 +124,10 @@ public class test {
     @Test
     //测试查询用户
     public void openIdTest(){
-        //ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        ApplicationContext ac=new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        CardDataService cd = (CardDataService) ac.getBean("cardDataServer");
+        cd.insertCardData("otGE75JlF4-J14NvvI9E1B4_B7vw");
+
         //UserService us = (UserService) ac.getBean("userService");
         //us.inserFeedback("nihao","wjdbc");
 
@@ -164,4 +168,5 @@ public class test {
         }
         System.out.println(str);
     }
+
 }

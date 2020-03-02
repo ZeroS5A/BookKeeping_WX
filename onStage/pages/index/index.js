@@ -8,6 +8,13 @@ Page({
     hasUserInfo: false,
     modalName:'',
     textareaAInput:'',
+    postStuData:{
+      stuId:'',
+      stuPw:'',
+      startDate:'',
+      endDate:'',
+      rand:''
+    },
     feedbackData:{
       model:"",
       feedbackData:""
@@ -27,8 +34,9 @@ Page({
       todayExpendMoney: "--",
       allExpendMoney: "--",
       todayIncomeMoney: "--"
-    }
-
+    },
+    codeTempPath:1,
+    delateModel:0
   },
   //页面准备好的时候自动调用
   onLoad: function () {
@@ -40,6 +48,7 @@ Page({
         that.setData({
           userInfo:app.globalData.userInfo,
           hasUserInfo:app.globalData.hasUserInfo,
+          token:app.globalData.token
         })
         that.getBkDate()
         wx.hideLoading()
@@ -121,11 +130,22 @@ Page({
     })
   },
 
-  //测试状态转换
-  switchTest(){
+  //弹窗
+  feedbackDialog(){
     this.setData({
       modalName:'DialogModal1'
     })
+  },
+  bindCardDialog(){
+    this.setData({
+      modalName:'DialogModal2'
+    })
+  },
+  crawCardData(){
+    this.setData({
+      modalName:'DialogModal3'
+    })
+    this.getCode()
   },
   //隐藏模态窗
   hideModal(e) {
@@ -159,10 +179,16 @@ Page({
     var nowDate = year + "-" + month + "-" + day;
     this.setData({
       bkDateStr:{
-        bkDateStr:nowDate
+        bkDateStr:nowDate,
       },
+      postStuData:{
+        endDate:year+month+day,
+        stuId:'',
+        stuPw:'',
+        startDate:'',
+        rand:''
+      }
     })
-    
   },
   //获取数据
   getBkDate(){
@@ -190,6 +216,30 @@ Page({
       console.log("用户未登录！")
     }
   },
+  getCode(){
+    var that=this
+    //下载验证码到本地
+    wx.downloadFile({
+      url: 'http://127.0.0.1:8000/crawExpendData/getImageCode',
+      method: 'GET',
+      header: {
+        Authorization: that.data.token
+      }, 
+      success: function(res){
+        if (res.statusCode === 200) {
+          console.log(res.tempFilePath)
+          that.setData({
+            codeTempPath:res.tempFilePath
+          })
+        }
+      },
+      fail: function() {
+      },
+      complete: function() {
+        //complete
+      }
+    })
+  },
   //复制链接
   CopyLink(e) {
     wx.setClipboardData({
@@ -200,6 +250,34 @@ Page({
           duration: 1000,
         })
       }
+    })
+    var times
+    if(this.data.delateModel<=6){
+      times = this.data.delateModel+1
+    }else{
+      times = 0
+      wx.showModal({
+        title:'是否清除所有同步的数据',
+        content:'操作不可逆！仅在数据有问题时使用',
+        confirmText:'删除',
+        success(res){
+          if(res.confirm){
+            wx.showLoading({
+              title: '删除中',
+            })
+            app.getRequest('card/deleteCardData','')
+            .then((res)=>{
+              wx.hideLoading()
+              wx.showModal({
+                title:'本次删除了'+res.data.data+'条记录',
+              })
+            })
+          }
+        }
+      })
+    }
+    this.setData({
+      delateModel:times
     })
   },
   //反馈提交
@@ -232,12 +310,97 @@ Page({
       modalName: null
     })
   },
+  bindCard(){
+    console.log(this.data.postStuData)
+    if(this.data.postStuData.rand == ''){
+      wx.showModal({
+        title: '请输入验证码！',
+      })
+    }else{
+      wx.showLoading({
+        title: '爬取中',
+      })
+      //先验证登录
+      app.getRequest2('stuLogin/',this.data.postStuData)
+      .then((res)=>{
+        //后获取数据
+        if (res.data == "success"){
+          app.getRequest2('drawData/',this.data.postStuData)
+          .then((res)=>{
+            wx.hideLoading()
+            console.log(res)
+            var message
+            var success = false
+            var that = this
+            if (res.data == "nodata"){
+              message="请检查区间，或者此区间没有数据"
+            }
+            else{
+              success =true
+              message="共爬取到了"+res.data
+            }
+            wx.showModal({
+              title:'是否同步',
+              content:message,
+              confirmText:'同步',
+              success (res) {
+                if (res.confirm && success) {
+                  wx.showLoading({
+                    title: '同步中',
+                  })
+                  app.getRequest('card/InsertCardData','')
+                  .then((res)=>{
+                    wx.hideLoading()
+                    wx.showModal({
+                      title:'本次同步了'+res.data.data+'条',
+                    })
+                  })
+                }
+                that.setData({
+                  modalName:''
+                })
+              }
+            })
+          })
+        }else{
+          wx.hideLoading()
+          wx.showModal({
+            title:'错误！',
+            content:'请检查验证码或者学号密码'
+          })
+        }
+
+      })
+    }
+  },
   //用于双向绑定
   handleInputChange: function(e){
    // 取出定义的变量名
   var currentValue = e.detail.value; 
-    
+  var name = e.target.dataset.name;
    // 将 input 值赋值给 定义的变量名
-  this.data.textareaAInput=currentValue
+  if(name == 'textareaAInput'){
+    this.data.textareaAInput=currentValue
+  }
+    
+  else if(name == 'stuId'){
+    this.data.postStuData.stuId=currentValue
+  }
+
+  else if(name == 'stuPw'){
+    this.data.postStuData.stuPw=currentValue
+  }
+        
+  else if(name == 'startDate'){
+    this.data.postStuData.startDate=currentValue
+  }
+
+  else if(name == 'endDate'){
+    this.data.postStuData.endDate=currentValue
+  }
+
+  else if(name == 'rand'){
+    this.data.postStuData.rand=currentValue
+  }
   },
 })

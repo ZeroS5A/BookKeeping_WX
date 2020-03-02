@@ -26,7 +26,7 @@ Page({
     //支出类型
     bkType0:[
       {
-        bktype:"baby",
+        bktype:"emoji",
       },
       {
         bktype:"cart",
@@ -38,13 +38,25 @@ Page({
         bktype:"more",
       },
       {
+        bktype:"taxi",
+      },
+      {
         bktype:"pay",
       },
       {
-        bktype:"deliver",
+        bktype:'mobile',
+      },
+      {
+        bktype:'camera',
+      },
+      {
+        bktype:"clothes",
       },
       {
         bktype:"discover",
+      },
+      {
+        bktype:"ticket",
       },
       {
         bktype:"evaluate",
@@ -56,7 +68,10 @@ Page({
     //收入类型
     bkType1:[
       {
-        bktype:"add",
+        bktype:"vipcard",
+      },
+      {
+        bktype:"selection",
       },
       {
         bktype:"redpacket",

@@ -23,7 +23,7 @@
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/db_antools?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"></property>
-        <property name="user" value="test"></property>          <!--自行修改自己数据库用户名和密码-->
+        <property name="user" value="root"></property>          <!--自行修改自己数据库用户名和密码-->
         <property name="password" value="123456"></property>
     </bean>
     <!--创建SqlSessionFactory工厂-->
@@ -112,10 +112,10 @@
     </bean>
 
 
-    <!--启用shiro注解-->
+    <!--启用shiro注解
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager" />
-    </bean>
+    </bean>-->
 
     <!-- 控制器异常处理，既鉴权失败时的处理逻辑 -->
     <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">

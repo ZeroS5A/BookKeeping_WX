@@ -17,11 +17,11 @@ public interface UserDao {
     List<User> selAll();
 
     //添加
-    @Insert("INSERT INTO t_user (openId,nickName,gender,avatarUrl)VALUES(#{openId},#{nickName},#{gender},#{avatarUrl})")
+    @Insert("INSERT INTO t_user (openId,nickName,gender,avatarUrl,hasStuAccount)VALUES(#{openId},#{nickName},#{gender},#{avatarUrl},#{hasStuAccount})")
     Integer insertUser(User user);
 
     //更新
-    @Update("UPDATE t_user SET nickName=#{nickName},gender=#{gender},avatarUrl=#{avatarUrl} WHERE openId=#{openId}")
+    @Update("UPDATE t_user SET nickName=#{nickName},gender=#{gender},avatarUrl=#{avatarUrl},hasStuAccount=#{hasStuAccount} WHERE openId=#{openId}")
     Integer updateUser(User user);
 
     @Insert("INSERT INTO t_feedback (openId,date,model,feedbackData)VALUES(#{openId},#{date},#{model},#{feedbackData})")

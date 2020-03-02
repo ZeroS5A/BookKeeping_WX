@@ -108,29 +108,36 @@ public class LoginController extends ExceptionController {
         return rs;
     }
 
-    @RequiresRoles("user")    //需要角色user才能操作
-    @RequestMapping(value = "/getOpenId",method = RequestMethod.POST)
+    // @RequiresRoles("user")    //需要角色user才能操作
+    @RequestMapping(value = "/getOpenId",method = RequestMethod.GET)
     @ResponseBody                                       //提取头部的验证信息
-    public Result getOpenId(@RequestBody String session,@RequestHeader("Authorization") String token){
+    public Result getOpenId(@RequestBody String isDjango, @RequestHeader("Authorization") String token){
         Result rs=new Result();
-        TokenUtil tku=new TokenUtil();
+        // TokenUtil tku=new TokenUtil();
+        if (isDjango.equals("DjangoAccess")){
+            String result;
+            try {
+                result=redisUtil.hget(token,"id").toString();
+                //从redis获取openid
+                if(result!=null){
+                    logger.info("Redis中的id："+result);
+                    rs.setData(result);
+                    return rs;
+                }else {
+                    logger.info("error");
+                }
+            }catch (Exception e){
 
-        try {
-            String result=redisUtil.hget(token,"id").toString();
-            //从redis获取openid
-            if(result!=null){
-                logger.info("Redis中的id："+result);
-            }else {
-                logger.info("error");
             }
-        }catch (Exception e){
-
         }
-
-
-        String openid=tku.getTokenDataOpenId(token);
-        logger.info("token中的openid："+openid);
-        rs.setData(openid);
+        else {
+            rs.setResult(ResultStatus.DATAERR);
+            return rs;
+        }
+        // String openid=tku.getTokenDataOpenId(token);
+        // logger.info("token中的openid："+openid);
+        // rs.setData("openid");
+        rs.setResult(ResultStatus.NOTOKEN);
         return rs;
     }
 

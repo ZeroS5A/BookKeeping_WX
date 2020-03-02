@@ -7,6 +7,7 @@ public class User{
     private String nickName;
     private String openId;
     private Integer gender;
+    private Integer hasStuAccount;
 
     public Integer getId() {
         return id;
@@ -48,6 +49,14 @@ public class User{
         this.gender = gender;
     }
 
+    public Integer getHasStuAccount() {
+        return hasStuAccount;
+    }
+
+    public void setHasStuAccount(Integer hasStuAccount) {
+        this.hasStuAccount = hasStuAccount;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -56,6 +65,7 @@ public class User{
                 ", nickName='" + nickName + '\'' +
                 ", openId='" + openId + '\'' +
                 ", gender=" + gender +
+                ", hasStuAccount=" + hasStuAccount +
                 '}';
     }
 

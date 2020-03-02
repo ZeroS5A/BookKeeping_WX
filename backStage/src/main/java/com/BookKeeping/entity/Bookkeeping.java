@@ -14,6 +14,7 @@ public class Bookkeeping implements Serializable {
     private Date bkDate;
     private Float bkMoney;
     private String remarkText;
+    private Integer isCard;
     private String incomeOrExpend;
 
     private String showTime;
@@ -82,16 +83,24 @@ public class Bookkeeping implements Serializable {
         this.showTime = showTime;
     }
 
+    public Integer getIsCard() {
+        return isCard;
+    }
+
+    public void setIsCard(Integer isCard) {
+        this.isCard = isCard;
+    }
 
     @Override
     public String toString() {
         return "Bookkeeping{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", bkType='" + bkType + '\'' +
                 ", bkDate=" + bkDate +
                 ", bkMoney=" + bkMoney +
                 ", remarkText='" + remarkText + '\'' +
+                ", isCard='" + isCard + '\'' +
                 ", incomeOrExpend='" + incomeOrExpend + '\'' +
                 ", showTime='" + showTime + '\'' +
                 '}';

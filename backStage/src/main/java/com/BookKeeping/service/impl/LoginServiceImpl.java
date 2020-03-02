@@ -47,6 +47,8 @@ public class LoginServiceImpl implements LoginService {
 
         us.setNickName(userData.getString("nickName"));
         us.setOpenId(userData.getString("openId"));
+        us.setHasStuAccount(loginDao.getAccount(userData.getString("openId")));
+
         return us;
     }
 

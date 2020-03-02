@@ -12,18 +12,24 @@ App({
     hasUserInfo: false,
     //图标库对应
     iconList:{
-      baby:'餐饮',
+      emoji:'餐饮',
       shop:'消费',
       cart:'购物',
+      clothes:'服饰',
       pay:'缴费',
+      weixin:'微信转账',
       deliver:'交通',
       discover:'娱乐',
       taxi:'交通',
+      mobile:'通信',
+      ticket:'票据',
+      camera:'旅游',
       evaluate:'医疗',
       edit:'学习',
       more:'其他',
 
-      add:'打工',
+      selection:'奖金',
+      vipcard:'工资',
       redpacket:'红包',
       recharge:'收款',
     }
@@ -101,11 +107,35 @@ App({
     var that=this;
     return new Promise(function(resolve,reject){
       wx.request({
-        url: 'http://127.0.0.1/Bookkeeping/'+url,
+        url: 'http://192.168.31.233/Bookkeeping/'+url,
         data: data,
         method: 'POST',
         header: {
           Authorization: that.globalData.token
+        }, 
+        success: function(res){
+          resolve(res)
+        },
+        fail: function() {
+          reject()
+        },
+        complete: function() {
+          //complete
+        }
+      })
+    })
+  },
+  //微信请求封装Django版本
+  getRequest2(url,data){
+    var that=this;
+    return new Promise(function(resolve,reject){
+      wx.request({
+        url: 'http://127.0.0.1:8000/crawExpendData/'+url,
+        data: data,
+        method: 'GET',
+        header: {
+          Authorization: that.globalData.token,
+          'content-type': 'application/x-www-form-urlencoded'
         }, 
         success: function(res){
           resolve(res)

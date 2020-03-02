@@ -179,6 +179,7 @@ public class BookkeepingSqlProvider {
                 if (bookkeeping.getBkDate() != null) VALUES("bkDate", "#{bkDate}");
                 if (bookkeeping.getBkMoney() != null) VALUES("bkMoney", "#{bkMoney}");
                 if (bookkeeping.getRemarkText() != null) VALUES("remarkText", "#{remarkText}");
+                if (bookkeeping.getIsCard() != null) VALUES("isCard", "#{isCard}");
             }
         }.toString();
         //System.out.println(queryStr);

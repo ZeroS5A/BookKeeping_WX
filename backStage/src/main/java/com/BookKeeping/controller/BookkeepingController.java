@@ -318,7 +318,7 @@ public class BookkeepingController extends ExceptionController {
     @RequestMapping(value = "/listMonthsIncomeExpend", method = RequestMethod.POST)
     @ResponseBody
     public Result listMonthsIncomeExpend(@RequestHeader("Authorization") String token){
-        System.out.println("listMonthsIncomeExpend_Run:"+redisUtil.hget(token, "id").toString());
+        System.out.println("listMonthsIncomeExpend_Run:");
         Result rs=new Result();
         try {
             rs.setData(bookkeepingService.listMonthsIncomeExpend(redisUtil.hget(token, "id").toString()));
