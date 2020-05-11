@@ -15,7 +15,7 @@
   <view class="action">
     <!-- <text>收入：500</text>今日/今月/全部
     <text>支出：200</text> -->
-    <picker mode="date" value="{{date}}" start="2019-01" end="{{date}}" bindchange="DateChange" fields="month">
+    <picker mode="date" value="{{date}}" start="2019-01" end="2025-01" bindchange="DateChange" fields="month">
       <view class="picker">
         {{bkDataPost.bkDateStr}}
       </view>

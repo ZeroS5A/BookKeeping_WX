@@ -23,6 +23,7 @@ Page({
       remarkText:''
     },
     appData:app,
+    tryTimes:0,
     feedback:feedbackApi
   },
   
@@ -30,40 +31,16 @@ Page({
 
   onLoad: function (options) {
     this.getDate()
-    var that = this;
+    //获取首页信息（循环多次检查）
+    this.listALL() 
+
+    var that=this
     wx.showLoading({
       title: '正在获取数据',
     })
     setTimeout(function () {
-      if (app.globalData.hasUserInfo) {
-        app.getRequest("bookkeeping/listAll", that.data.bkDataPost)
-          .then((res) => {
-            if (res.data.code != 200) {
-              console.log("无法获取数据")
-              wx.hideLoading()
-              wx.showModal({
-                title: '无法获取数据',
-                showCancel: false,
-                success (res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定')
-                  }
-                }
-              })
-            }
-            else {
-              that.setData({
-                bkData: {
-                  bookkeepingAllList: res.data.data.bookkeepingAllList, 
-                  totalIncome: res.data.data.totalIncome,
-                  totalExpend: res.data.data.totalExpend,
-                  sumIncomeMoney: res.data.data.sumIncomeMoney,
-                  sumExpendMoney: res.data.data.sumExpendMoney
-                }
-              })
-              wx.hideLoading()
-            }
-          })
+      if (that.data.tryTimes<15&&app.globalData.hasUserInfo) {
+        console.log("access")
       } else {
         console.log("用户未登录！")
         wx.hideLoading()
@@ -77,7 +54,8 @@ Page({
           }
         })
       }
-    }, 2500)     
+    }, 3000)
+    
   },
 
   /**
@@ -181,6 +159,7 @@ Page({
       ListTouchDirection: null
     })
   },
+
   //获取日期
   getDate(){
     
@@ -205,6 +184,7 @@ Page({
       }
     })
   },
+
   //选择月份触发
   DateChange(e) {
     var month
@@ -224,6 +204,8 @@ Page({
 
     this.getBkData()
   },
+
+  //查找
   searchInput: function(e) {
     var value = e.detail.value;
     if(value.split(" ").join("").length == 0) {
@@ -246,6 +228,7 @@ Page({
       }
     });
   },
+  
   //获取数据封装
   getBkData() {
     if (app.globalData.hasUserInfo) {
@@ -271,4 +254,47 @@ Page({
     }
   },
 
+  //获取所有首页数据
+  listALL(){
+    var that = this;
+    setTimeout(function () {
+      if(app.globalData.hasUserInfo){
+        app.getRequest("bookkeeping/listAll", that.data.bkDataPost)
+          .then((res) => {
+            if (res.data.code != 200) {
+              console.log("无法获取数据")
+              wx.hideLoading()
+              wx.showModal({
+                title: '无法获取数据',
+                showCancel: false,
+                success (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                  }
+                }
+              })
+            }
+            else {
+              that.setData({
+                bkData: {
+                  bookkeepingAllList: res.data.data.bookkeepingAllList, 
+                  totalIncome: res.data.data.totalIncome,
+                  totalExpend: res.data.data.totalExpend,
+                  sumIncomeMoney: res.data.data.sumIncomeMoney,
+                  sumExpendMoney: res.data.data.sumExpendMoney
+                }
+              })
+              wx.hideLoading()
+            }
+          })
+      }else{
+        //console.log("ListALL-noUserInfo")
+        if(that.data.tryTimes<15){
+          that.listALL()
+          that.data.tryTimes+=1
+        }
+        
+      }
+    },300)
+  }
 })

@@ -22,9 +22,12 @@
     <!--配置数据库连接-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
-        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/db_antools?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"></property>
-        <property name="user" value="root"></property>          <!--自行修改自己数据库用户名和密码-->
-        <property name="password" value="123456"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/你的数据库名?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"></property>
+        <property name="user" value="你的用户名"></property>          <!--自行修改自己数据库用户名和密码-->
+        <property name="password" value="你的密码"></property>
+        <property name="testConnectionOnCheckout" value="false"/>
+        <property name="testConnectionOnCheckin" value="true"/>
+        <property name="idleConnectionTestPeriod" value="3600"/>
     </bean>
     <!--创建SqlSessionFactory工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -112,10 +115,10 @@
     </bean>
 
 
-    <!--启用shiro注解
+    <!--启用shiro注解-->
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager" />
-    </bean>-->
+    </bean>
 
     <!-- 控制器异常处理，既鉴权失败时的处理逻辑 -->
     <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">

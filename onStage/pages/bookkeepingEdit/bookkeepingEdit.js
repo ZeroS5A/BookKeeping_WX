@@ -17,7 +17,7 @@ Page({
     startYear: 2000,
     endYear: 2050,
     id:null,
-    bktype:'baby',
+    bktype:'emoji',
     isIncome:false,
     type:null,
     byDate:'',
@@ -208,7 +208,7 @@ Page({
   typeSelect0(){
     this.setData({
       isIncome:false,
-      bktype:'baby'
+      bktype:'emoji'
     })
   },
   typeSelect1(){
@@ -245,7 +245,8 @@ Page({
   postData(){
     var type
     var data
-    
+    var amtreg = /^\d+(\.\d{1,2})?$/;
+
     if(this.data.isIncome){
       type="income"
     }else{
@@ -253,15 +254,38 @@ Page({
     }
 
     if(this.data.bkMoney==''){
-      console.log("请输入金额")
       wx.showModal({
         content: '请输入金额!',
         showCancel: false,
         success (res) {
           if (res.confirm) {
-            console.log('用户点击确定')
+
           } else if (res.cancel) {
-            console.log('用户点击取消')
+
+          }
+        }
+      })
+    }else if(!amtreg.test(this.data.bkMoney)){
+      wx.showModal({
+        content: '请输入正确的金额！',
+        showCancel: false,
+        success(res) {
+          if (res.confirm) {
+
+          } else if (res.cancel) {
+
+          }
+        }
+      })
+    }else if (this.data.bkMoney > 9999999) {
+      wx.showModal({
+        content: '有钱多请赞助一下=-=',
+        showCancel: false,
+        success(res) {
+          if (res.confirm) {
+
+          } else if (res.cancel) {
+
           }
         }
       })

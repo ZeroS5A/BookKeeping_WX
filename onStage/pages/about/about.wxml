@@ -1,12 +1,33 @@
 <!--pages/about/about.wxml-->
-<view class="content">
-    <view class="main">
-        <text style="font-family:youyuan;font-size: xx-large;font-weight:bolder;margin-bottom: 50rpx;">没有关于</text>
+<view>
+     <view class="main">
+        <!--<text style="font-family:youyuan;font-size: xx-large;font-weight:bolder;margin-bottom: 50rpx;">没有关于</text>
         <text>使用组件</text>
         <text class="padding">ColorUI、wx-charts</text>
         <text>开发者</text>
         <text class="padding">ZeroS、Asukin</text>
+        <text>版本说明-V200511</text>
+        <text class="padding">-今日支出修改为净支出</text>
+        <text class="padding">-添加本月全部数据的查看与排序</text>
+        <view style="width: 100%; position: absolute; bottom: 0;margin-left: 20rpx;">2020年寒假</view>--> 
+        <view class='margin-xl bg-white padding-xl radius shadow-lg'>
+            <view class='text-center margin-bottom text-lg  text-grey'>关于本软件</view>
+            <view class='text-content'>
+            <view>Hello！欢迎使用简记！</view>
+            <view class='margin-top-sm'>该软件的V1版由ZeroS与Asukin于2020年寒假开发，之后的版本各自做了差异化处理</view>
+            <view class='margin-top-sm'>项目使用了ColorUI、wx-charts组件，并且在GitHub上开源，如果有好的想法欢迎提出！</view>
+            <view class='margin-top-sm'>开发的目的呢主要是想做自己的记账软件，解决其他软件无法导出数据的痛点，所以呢，如果有用户需要导出自己的数据，可以联系我导出噢。</view>
+            <view class="margin-top-sm text-center">注意</view>
+            <view class='margin-top-sm'>-软件可能还存在一些bug，可以通过反馈按钮向我反馈噢,另外由于运行环境是学生机，性能可能无法保证，请谅解~</view>
+            <view class='margin-top-sm'>-软件的获取数据是指在北理珠的校园卡消费记录，如果遇到获取不到验证码的情况，请稍等或者联系作者</view>
+            <view class="margin-top-sm text-center">警告</view>
+            <view class='margin-top-sm'>由于服务器是在公网的环境下运行，会有被黑客攻击的风险，我会尽我所能来保证安全</view>
+            <view class="margin-top-sm">以上，如果帮助到了你的话，也欢迎赏赞作者一杯coffee~</view>
+            <view class="text-right margin-top-sm">ZeroS</view>
+            <view class="text-right">V2-200511</view>
+            </view>
+        </view>
     </view>
-    <view style="width: 100%; position: absolute; bottom: 0;margin-left: 20rpx;">2020年寒假</view>
+
 </view>
 

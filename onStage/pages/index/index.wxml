@@ -27,7 +27,7 @@
     <view class="bg-white">
       <view class="cu-form-group">
         <view class="title">学号</view>
-        <input placeholder="输入学号" data-name="stuId" bindinput="handleInputChange" value="{{postStuData.stuId}}"></input>
+        <input placeholder="输入学号"  type="digit" data-name="stuId" bindinput="handleInputChange" value="{{postStuData.stuId}}"></input>
       </view>
       <view class="cu-form-group">
         <view class="title">密码</view>
@@ -63,7 +63,7 @@
         <view class="title">验证码</view>
         <input data-name="rand" bindinput="handleInputChange"></input>
         <button wx:if="{{codeTempPath == 1}}" class="cu-btn bg-green shadow" bindtap = "getCode" style="width: 20%;">获取</button>
-        <image wx:else class="shadow" src="{{codeTempPath}}" style="width: 66px;height: 22px;" lazy-load="false" bindtap = "getCode">
+        <image wx:else class="shadow" src="https://lczeros.cn/codeImage/{{codeTempPath}}.png" style="width: 66px;height: 22px;" lazy-load="false" bindtap = "getCode">
           
         </image>
       </view>
@@ -72,7 +72,7 @@
     <view class="cu-bar bg-white justify-end">
       <view class="action">
         <text style="width: 50%;color: green;" bindtap="hideModal">取消</text>
-        <button style="width: 50%;" class="cu-btn bg-green margin-left" bindtap="bindCard">更新</button>
+        <button style="width: 50%;" class="cu-btn bg-green margin-left" bindtap="upCardData">更新</button>
 
       </view>
     </view>
@@ -95,9 +95,9 @@
   <view class="padding flex text-center text-grey bg-white shadow shadow-lg">
 
     <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xxl text-orange">￥{{bkData.todayExpendMoney==null?'--':bkData.todayExpendMoney}}</view>
+      <view class="text-xxl text-orange">￥{{bkData.monthIncomeMoney==null?0-bkData.monthExpendMoney:bkData.monthIncomeMoney-bkData.monthExpendMoney}}</view>
       <view class="margin-top-sm">
-        <text>今日支出</text> 
+        <text>净流量</text> 
       </view>
     </view>
     <view class="flex flex-sub flex-direction solid-right">
@@ -150,10 +150,10 @@
     <view class="cu-item arrow">
       <view class="content" bindtap = "bindCardDialog">
         <text class="cuIcon-pay text-blue"></text>
-        <text class="text-grey">{{userInfo.hasStuAccount == 1?'重新绑定':'卡号绑定'}}</text>
+        <text class="text-grey">{{userInfo.hasStuAccount == 1 || hasStuAccount == 1?'重新绑定':'卡号绑定'}}</text>
       </view>
     </view>
-    <view wx:if="{{userInfo.hasStuAccount == 1}}" class="cu-item arrow">
+    <view wx:if="{{userInfo.hasStuAccount == 1 || hasStuAccount == 1}}" class="cu-item arrow">
       <view class="content" bindtap = "crawCardData">
         <text class="cuIcon-search text-olive"></text>
         <text class="text-grey">获取数据</text>

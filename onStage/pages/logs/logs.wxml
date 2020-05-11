@@ -51,6 +51,7 @@
 
 <view class="cu-card bg-white title-text solids-bottom" style="height: 70rpx; position: relative;">
   <text style="position: absolute; bottom: 20rpx;font-size: large;margin-left: 30rpx;">支出排行</text>
+  <text style="position: absolute; bottom: 20rpx; right: 30rpx; font-size: large;" bindtap = "openTypeList" data-value="%">查看全部</text>
 </view>
 
 <view class="cu-list menu-avatar">

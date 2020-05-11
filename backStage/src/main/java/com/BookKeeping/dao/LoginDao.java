@@ -13,7 +13,7 @@ public interface LoginDao {
     @Select("SELECT\n" +
             "\tcount(*)\n" +
             "FROM\n" +
-            "\tcrawexpenddata_user\n" +
+            "\tcrawExpendData_user\n" +
             "WHERE\n" +
             "\tuserId=#{openid}")
     Integer getAccount(String openid);

@@ -143,26 +143,30 @@ Page({
   },
   crawCardData(){
     this.setData({
-      modalName:'DialogModal3'
+      modalName:'DialogModal3',
     })
+    this.data.postStuData.rand=''
     this.getCode()
   },
+
   //隐藏模态窗
   hideModal(e) {
     this.setData({
       modalName: null
     })
   },
+
   //显示图片
   showQrcode() {
     wx.previewImage({
-      urls: ["/static/images/QRcode.png"]
+      urls: ["https://lczeros.cn/images/QRcode.png"]
     })
     // wx.previewImage({
     //   urls: ['/static/images/test.png'],
     //   current: '/static/images/test.png' // 当前显示图片的http链接      
     // })
   },
+
   //获取当前时间
   getDate(){
     
@@ -190,6 +194,7 @@ Page({
       }
     })
   },
+
   //获取数据
   getBkDate(){
     if(this.data.hasUserInfo){
@@ -216,29 +221,18 @@ Page({
       console.log("用户未登录！")
     }
   },
+
+  //获取验证码
   getCode(){
     var that=this
     //下载验证码到本地
-    wx.downloadFile({
-      url: 'http://127.0.0.1:8000/crawExpendData/getImageCode',
-      method: 'GET',
-      header: {
-        Authorization: that.data.token
-      }, 
-      success: function(res){
-        if (res.statusCode === 200) {
-          console.log(res.tempFilePath)
-          that.setData({
-            codeTempPath:res.tempFilePath
-          })
-        }
-      },
-      fail: function() {
-      },
-      complete: function() {
-        //complete
-      }
+    app.getRequest2('getImageCode/','')
+    .then((res)=>{
+      that.setData({
+        codeTempPath:res.data
+      })
     })
+    
   },
   //复制链接
   CopyLink(e) {
@@ -280,6 +274,7 @@ Page({
       delateModel:times
     })
   },
+
   //反馈提交
   postFeedback(){
     var that=this
@@ -310,8 +305,32 @@ Page({
       modalName: null
     })
   },
+
+  //绑定学生卡
   bindCard(){
-    console.log(this.data.postStuData)
+    app.getRequest2('setStuData/',this.data.postStuData)
+    .then((res)=>{
+      if(res.data='success'){
+        this.hideModal()
+        wx.showToast({
+          title: '已填写',
+          duration: 1000,
+        })
+        this.setData({
+          hasStuAccount:1
+        })
+      }
+      else{
+        wx.showToast({
+          title: 'ERROR',
+          duration: 1000,
+        })
+      }
+    })
+  },
+
+  //爬取数据
+  upCardData(){
     if(this.data.postStuData.rand == ''){
       wx.showModal({
         title: '请输入验证码！',
@@ -328,16 +347,18 @@ Page({
           app.getRequest2('drawData/',this.data.postStuData)
           .then((res)=>{
             wx.hideLoading()
-            console.log(res)
             var message
             var success = false
             var that = this
             if (res.data == "nodata"){
               message="请检查区间，或者此区间没有数据"
             }
+            else if (res.statusCode == 500){
+              message="请求超时，请稍后重试"
+            }
             else{
               success =true
-              message="共爬取到了"+res.data
+              message="爬取到了"+res.data
             }
             wx.showModal({
               title:'是否同步',
@@ -364,6 +385,7 @@ Page({
           })
         }else{
           wx.hideLoading()
+          this.getCode()
           wx.showModal({
             title:'错误！',
             content:'请检查验证码或者学号密码'

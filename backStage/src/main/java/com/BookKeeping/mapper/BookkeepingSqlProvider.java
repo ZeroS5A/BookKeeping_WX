@@ -306,7 +306,7 @@ public class BookkeepingSqlProvider {
                         "	AND\n" +
                         "	bkDate LIKE #{dateStr}\n" +
                         "	AND\n" +
-                        "	bkType= #{bkType}\n" +
+                        "	bkType LIKE #{bkType}\n" +
                         "ORDER BY "+map.get("type")+" "+map.get("orderType")
         );
         //System.out.println(queryStr);

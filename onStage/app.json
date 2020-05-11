@@ -4,9 +4,10 @@
     "pages/bookkeeping/bookkeeping",
     "pages/typeList/typeList",
     "pages/logs/logs",
+    "pages/about/about",
     "pages/index/index",
-    "pages/bookkeepingEdit/bookkeepingEdit",
-    "pages/about/about"
+    "pages/bookkeepingEdit/bookkeepingEdit"
+    
     
   ],
   "window": {

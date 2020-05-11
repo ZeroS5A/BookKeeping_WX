@@ -38,9 +38,9 @@ App({
   //开启时执行
   onLaunch: function () {
     // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    // var logs = wx.getStorageSync('logs') || []
+    // logs.unshift(Date.now())
+    // wx.setStorageSync('logs', logs)
 
     console.log("程序打开");
 
@@ -107,7 +107,7 @@ App({
     var that=this;
     return new Promise(function(resolve,reject){
       wx.request({
-        url: 'http://192.168.31.233/Bookkeeping/'+url,
+        url: 'https://lczeros.cn/Bookkeeping/'+url,
         data: data,
         method: 'POST',
         header: {
@@ -130,7 +130,7 @@ App({
     var that=this;
     return new Promise(function(resolve,reject){
       wx.request({
-        url: 'http://127.0.0.1:8000/crawExpendData/'+url,
+        url: 'https://lczeros.cn/crawExpendData/'+url,
         data: data,
         method: 'GET',
         header: {

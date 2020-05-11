@@ -28,7 +28,7 @@ Page({
         that.setData({
           postData:{
             type:"bkDate",
-            bkType:data.type,
+            bkType:'%',
             dateStr:data.date,
             orderType:that.data.isDateDESC?'DESC':'ASC'
           },
